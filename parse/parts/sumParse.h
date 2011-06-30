@@ -19,7 +19,6 @@
 #include "../nodes/eqnNode.h"
 #include "../nodes/sumNode.h"
 #include "expParse.h"
-#include "opParse.h"
 
 class sumParse : public parsePart
 {

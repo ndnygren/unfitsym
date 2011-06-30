@@ -34,9 +34,9 @@ class altParse : public parsePart
 		left->loadString(offset,data,cap);
 		right->loadString(offset,data,cap);
 
-		for (i = 0; i < left->getTrees().size(); i++ )
+		for (i = 0; i < (int)left->getTrees().size(); i++ )
 			{ succ.push_back(left->getTrees()[i]); }
-		for ( i = 0; i < right->getTrees().size(); i++)
+		for ( i = 0; i < (int)right->getTrees().size(); i++)
 			{ succ.push_back(right->getTrees()[i]); }
 	}
 

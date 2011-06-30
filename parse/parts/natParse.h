@@ -45,7 +45,7 @@ class natParse : public parsePart
 		int out = 0;
 		seqParse NATStrip(Nany);
 		NATStrip.loadString(offset,data,cap);
-		for (i=0; i < NATStrip.getTrees().size(); i++)
+		for (i=0; i < (int)NATStrip.getTrees().size(); i++)
 		{
 			out = getInt(data.substr(offset,
 				NATStrip.getTrees()[i].first - offset));

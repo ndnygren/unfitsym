@@ -21,14 +21,14 @@ void expParse::loadString(int offset, const std::string& data, int cap)
 	natParse number;
 	sumParse sums;
 
-	if (offset < data.size() - cap)
+	if (offset < (int)data.size() - cap)
 	{
 		number.loadString(offset, data, cap);
-		for (i = 0; i < number.getTrees().size(); i++ )
+		for (i = 0; i < (int)number.getTrees().size(); i++ )
 			{ succ.push_back(number.getTrees()[i]); }
 
 		sums.loadString(offset, data, cap);
-		for (i = 0; i < sums.getTrees().size(); i++ )
+		for (i = 0; i < (int)sums.getTrees().size(); i++ )
 			{ succ.push_back(sums.getTrees()[i]); }
 	}
 }

@@ -27,14 +27,13 @@ void sumParse::loadString(int offset, const std::string& data, int cap)
 
 
 	lefte.loadString(offset, data, cap + 1);
-	for (i = 0; i < lefte.getTrees().size(); i++)
+	for (i = 0; i < (int)lefte.getTrees().size(); i++)
 	{
 		plus.loadString(lefte.getTrees()[i].first, data, cap);
-		for (j = 0; j < plus.getTrees().size(); j++)
+		for (j = 0; j < (int)plus.getTrees().size(); j++)
 		{
-std::cout << "plus at " << plus.getTrees()[j].first << "\n";
 			righte.loadString(plus.getTrees()[j].first, data, cap);
-			for (k = 0; k < righte.getTrees().size(); k++)
+			for (k = 0; k < (int)righte.getTrees().size(); k++)
 			{
 				succ.push_back(std::pair<int,eqnNode*>(
 					righte.getTrees()[k].first,

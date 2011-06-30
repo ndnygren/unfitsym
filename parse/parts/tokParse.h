@@ -28,7 +28,7 @@ class token : public parsePart
 	void loadString(int offset, const std::string& data, int cap)
 	{
 		succ.clear();
-		if (offset < data.length() - cap)
+		if (offset < (int)data.length() - cap)
 		{
 			if (data.substr(offset, str.length()) == str)
 			{

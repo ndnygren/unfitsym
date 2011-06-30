@@ -24,12 +24,12 @@ class seqParse : public parsePart
 	public:
 	void loadString(int offset, const std::string& data, int cap)
 	{
-		int i,x;
+		int i;
 		succ.clear();
 		left->loadString(offset, data, cap);
 		while (left->getTrees().size() > 0)
 		{
-			for (i = 0; i < left->getTrees().size(); i++)
+			for (i = 0; i < (int)left->getTrees().size(); i++)
 			{
 				succ.push_back(left->getTrees()[i]);
 			}

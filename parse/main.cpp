@@ -31,7 +31,7 @@ int main()
 
 	d.loadString(0,"1024+9342", 0);
 
-	for (i = 0; i < d.getTrees().size(); i++)
+	for (i = 0; i < (int)d.getTrees().size(); i++)
 	{
 		cout << i << ": " << d.getTrees()[i].first;
 		if(d.getTrees()[i].second != 0)
