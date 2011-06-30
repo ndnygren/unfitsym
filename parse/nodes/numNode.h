@@ -32,7 +32,7 @@ class numNode : public leafNode
 	}
 
 	public:
-	std::string str() const { return toString(num); }
+	virtual std::string str() const { return toString(num); }
 
 	numNode(int input) { num = input; }
 };

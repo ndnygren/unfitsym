@@ -13,32 +13,22 @@
 *
 * You should have received a copy of the GNU General Public License
 * along with this program. If not, see <http://www.gnu.org/licenses/>. */
-#include <iostream>
-#include "parts/expParse.h"
+#include "expParse.h"
 
-using namespace std;
-
-std::ostream& operator<<(std::ostream& lhs, const eqnNode& rhs)
-{
-	lhs << rhs;
-	return lhs;
-}
-
-int main()
+void expParse::loadString(int offset, const std::string& data, int cap)
 {
 	int i;
-	expParse d;	
+	natParse number;
+	sumParse sums;
 
-	d.loadString(0,"1024+9342", 0);
-
-	for (i = 0; i < d.getTrees().size(); i++)
+	if (offset < data.size() - cap)
 	{
-		cout << i << ": " << d.getTrees()[i].first;
-		if(d.getTrees()[i].second != 0)
-			{ cout << ", " << d.getTrees()[i].second->str() << "\n"; }
-		else
-			{ cout << "\n"; }
-	}
+		number.loadString(offset, data, cap);
+		for (i = 0; i < number.getTrees().size(); i++ )
+			{ succ.push_back(number.getTrees()[i]); }
 
-	return 0;
+		sums.loadString(offset, data, cap);
+		for (i = 0; i < sums.getTrees().size(); i++ )
+			{ succ.push_back(sums.getTrees()[i]); }
+	}
 }

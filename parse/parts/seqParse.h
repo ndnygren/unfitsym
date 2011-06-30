@@ -22,18 +22,18 @@ class seqParse : public parsePart
 	parsePart* left;
 
 	public:
-	void loadString(int offset, const std::string& data)
+	void loadString(int offset, const std::string& data, int cap)
 	{
 		int i,x;
 		succ.clear();
-		left->loadString(offset, data);
+		left->loadString(offset, data, cap);
 		while (left->getTrees().size() > 0)
 		{
 			for (i = 0; i < left->getTrees().size(); i++)
 			{
 				succ.push_back(left->getTrees()[i]);
 			}
-			left->loadString(succ.back().first, data);
+			left->loadString(succ.back().first, data, cap);
 		}
 	}
 

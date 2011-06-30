@@ -26,7 +26,7 @@ class parsePart
 	std::vector<std::pair<int,eqnNode*> > succ;
 
 	public:
-	virtual void loadString(int offset, const std::string& data) = 0;
+	virtual void loadString(int offset, const std::string& data, int cap) = 0;
 	std::vector<std::pair<int,eqnNode*> > getTrees() const 
 		{ return succ; };
 

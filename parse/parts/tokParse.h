@@ -25,17 +25,19 @@ class token : public parsePart
 	std::string str;
 
 	public:
-	void loadString(int offset, const std::string& data)
+	void loadString(int offset, const std::string& data, int cap)
 	{
 		succ.clear();
-		if (data.length() <= offset) { return; }
-		if (data.substr(offset, str.length()) == str)
+		if (offset < data.length() - cap)
 		{
-			succ.push_back(std::pair<int,eqnNode*>
-					(offset + str.length(), 0));
+			if (data.substr(offset, str.length()) == str)
+			{
+				succ.push_back(std::pair<int,eqnNode*>
+						(offset + str.length(), 0));
+			}
+			else
+				{ succ.clear(); }
 		}
-		else
-			{ succ.clear(); }
 	}
 
 	token(std::string input) { str = input; };

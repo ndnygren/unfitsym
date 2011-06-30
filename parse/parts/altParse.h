@@ -27,12 +27,12 @@ class altParse : public parsePart
 	parsePart* right;	
 
 	public:
-	void loadString(int offset, const std::string& data)
+	void loadString(int offset, const std::string& data, int cap)
 	{
 		int i;
 		succ.clear();
-		left->loadString(offset,data);
-		right->loadString(offset,data);
+		left->loadString(offset,data,cap);
+		right->loadString(offset,data,cap);
 
 		for (i = 0; i < left->getTrees().size(); i++ )
 			{ succ.push_back(left->getTrees()[i]); }

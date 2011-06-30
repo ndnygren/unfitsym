@@ -13,17 +13,37 @@
 *
 * You should have received a copy of the GNU General Public License
 * along with this program. If not, see <http://www.gnu.org/licenses/>. */
-#ifndef NN_EQNNODE_H
-#define NN_EQNNODE_H
 
+#include "sumParse.h"
 #include <string>
+#include <iostream>
 
-class eqnNode
+void sumParse::loadString(int offset, const std::string& data, int cap)
 {
-	public:
-	virtual bool isLeaf() const { return false; }
-	virtual std::string str() const { return "tree data"; }
-};
+	int i,j,k;
+	expParse lefte;
+	expParse righte;
+	token plus("+");
 
 
-#endif
+	lefte.loadString(offset, data, cap + 1);
+	for (i = 0; i < lefte.getTrees().size(); i++)
+	{
+		plus.loadString(lefte.getTrees()[i].first, data, cap);
+		for (j = 0; j < plus.getTrees().size(); j++)
+		{
+std::cout << "plus at " << plus.getTrees()[j].first << "\n";
+			righte.loadString(plus.getTrees()[j].first, data, cap);
+			for (k = 0; k < righte.getTrees().size(); k++)
+			{
+				succ.push_back(std::pair<int,eqnNode*>(
+					righte.getTrees()[k].first,
+					new sumNode(
+						lefte.getTrees()[i].second,
+						righte.getTrees()[k].second
+					)));
+			}
+		}
+	}
+
+}

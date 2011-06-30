@@ -39,12 +39,12 @@ class natParse : public parsePart
 	}
 
 	public:
-	virtual void loadString(int offset, const std::string& data)
+	virtual void loadString(int offset, const std::string& data, int cap)
 	{
 		int i;
 		int out = 0;
 		seqParse NATStrip(Nany);
-		NATStrip.loadString(offset,data);
+		NATStrip.loadString(offset,data,cap);
 		for (i=0; i < NATStrip.getTrees().size(); i++)
 		{
 			out = getInt(data.substr(offset,

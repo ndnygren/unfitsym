@@ -13,32 +13,29 @@
 *
 * You should have received a copy of the GNU General Public License
 * along with this program. If not, see <http://www.gnu.org/licenses/>. */
-#include <iostream>
-#include "parts/expParse.h"
+#ifndef NN_SUMNODE_H
+#define NN_SUMNODE_H
 
-using namespace std;
+#include "eqnNode.h"
 
-std::ostream& operator<<(std::ostream& lhs, const eqnNode& rhs)
+class sumNode : public eqnNode
 {
-	lhs << rhs;
-	return lhs;
-}
+	protected:
+	eqnNode* left;
+	eqnNode* right;
 
-int main()
-{
-	int i;
-	expParse d;	
-
-	d.loadString(0,"1024+9342", 0);
-
-	for (i = 0; i < d.getTrees().size(); i++)
+	public:
+	virtual std::string str() const
 	{
-		cout << i << ": " << d.getTrees()[i].first;
-		if(d.getTrees()[i].second != 0)
-			{ cout << ", " << d.getTrees()[i].second->str() << "\n"; }
-		else
-			{ cout << "\n"; }
+		return left->str() + "+" + right->str();
 	}
 
-	return 0;
-}
+	sumNode(eqnNode* lin, eqnNode* rin)
+	{
+		left = lin;
+		right = rin;
+	}
+};
+
+
+#endif

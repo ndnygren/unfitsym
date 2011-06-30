@@ -13,32 +13,18 @@
 *
 * You should have received a copy of the GNU General Public License
 * along with this program. If not, see <http://www.gnu.org/licenses/>. */
-#include <iostream>
-#include "parts/expParse.h"
+#ifndef NN_SUMPARSE_H
+#define NN_SUMPARSE_H
 
-using namespace std;
+#include "../nodes/eqnNode.h"
+#include "../nodes/sumNode.h"
+#include "expParse.h"
+#include "opParse.h"
 
-std::ostream& operator<<(std::ostream& lhs, const eqnNode& rhs)
+class sumParse : public parsePart
 {
-	lhs << rhs;
-	return lhs;
-}
+	public:
+	virtual void loadString(int offset, const std::string& data, int cap);
+};
 
-int main()
-{
-	int i;
-	expParse d;	
-
-	d.loadString(0,"1024+9342", 0);
-
-	for (i = 0; i < d.getTrees().size(); i++)
-	{
-		cout << i << ": " << d.getTrees()[i].first;
-		if(d.getTrees()[i].second != 0)
-			{ cout << ", " << d.getTrees()[i].second->str() << "\n"; }
-		else
-			{ cout << "\n"; }
-	}
-
-	return 0;
-}
+#endif
