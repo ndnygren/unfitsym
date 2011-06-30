@@ -44,14 +44,18 @@ class natParse : public parsePart
 		int i;
 		int out = 0;
 		seqParse NATStrip(Nany);
-		NATStrip.loadString(offset,data,cap);
-		for (i=0; i < (int)NATStrip.getTrees().size(); i++)
+		deleteAll();
+		if (offset < (int)data.length() - cap)
 		{
-			out = getInt(data.substr(offset,
-				NATStrip.getTrees()[i].first - offset));
-			succ.push_back( std::pair<int,eqnNode*>(
-				NATStrip.getTrees()[i].first,
-				new numNode(out)));
+			NATStrip.loadString(offset,data,cap);
+			for (i=0; i < (int)NATStrip.getTrees().size(); i++)
+			{
+				out = getInt(data.substr(offset,
+					NATStrip.getTrees()[i].first - offset));
+				succ.push_back( std::pair<int,eqnNode*>(
+					NATStrip.getTrees()[i].first,
+					new numNode(out)));
+			}
 		}
 	}
 
@@ -76,6 +80,30 @@ class natParse : public parsePart
 		N4567 = new altParse(N45,N67);
 		N456789 = new altParse(N4567,N89);
 		Nany = new altParse(N0123,N456789);
+	}
+
+	virtual ~natParse() 
+	{
+		delete N0;
+		delete N1;
+		delete N2;
+		delete N3;
+		delete N4;
+		delete N5;
+		delete N6;
+		delete N7;
+		delete N8;
+		delete N9;
+		delete N01;
+		delete N23;
+		delete N45;
+		delete N67;
+		delete N89;
+		delete N0123;
+		delete N4567;
+		delete N456789;
+		delete Nany;
+		deleteAll();
 	}
 };
 

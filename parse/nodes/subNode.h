@@ -13,16 +13,36 @@
 *
 * You should have received a copy of the GNU General Public License
 * along with this program. If not, see <http://www.gnu.org/licenses/>. */
-#ifndef NN_LEAFNODE_H
-#define NN_LEAFNODE_H
+#ifndef NN_SUBNODE_H
+#define NN_SUBNODE_H
 
-#include "eqnNode.h"
+#include "binOpNode.h"
 
-class leafNode : public eqnNode
+class subNode : public binOpNode
 {
 	public:
-	virtual bool isLeaf() { return true; }
-	virtual ~leafNode() { }
+	virtual eqnNode* copy() const
+		{ return new subNode(getL()->copy(), getR()->copy()); }
+
+	virtual int type() const
+		{ return types.sub; }
+
+	virtual std::string str() const
+	{
+		return "(" + left->str() + "-" + right->str() + ")";
+	}
+
+	subNode(eqnNode* lin, eqnNode* rin)
+	{
+		left = lin->copy();
+		right = rin->copy();
+	}
+
+	virtual ~subNode() 
+	{
+		delete left;
+		delete right;
+	}
 };
 
 

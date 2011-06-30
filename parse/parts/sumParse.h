@@ -24,6 +24,7 @@ class sumParse : public parsePart
 {
 	public:
 	virtual void loadString(int offset, const std::string& data, int cap);
+	virtual ~sumParse() { deleteAll(); }
 };
 
 #endif

@@ -14,21 +14,53 @@
 * You should have received a copy of the GNU General Public License
 * along with this program. If not, see <http://www.gnu.org/licenses/>. */
 #include "expParse.h"
+#include <vector>
+#include <iostream>
+
+using namespace std;
 
 void expParse::loadString(int offset, const std::string& data, int cap)
 {
-	int i;
+	int j;
 	natParse number;
 	sumParse sums;
+	subParse diff;
+	std::vector<parsePart*> exprs;
+	
+	exprs.push_back(&number);
+	exprs.push_back(&sums);
+	exprs.push_back(&diff);
 
-	if (offset < (int)data.size() - cap)
+	deleteAll();
+	
+	if ((offset < (int)data.size() - cap) 
+		&& ((*fails)[pair<int,int>(offset,cap)] != -1))
 	{
-		number.loadString(offset, data, cap);
-		for (i = 0; i < (int)number.getTrees().size(); i++ )
-			{ succ.push_back(number.getTrees()[i]); }
-
-		sums.loadString(offset, data, cap);
-		for (i = 0; i < (int)sums.getTrees().size(); i++ )
-			{ succ.push_back(sums.getTrees()[i]); }
+		for (j = 0; j < (int)exprs.size(); j++)
+		{
+			exprs[j]->setMap(fails);
+			exprs[j]->loadString(offset, data, cap);
+			copySucc(exprs[j]->getTrees()); 
+		}
+	
+		if (succ.size() == 0) 
+		{
+			(*fails)[pair<int,int>(offset,cap)] = -1; 
+			cout << "no solutions found for " << offset << " " << cap << "\n";
+		}
 	}
+/*	for (i = 0; i< succ.size(); i++)
+	{
+		std::cout << offset << "==>" << succ[i].first;
+		if (succ[i].second != 0)
+		{
+			std::cout << "==>" << succ[i].second->str()
+				<< "\n";
+		}
+		else { std::cout << "\n"; }
+	}*/
+}
+
+expParse::expParse()
+{
 }

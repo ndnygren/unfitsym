@@ -25,6 +25,8 @@ void sumParse::loadString(int offset, const std::string& data, int cap)
 	expParse righte;
 	token plus("+");
 
+	lefte.setMap(fails);
+	righte.setMap(fails);
 
 	lefte.loadString(offset, data, cap + 1);
 	for (i = 0; i < (int)lefte.getTrees().size(); i++)
@@ -38,8 +40,8 @@ void sumParse::loadString(int offset, const std::string& data, int cap)
 				succ.push_back(std::pair<int,eqnNode*>(
 					righte.getTrees()[k].first,
 					new sumNode(
-						lefte.getTrees()[i].second,
-						righte.getTrees()[k].second
+					lefte.getTrees()[i].second->copy(),
+					righte.getTrees()[k].second->copy()
 					)));
 			}
 		}

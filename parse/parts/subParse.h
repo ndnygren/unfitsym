@@ -13,17 +13,18 @@
 *
 * You should have received a copy of the GNU General Public License
 * along with this program. If not, see <http://www.gnu.org/licenses/>. */
-#ifndef NN_LEAFNODE_H
-#define NN_LEAFNODE_H
+#ifndef NN_SUBPARSE_H
+#define NN_SUBPARSE_H
 
-#include "eqnNode.h"
+#include "../nodes/eqnNode.h"
+#include "../nodes/subNode.h"
+#include "expParse.h"
 
-class leafNode : public eqnNode
+class subParse : public parsePart
 {
 	public:
-	virtual bool isLeaf() { return true; }
-	virtual ~leafNode() { }
+	virtual void loadString(int offset, const std::string& data, int cap);
+	virtual ~subParse() { deleteAll(); }
 };
-
 
 #endif

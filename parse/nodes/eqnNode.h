@@ -16,13 +16,19 @@
 #ifndef NN_EQNNODE_H
 #define NN_EQNNODE_H
 
+#include "nodeTypes.h"
 #include <string>
 
 class eqnNode
 {
+	protected:
+	nodeTypes types;
 	public:
+	virtual eqnNode* copy() const = 0;
+	virtual int type() const = 0;
 	virtual bool isLeaf() const { return false; }
 	virtual std::string str() const { return "tree data"; }
+	virtual ~eqnNode() { }
 };
 
 

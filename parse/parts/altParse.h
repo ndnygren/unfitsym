@@ -30,14 +30,19 @@ class altParse : public parsePart
 	void loadString(int offset, const std::string& data, int cap)
 	{
 		int i;
-		succ.clear();
-		left->loadString(offset,data,cap);
-		right->loadString(offset,data,cap);
 
-		for (i = 0; i < (int)left->getTrees().size(); i++ )
-			{ succ.push_back(left->getTrees()[i]); }
-		for ( i = 0; i < (int)right->getTrees().size(); i++)
-			{ succ.push_back(right->getTrees()[i]); }
+		deleteAll();
+
+		if (offset < (int)data.length() - cap)
+		{
+			left->loadString(offset,data,cap);
+			right->loadString(offset,data,cap);
+
+			for (i = 0; i < (int)left->getTrees().size(); i++ )
+				{ succ.push_back(left->getTrees()[i]); }
+			for ( i = 0; i < (int)right->getTrees().size(); i++)
+				{ succ.push_back(right->getTrees()[i]); }
+		}
 	}
 
 	altParse(parsePart* lin, parsePart* rin)
@@ -45,6 +50,8 @@ class altParse : public parsePart
 		left = lin;
 		right = rin;
 	}
+	
+	virtual ~altParse() { deleteAll(); }
 };
 
 

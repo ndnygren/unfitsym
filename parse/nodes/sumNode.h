@@ -16,24 +16,32 @@
 #ifndef NN_SUMNODE_H
 #define NN_SUMNODE_H
 
-#include "eqnNode.h"
+#include "binOpNode.h"
 
-class sumNode : public eqnNode
+class sumNode : public binOpNode
 {
-	protected:
-	eqnNode* left;
-	eqnNode* right;
-
 	public:
+	virtual eqnNode* copy() const
+		{ return new sumNode(getL()->copy(), getR()->copy()); }
+
+	virtual int type() const
+		{ return types.sum; }
+
 	virtual std::string str() const
 	{
-		return left->str() + "+" + right->str();
+		return "(" + left->str() + "+" + right->str() + ")";
 	}
 
 	sumNode(eqnNode* lin, eqnNode* rin)
 	{
-		left = lin;
-		right = rin;
+		left = lin->copy();
+		right = rin->copy();
+	}
+	
+	virtual ~sumNode() 
+	{
+		delete left;
+		delete right;
 	}
 };
 

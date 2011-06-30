@@ -27,17 +27,23 @@ std::ostream& operator<<(std::ostream& lhs, const eqnNode& rhs)
 int main()
 {
 	int i;
-	expParse d;	
+	expParse d;
+	map< pair<int,int>, int> fails;
 
-	d.loadString(0,"1024+9342", 0);
+	d.setMap(&fails);
+
+	d.loadString(0,"189+25-3+7", 0);
 
 	for (i = 0; i < (int)d.getTrees().size(); i++)
 	{
-		cout << i << ": " << d.getTrees()[i].first;
-		if(d.getTrees()[i].second != 0)
-			{ cout << ", " << d.getTrees()[i].second->str() << "\n"; }
-		else
-			{ cout << "\n"; }
+		if (d.getTrees()[i].first == 8)
+		{
+			cout << i << ": " << d.getTrees()[i].first;
+			if(d.getTrees()[i].second != 0)
+				{ cout << ", " << d.getTrees()[i].second->str() << "\n"; }
+			else
+				{ cout << "\n"; }
+		}
 	}
 
 	return 0;

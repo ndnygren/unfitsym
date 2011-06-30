@@ -13,16 +13,15 @@
 *
 * You should have received a copy of the GNU General Public License
 * along with this program. If not, see <http://www.gnu.org/licenses/>. */
-#ifndef NN_LEAFNODE_H
-#define NN_LEAFNODE_H
+#ifndef NN_NODETYPES_H
+#define NN_NODETYPES_H
 
-#include "eqnNode.h"
-
-class leafNode : public eqnNode
+class nodeTypes
 {
 	public:
-	virtual bool isLeaf() { return true; }
-	virtual ~leafNode() { }
+	static const int num = 1;
+	static const int sum = 2;
+	static const int sub = 3;
 };
 
 

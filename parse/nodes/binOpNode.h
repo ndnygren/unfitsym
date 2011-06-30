@@ -13,16 +13,20 @@
 *
 * You should have received a copy of the GNU General Public License
 * along with this program. If not, see <http://www.gnu.org/licenses/>. */
-#ifndef NN_LEAFNODE_H
-#define NN_LEAFNODE_H
+#ifndef NN_BINOPNODE_H
+#define NN_BINOPNODE_H
 
 #include "eqnNode.h"
 
-class leafNode : public eqnNode
+class binOpNode : public eqnNode
 {
+	protected:
+	eqnNode* left;
+	eqnNode* right;
+
 	public:
-	virtual bool isLeaf() { return true; }
-	virtual ~leafNode() { }
+	eqnNode* getL() const { return left; }
+	eqnNode* getR() const { return right; }
 };
 
 

@@ -27,7 +27,7 @@ class token : public parsePart
 	public:
 	void loadString(int offset, const std::string& data, int cap)
 	{
-		succ.clear();
+		deleteAll();
 		if (offset < (int)data.length() - cap)
 		{
 			if (data.substr(offset, str.length()) == str)
@@ -35,12 +35,11 @@ class token : public parsePart
 				succ.push_back(std::pair<int,eqnNode*>
 						(offset + str.length(), 0));
 			}
-			else
-				{ succ.clear(); }
 		}
 	}
 
-	token(std::string input) { str = input; };
+	token(std::string input) { str = input; }
+	virtual ~token() { deleteAll(); }
 };
 
 #endif

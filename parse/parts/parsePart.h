@@ -17,6 +17,7 @@
 #define NN_PARSEPART_H
 
 #include <vector>
+#include <map>
 #include <utility>
 #include "../nodes/eqnNode.h"
 
@@ -24,13 +25,34 @@ class parsePart
 {
 	protected:
 	std::vector<std::pair<int,eqnNode*> > succ;
+	std::map< std::pair<int,int>, int> *fails;
+	void deleteAll()
+	{
+		int i;
+		for (i = 0; i < (int)succ.size(); i++)
+			if (succ[i].second != 0)
+				{ delete succ[i].second; }
+		succ.clear();
+	}
 
+	void copySucc(std::vector<std::pair <int, eqnNode*> > list)
+	{
+		int i;
+		
+		for (i = 0; i < (int)list.size(); i++ )
+		{ 
+			succ.push_back(std::pair<int,eqnNode*>(
+				list[i].first,
+				list[i].second->copy())); 
+		}
+	}
 	public:
+	void setMap(std::map< std::pair<int,int>, int> *f) { fails = f; }
 	virtual void loadString(int offset, const std::string& data, int cap) = 0;
 	std::vector<std::pair<int,eqnNode*> > getTrees() const 
 		{ return succ; };
 
-	~parsePart() { };
+	virtual ~parsePart() { };
 };
 
 #endif

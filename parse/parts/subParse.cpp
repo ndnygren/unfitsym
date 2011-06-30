@@ -13,38 +13,39 @@
 *
 * You should have received a copy of the GNU General Public License
 * along with this program. If not, see <http://www.gnu.org/licenses/>. */
-#ifndef NN_SEQPARSE_H
-#define NN_SEQPARSE_H
 
-class seqParse : public parsePart
+#include "subParse.h"
+#include <string>
+
+void subParse::loadString(int offset, const std::string& data, int cap)
 {
-	protected:
-	parsePart* left;
+	int i,j,k;
+	expParse lefte;
+	expParse righte;
+	token op("-");
 
-	public:
-	void loadString(int offset, const std::string& data, int cap)
+	lefte.setMap(fails);
+	righte.setMap(fails);
+
+	deleteAll();
+
+	lefte.loadString(offset, data, cap + 1);
+	for (i = 0; i < (int)lefte.getTrees().size(); i++)
 	{
-		int i;
-
-		deleteAll();
-
-		left->loadString(offset, data, cap);
-		while (left->getTrees().size() > 0)
+		op.loadString(lefte.getTrees()[i].first, data, cap);
+		for (j = 0; j < (int)op.getTrees().size(); j++)
 		{
-			for (i = 0; i < (int)left->getTrees().size(); i++)
+			righte.loadString(op.getTrees()[j].first, data, cap);
+			for (k = 0; k < (int)righte.getTrees().size(); k++)
 			{
-				succ.push_back(left->getTrees()[i]);
+				succ.push_back(std::pair<int,eqnNode*>(
+					righte.getTrees()[k].first,
+					new subNode(
+					lefte.getTrees()[i].second->copy(),
+					righte.getTrees()[k].second->copy()
+					)));
 			}
-			left->loadString(succ.back().first, data, cap);
 		}
 	}
 
-	seqParse(parsePart* lin)
-	{
-		left = lin;
-	}
-
-	virtual ~seqParse() { deleteAll(); }
-};
-
-#endif
+}

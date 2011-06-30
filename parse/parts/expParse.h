@@ -19,11 +19,14 @@
 #include "parsePart.h"
 #include "natParse.h"
 #include "sumParse.h"
+#include "subParse.h"
 
 class expParse : public parsePart
 {
 	public:
 	virtual void loadString(int offset, const std::string& data, int cap);
+	expParse();
+	virtual ~expParse() { deleteAll(); }
 };
 
 

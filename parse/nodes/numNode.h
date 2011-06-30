@@ -32,6 +32,13 @@ class numNode : public leafNode
 	}
 
 	public:
+	virtual eqnNode* copy() const
+		{ return new numNode(get()); }
+
+	virtual int type() const
+		{ return types.num; }
+
+	int get() const { return num; }
 	virtual std::string str() const { return toString(num); }
 
 	numNode(int input) { num = input; }
