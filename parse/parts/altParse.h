@@ -13,24 +13,39 @@
 *
 * You should have received a copy of the GNU General Public License
 * along with this program. If not, see <http://www.gnu.org/licenses/>. */
-#ifndef NN_PARSEPART_H
-#define NN_PARSEPART_H
+#ifndef NN_ALTPARSE_H
+#define NN_ALTPARSE_H
 
-#include <vector>
-#include <utility>
-#include "../nodes/eqnNode.h"
+#include "parsePart.h"
+#include <string>
+#include <iostream>
 
-class parsePart 
+class altParse : public parsePart
 {
 	protected:
-	std::vector<std::pair<int,eqnNode*> > succ;
+	parsePart* left;
+	parsePart* right;	
 
 	public:
-	virtual void loadString(int offset, const std::string& data) = 0;
-	std::vector<std::pair<int,eqnNode*> > getTrees() const 
-		{ return succ; };
+	void loadString(int offset, const std::string& data)
+	{
+		int i;
+		succ.clear();
+		left->loadString(offset,data);
+		right->loadString(offset,data);
 
-	~parsePart() { };
+		for (i = 0; i < left->getTrees().size(); i++ )
+			{ succ.push_back(left->getTrees()[i]); }
+		for ( i = 0; i < right->getTrees().size(); i++)
+			{ succ.push_back(right->getTrees()[i]); }
+	}
+
+	altParse(parsePart* lin, parsePart* rin)
+	{
+		left = lin;
+		right = rin;
+	}
 };
+
 
 #endif

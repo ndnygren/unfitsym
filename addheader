@@ -2,10 +2,12 @@ for file in `find | grep -v "/\.git" | grep "\.cpp"`
 do
 	echo $file
 	ed - $file < header
+	dos2unix $file
 done
 
 for file in `find | grep -v "/\.git" | grep "\.h"`
 do
 	echo $file
 	ed - $file < header
+	dos2unix $file
 done

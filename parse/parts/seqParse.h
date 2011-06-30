@@ -13,13 +13,34 @@
 *
 * You should have received a copy of the GNU General Public License
 * along with this program. If not, see <http://www.gnu.org/licenses/>. */
-#ifndef NN_TOKEN_H
-#define NN_TOKEN_H
+#ifndef NN_SEQPARSE_H
+#define NN_SEQPARSE_H
 
-#include "parsePart.h"
-
-class token : parsePart
+class seqParse : public parsePart
 {
+	protected:
+	parsePart* left;
+
+	public:
+	void loadString(int offset, const std::string& data)
+	{
+		int i,x;
+		succ.clear();
+		left->loadString(offset, data);
+		while (left->getTrees().size() > 0)
+		{
+			for (i = 0; i < left->getTrees().size(); i++)
+			{
+				succ.push_back(left->getTrees()[i]);
+			}
+			left->loadString(succ.back().first ,data);
+		}
+	}
+
+	seqParse(parsePart* lin)
+	{
+		left = lin;
+	}
 };
 
 #endif

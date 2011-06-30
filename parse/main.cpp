@@ -13,24 +13,22 @@
 *
 * You should have received a copy of the GNU General Public License
 * along with this program. If not, see <http://www.gnu.org/licenses/>. */
-#ifndef NN_PARSEPART_H
-#define NN_PARSEPART_H
+#include <iostream>
+#include "parts/token.h"
 
-#include <vector>
-#include <utility>
-#include "../nodes/eqnNode.h"
+using namespace std;
 
-class parsePart 
+int main()
 {
-	protected:
-	std::vector<std::pair<int,eqnNode*> > succ;
+	int i;
+	token a("1");
 
-	public:
-	virtual void loadString(int offset, const std::string& data) = 0;
-	std::vector<std::pair<int,eqnNode*> > getTrees() const 
-		{ return succ; };
+	a.loadString(0,"10");
 
-	~parsePart() { };
-};
+	for (i = 0; i < a.getTrees().size(); i++)
+	{
+		cout << i << ": " << a.getTrees()[i].first << "\n";
+	}
 
-#endif
+	return 0;
+}
