@@ -13,31 +13,31 @@
 *
 * You should have received a copy of the GNU General Public License
 * along with this program. If not, see <http://www.gnu.org/licenses/>. */
-#ifndef NN_NUMNODE_H
-#define NN_NUMNODE_H
+#ifndef NN_PRODNODE_H
+#define NN_PRODNODE_H
 
-#include <sstream>
-#include "leafNode.h"
+#include "binOpNode.h"
 
-class numNode : public leafNode
+class prodNode : public binOpNode
 {
-	protected:
-	int num;
+	public:
+	virtual eqnNode* copy() const 
+		{ return new prodNode(getL(), getR()); } 
 
-	std::string toString(int input) const
+	virtual int type() const { return types.prod; } 
+
+	virtual std::string str() const
 	{
-		std::stringstream sstemp;
-		sstemp << input;
-		return sstemp.str();
+		return "(" + left->str() + "*" + right->str() + ")";
 	}
 
-	public:
-	virtual eqnNode* copy() const { return new numNode(get()); }
-	virtual int type() const { return types.num; }
-	int get() const { return num; }
-	virtual std::string str() const { return toString(num); }
-
-	numNode(int input) { num = input; }
+	prodNode(eqnNode* lin, eqnNode* rin)
+	{
+		left = lin->copy();
+		right = rin->copy();
+	}
+	
+	virtual ~prodNode() { deleteAll(); }
 };
 
 

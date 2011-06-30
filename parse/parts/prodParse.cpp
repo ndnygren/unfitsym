@@ -13,24 +13,37 @@
 *
 * You should have received a copy of the GNU General Public License
 * along with this program. If not, see <http://www.gnu.org/licenses/>. */
-#ifndef NN_EQNNODE_H
-#define NN_EQNNODE_H
 
-#include "nodeTypes.h"
+#include "prodParse.h"
 #include <string>
 
-class eqnNode
+void prodParse::loadString(int offset, const std::string& data, int cap)
 {
-	protected:
-	nodeTypes types;
-	public:
-	virtual void deleteAll() { };
-	virtual eqnNode* copy() const = 0;
-	virtual int type() const = 0;
-	virtual bool isLeaf() const { return false; }
-	virtual std::string str() const { return "tree data"; }
-	virtual ~eqnNode() { }
-};
+	int i,j,k;
+	expParse lefte;
+	expParse righte;
+	token op("*");
 
+	lefte.setMap(fails);
+	righte.setMap(fails);
 
-#endif
+	lefte.loadString(offset, data, cap + 1);
+	for (i = 0; i < (int)lefte.getTrees().size(); i++)
+	{
+		op.loadString(lefte.getTrees()[i].first, data, cap);
+		for (j = 0; j < (int)op.getTrees().size(); j++)
+		{
+			righte.loadString(op.getTrees()[j].first, data, cap);
+			for (k = 0; k < (int)righte.getTrees().size(); k++)
+			{
+				succ.push_back(std::pair<int,eqnNode*>(
+					righte.getTrees()[k].first,
+					new prodNode(
+					lefte.getTrees()[i].second->copy(),
+					righte.getTrees()[k].second->copy()
+					)));
+			}
+		}
+	}
+
+}

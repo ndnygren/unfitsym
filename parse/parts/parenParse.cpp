@@ -13,32 +13,36 @@
 *
 * You should have received a copy of the GNU General Public License
 * along with this program. If not, see <http://www.gnu.org/licenses/>. */
-#ifndef NN_NUMNODE_H
-#define NN_NUMNODE_H
 
-#include <sstream>
-#include "leafNode.h"
+#include "parenParse.h"
+#include <string>
+#include <iostream>
 
-class numNode : public leafNode
+void parenParse::loadString(int offset, const std::string& data, int cap)
 {
-	protected:
-	int num;
+	int i,j,k;
+	token lp("(");
+	expParse ex;
+	token rp(")");
 
-	std::string toString(int input) const
+	ex.setMap(fails);
+
+	deleteAll();
+
+	lp.loadString(offset, data, cap);
+	for (i = 0; i < (int)lp.getTrees().size(); i++)
 	{
-		std::stringstream sstemp;
-		sstemp << input;
-		return sstemp.str();
+		ex.loadString(lp.getTrees()[i].first, data, cap);
+		for (j = 0; j < (int)ex.getTrees().size(); j++)
+		{
+			rp.loadString(ex.getTrees()[j].first, data, cap);
+			for (k = 0; k < (int)rp.getTrees().size(); k++)
+			{
+				succ.push_back(std::pair<int,eqnNode*>(
+					rp.getTrees()[k].first,
+					ex.getTrees()[j].second->copy()));
+			}
+		}
 	}
 
-	public:
-	virtual eqnNode* copy() const { return new numNode(get()); }
-	virtual int type() const { return types.num; }
-	int get() const { return num; }
-	virtual std::string str() const { return toString(num); }
-
-	numNode(int input) { num = input; }
-};
-
-
-#endif
+}

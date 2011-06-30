@@ -21,11 +21,10 @@
 class sumNode : public binOpNode
 {
 	public:
-	virtual eqnNode* copy() const
-		{ return new sumNode(getL()->copy(), getR()->copy()); }
+	virtual eqnNode* copy() const 
+		{ return new sumNode(getL(), getR()); } 
 
-	virtual int type() const
-		{ return types.sum; }
+	virtual int type() const { return types.sum; } 
 
 	virtual std::string str() const
 	{
@@ -38,11 +37,7 @@ class sumNode : public binOpNode
 		right = rin->copy();
 	}
 	
-	virtual ~sumNode() 
-	{
-		delete left;
-		delete right;
-	}
+	virtual ~sumNode() { deleteAll(); }
 };
 
 

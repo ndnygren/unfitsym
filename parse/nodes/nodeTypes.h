@@ -22,6 +22,7 @@ class nodeTypes
 	static const int num = 1;
 	static const int sum = 2;
 	static const int sub = 3;
+	static const int prod = 4;
 };
 
 

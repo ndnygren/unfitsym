@@ -28,21 +28,20 @@ int main()
 {
 	int i;
 	expParse d;
-	map< pair<int,int>, int> fails;
-
+	map< pair<int, int>, int> fails;
+	string parsethis = "1+(2*(3))";
 	d.setMap(&fails);
 
-	d.loadString(0,"189+25-3+7", 0);
+	d.loadString(0, parsethis, 0);
 
 	for (i = 0; i < (int)d.getTrees().size(); i++)
 	{
-		if (d.getTrees()[i].first == 8)
+		if (d.getTrees()[i].first == (int)parsethis.length())
 		{
 			cout << i << ": " << d.getTrees()[i].first;
 			if(d.getTrees()[i].second != 0)
 				{ cout << ", " << d.getTrees()[i].second->str() << "\n"; }
-			else
-				{ cout << "\n"; }
+			else { cout << "\n"; }
 		}
 	}
 

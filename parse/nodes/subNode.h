@@ -22,15 +22,12 @@ class subNode : public binOpNode
 {
 	public:
 	virtual eqnNode* copy() const
-		{ return new subNode(getL()->copy(), getR()->copy()); }
+		{ return new subNode(getL(), getR()); }
 
-	virtual int type() const
-		{ return types.sub; }
+	virtual int type() const { return types.sub; }
 
-	virtual std::string str() const
-	{
-		return "(" + left->str() + "-" + right->str() + ")";
-	}
+	virtual std::string str() const 
+		{ return "(" + left->str() + "-" + right->str() + ")"; }
 
 	subNode(eqnNode* lin, eqnNode* rin)
 	{
@@ -38,11 +35,7 @@ class subNode : public binOpNode
 		right = rin->copy();
 	}
 
-	virtual ~subNode() 
-	{
-		delete left;
-		delete right;
-	}
+	virtual ~subNode() { deleteAll(); }
 };
 
 

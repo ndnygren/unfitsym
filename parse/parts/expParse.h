@@ -20,6 +20,8 @@
 #include "natParse.h"
 #include "sumParse.h"
 #include "subParse.h"
+#include "prodParse.h"
+#include "parenParse.h"
 
 class expParse : public parsePart
 {

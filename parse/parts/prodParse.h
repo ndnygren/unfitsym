@@ -13,32 +13,18 @@
 *
 * You should have received a copy of the GNU General Public License
 * along with this program. If not, see <http://www.gnu.org/licenses/>. */
-#ifndef NN_NUMNODE_H
-#define NN_NUMNODE_H
+#ifndef NN_PRODPARSE_H
+#define NN_PRODPARSE_H
 
-#include <sstream>
-#include "leafNode.h"
+#include "../nodes/eqnNode.h"
+#include "../nodes/prodNode.h"
+#include "expParse.h"
 
-class numNode : public leafNode
+class prodParse : public parsePart
 {
-	protected:
-	int num;
-
-	std::string toString(int input) const
-	{
-		std::stringstream sstemp;
-		sstemp << input;
-		return sstemp.str();
-	}
-
 	public:
-	virtual eqnNode* copy() const { return new numNode(get()); }
-	virtual int type() const { return types.num; }
-	int get() const { return num; }
-	virtual std::string str() const { return toString(num); }
-
-	numNode(int input) { num = input; }
+	virtual void loadString(int offset, const std::string& data, int cap);
+	virtual ~prodParse() { deleteAll(); }
 };
-
 
 #endif

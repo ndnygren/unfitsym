@@ -21,26 +21,30 @@ using namespace std;
 
 void expParse::loadString(int offset, const std::string& data, int cap)
 {
-	int j;
+	int i;
 	natParse number;
 	sumParse sums;
 	subParse diff;
+	prodParse prod;
+	parenParse paren;
 	std::vector<parsePart*> exprs;
 	
 	exprs.push_back(&number);
 	exprs.push_back(&sums);
 	exprs.push_back(&diff);
+	exprs.push_back(&prod);
+	exprs.push_back(&paren);
 
 	deleteAll();
 	
 	if ((offset < (int)data.size() - cap) 
 		&& ((*fails)[pair<int,int>(offset,cap)] != -1))
 	{
-		for (j = 0; j < (int)exprs.size(); j++)
+		for (i = 0; i < (int)exprs.size(); i++)
 		{
-			exprs[j]->setMap(fails);
-			exprs[j]->loadString(offset, data, cap);
-			copySucc(exprs[j]->getTrees()); 
+			exprs[i]->setMap(fails);
+			exprs[i]->loadString(offset, data, cap);
+			copySucc(exprs[i]->getTrees()); 
 		}
 	
 		if (succ.size() == 0) 

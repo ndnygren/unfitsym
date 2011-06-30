@@ -25,6 +25,21 @@ class binOpNode : public eqnNode
 	eqnNode* right;
 
 	public:
+	virtual void deleteAll() 
+	{
+		if (left != 0)
+		{
+			left->deleteAll();
+			delete left;
+			left = 0;
+		}
+		if (right != 0)
+		{
+			right->deleteAll();
+			delete right;
+			right = 0;
+		}
+	}
 	eqnNode* getL() const { return left; }
 	eqnNode* getR() const { return right; }
 };
