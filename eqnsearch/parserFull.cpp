@@ -13,18 +13,11 @@
 *
 * You should have received a copy of the GNU General Public License
 * along with this program. If not, see <http://www.gnu.org/licenses/>. */
-#include <iostream>
-#include "parts/expParse.h"
+#include "parserFull.h"
 
 using namespace std;
 
-std::ostream& operator<<(std::ostream& lhs, const eqnNode& rhs)
-{
-	lhs << rhs;
-	return lhs;
-}
-
-void deleteList(vector<pair<int, eqnNode*> > list)
+void parserFull::deleteList(vector<pair<int, eqnNode*> > list)
 {
 	int i;
 	for (i = 0; i < (int)list.size(); i++)
@@ -33,7 +26,7 @@ void deleteList(vector<pair<int, eqnNode*> > list)
 	}
 }
 
-void freeMap(map< pair<int, int>, vector<pair<int, eqnNode*> > > fails)
+void parserFull::freeMap(map< pair<int, int>, vector<pair<int, eqnNode*> > > fails)
 {
 	map< pair<int, int>, vector<pair<int, eqnNode*> > >::iterator it;
 
@@ -41,27 +34,28 @@ void freeMap(map< pair<int, int>, vector<pair<int, eqnNode*> > > fails)
 		{ deleteList((*it).second); }
 }
 
-int main()
+
+eqnNode* parserFull::getExpr(string input) 
 {
 	int i;
 	expParse d;
-	map< pair<int, int>, vector<pair<int, eqnNode*> > > fails;
-	string parsethis = "(1+(32*4)-43688)*8*9*1209";
+//	string parsethis = "(1+(32*4)-43688)*8*9*1209";
+	
 	d.setMap(&fails);
 
-	d.loadString(0, parsethis, 0);
+	d.loadString(0, input, 0);
 
 	for (i = 0; i < (int)d.getTrees().size(); i++)
 	{
-		if (d.getTrees()[i].first == (int)parsethis.length())
+		if (d.getTrees()[i].first == (int)input.length())
 		{
-			cout << i << ": " << d.getTrees()[i].first;
-			if(d.getTrees()[i].second != 0)
-				{ cout << ", " << d.getTrees()[i].second->str() << "\n"; }
-			else { cout << "\n"; }
+			 return d.getTrees()[i].second->copy();
 		}
 	}
-
-	freeMap(fails);
 	return 0;
+}
+
+parserFull::~parserFull()
+{
+	freeMap(fails);
 }

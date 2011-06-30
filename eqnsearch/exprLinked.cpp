@@ -13,19 +13,41 @@
 *
 * You should have received a copy of the GNU General Public License
 * along with this program. If not, see <http://www.gnu.org/licenses/>. */
-#ifndef NN_SUMPARSE_H
-#define NN_SUMPARSE_H
+#include <iostream>
+#include "exprLinked.h"
+#include "alter/genAlt.h"
 
-#include "../nodes/eqnNode.h"
-#include "../nodes/sumNode.h"
-#include "expParse.h"
-#include "tokParse.h"
+using namespace std;
 
-class sumParse : public parsePart
+std::string exprLinked::str() const
+{ 
+	if (expr != 0) { return expr->str(); }
+	else { return "zero"; }
+}
+
+exprLinked::exprLinked(eqnNode* input)
 {
-	public:
-	virtual void loadString(int offset, const std::string& data, int cap);
-	virtual ~sumParse() { deleteAll(); }
-};
+	unsigned int i; 
+	expr = input->copy(); 
+	vector<eqnNode*> changes;
+	copyCand(getCand(expr), changes);
 
-#endif
+	for (i = 0; i < changes.size(); i++)
+	{
+		if (changes[i] != 0)
+		{
+			cout << changes[i]->str() << "\n";
+		}
+	}
+
+	freeCand(changes);
+	changes.clear();
+}
+
+exprLinked::~exprLinked()
+{
+	if (expr != 0)
+	{
+		delete expr;
+	}
+}

@@ -13,19 +13,39 @@
 *
 * You should have received a copy of the GNU General Public License
 * along with this program. If not, see <http://www.gnu.org/licenses/>. */
-#ifndef NN_SUMPARSE_H
-#define NN_SUMPARSE_H
+#ifndef NN_MULTITOKENPARSE_H
+#define NN_MULTITOKENPARSE_H
 
-#include "../nodes/eqnNode.h"
-#include "../nodes/sumNode.h"
-#include "expParse.h"
-#include "tokParse.h"
+#include "parsePart.h"
+#include <string>
 
-class sumParse : public parsePart
+class multiTokParse : public parsePart
 {
+	protected:
+	std::vector<std::string> str;
+
 	public:
-	virtual void loadString(int offset, const std::string& data, int cap);
-	virtual ~sumParse() { deleteAll(); }
+	void loadString(int offset, const std::string& data, int cap)
+	{
+		int i;
+		deleteAll();
+		for (i = 0; i < (int)str.size(); i++)
+		{
+			if (offset < (int)data.length() - cap)
+			{
+				if (data.substr(offset, str[i].length()) == str[i])
+				{
+					succ.push_back(std::pair<int,eqnNode*>
+							(offset + str[i].length(), 0));
+				}
+			}
+		}
+	}
+
+	void add(std::string input) { str.push_back(input); }
+	multiTokParse(std::string input) { str.push_back(input); }
+	multiTokParse() { }
+	virtual ~multiTokParse() { deleteAll(); }
 };
 
 #endif

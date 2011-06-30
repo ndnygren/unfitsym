@@ -13,19 +13,43 @@
 *
 * You should have received a copy of the GNU General Public License
 * along with this program. If not, see <http://www.gnu.org/licenses/>. */
-#ifndef NN_SUMPARSE_H
-#define NN_SUMPARSE_H
 
-#include "../nodes/eqnNode.h"
-#include "../nodes/sumNode.h"
-#include "expParse.h"
-#include "tokParse.h"
+#include "genAlt.h"
+using namespace std;
 
-class sumParse : public parsePart
+vector<eqnNode*> getCand(eqnNode* input)
 {
-	public:
-	virtual void loadString(int offset, const std::string& data, int cap);
-	virtual ~sumParse() { deleteAll(); }
-};
+	nodeTypes types;
+	vector<eqnNode*> changes;
+	vector<eqnNode*> sumChanges;
 
-#endif
+	if (input->type() == types.sum)
+	{
+		sumChanges = sumCand((sumNode*)input);
+	}
+
+	copyCand(sumChanges, changes);
+
+	return changes;
+}
+
+void copyCand(const vector<eqnNode*>& from, vector<eqnNode*>& to)
+{
+	unsigned int i;
+	for (i = 0; i < from.size(); i++)
+	{
+		to.push_back(from[i]);
+	}
+}
+
+void freeCand(vector<eqnNode*>& list)
+{
+	unsigned int i;
+	for (i = 0; i < list.size(); i++)
+	{
+		if (list[i] != 0)
+		{
+			delete list[i];
+		}
+	}
+}

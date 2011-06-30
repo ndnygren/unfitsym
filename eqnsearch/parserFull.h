@@ -13,19 +13,26 @@
 *
 * You should have received a copy of the GNU General Public License
 * along with this program. If not, see <http://www.gnu.org/licenses/>. */
-#ifndef NN_SUMPARSE_H
-#define NN_SUMPARSE_H
+#ifndef NN_PARSERFULL_H
+#define NN_PARSERFULL_H
 
-#include "../nodes/eqnNode.h"
-#include "../nodes/sumNode.h"
-#include "expParse.h"
-#include "tokParse.h"
+#include "../parse/parts/expParse.h"
+#include "../parse/nodes/eqnNode.h"
+#include <vector>
+#include <map>
+#include <utility>
 
-class sumParse : public parsePart
+class parserFull
 {
+	protected:
+	std::map< std::pair<int, int>, std::vector<std::pair<int, eqnNode*> > > fails;
+
+	void deleteList(std::vector<std::pair<int, eqnNode*> > list);
+	void freeMap(std::map< std::pair<int, int>, std::vector<std::pair<int, eqnNode*> > > fails);
+
 	public:
-	virtual void loadString(int offset, const std::string& data, int cap);
-	virtual ~sumParse() { deleteAll(); }
+	eqnNode* getExpr(std::string input);
+	~parserFull();
 };
 
 #endif

@@ -13,19 +13,22 @@
 *
 * You should have received a copy of the GNU General Public License
 * along with this program. If not, see <http://www.gnu.org/licenses/>. */
-#ifndef NN_SUMPARSE_H
-#define NN_SUMPARSE_H
+#ifndef NN_NODEPAIR_H
+#define NN_NODEPAIR_H
 
-#include "../nodes/eqnNode.h"
-#include "../nodes/sumNode.h"
-#include "expParse.h"
-#include "tokParse.h"
+#include <string>
 
-class sumParse : public parsePart
+class nodePair
 {
 	public:
-	virtual void loadString(int offset, const std::string& data, int cap);
-	virtual ~sumParse() { deleteAll(); }
+	std::string type;
+	int data;
+
+	nodePair(std::string input)
+		{ type = input; }
+
+	nodePair(int input)
+		{ type = "num"; data = input; }
 };
 
 #endif

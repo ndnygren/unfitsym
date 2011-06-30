@@ -13,19 +13,35 @@
 *
 * You should have received a copy of the GNU General Public License
 * along with this program. If not, see <http://www.gnu.org/licenses/>. */
-#ifndef NN_SUMPARSE_H
-#define NN_SUMPARSE_H
+#include <iostream>
+#include "exprLinked.h"
+#include "parserFull.h"
 
-#include "../nodes/eqnNode.h"
-#include "../nodes/sumNode.h"
-#include "expParse.h"
-#include "tokParse.h"
+using namespace std;
 
-class sumParse : public parsePart
+int main(int argc, char** argv)
 {
-	public:
-	virtual void loadString(int offset, const std::string& data, int cap);
-	virtual ~sumParse() { deleteAll(); }
-};
+	parserFull parser;
+	eqnNode *output;
+	exprLinked *a;
 
-#endif
+	if (argc > 1)
+	{
+		cout << "input: " <<  argv[1] << "\n";
+		output = parser.getExpr(argv[1]);
+		if (output != 0)
+		{
+			cout << "parsed: " << output->str() << "\n";
+		}
+	}
+
+	a = new exprLinked(output);
+
+	cout << "as holder: " << a->str() << "\n";
+
+	if (output != 0) { delete output; }
+
+	delete a;
+
+	return 0;
+}

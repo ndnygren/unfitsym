@@ -18,8 +18,7 @@
 
 #include <sstream>
 #include <utility>
-#include "tokParse.h"
-#include "altParse.h"
+#include "multiTokParse.h"
 #include "seqParse.h"
 #include "../nodes/numNode.h"
 
@@ -27,8 +26,6 @@
 class natParse : public parsePart
 {
 	protected:
-		token *N0,*N1,*N2,*N3,*N4,*N5,*N6,*N7,*N8,*N9;
-		altParse *N01,*N23,*N45,*N67,*N89,*N0123,*N4567,*N456789,*Nany;
 
 	int getInt(std::string value)
 	{
@@ -43,7 +40,18 @@ class natParse : public parsePart
 	{
 		int i;
 		int out = 0;
-		seqParse NATStrip(Nany);
+		multiTokParse digits;
+		digits.add("1");
+		digits.add("2");
+		digits.add("3");
+		digits.add("4");
+		digits.add("5");
+		digits.add("6");
+		digits.add("7");
+		digits.add("8");
+		digits.add("9");
+		digits.add("0");
+		seqParse NATStrip(&digits);
 		deleteAll();
 		if (offset < (int)data.length() - cap)
 		{
@@ -61,48 +69,10 @@ class natParse : public parsePart
 
 	natParse()
 	{
-		N0 = new token("0");
-		N1 = new token("1");
-		N2 = new token("2");
-		N3 = new token("3");
-		N4 = new token("4");
-		N5 = new token("5");
-		N6 = new token("6");
-		N7 = new token("7");
-		N8 = new token("8");
-		N9 = new token("9");
-		N01 = new altParse(N0,N1);
-		N23 = new altParse(N2,N3);
-		N45 = new altParse(N4,N5);
-		N67 = new altParse(N6,N7);
-		N89 = new altParse(N8,N9);
-		N0123 = new altParse(N01,N23);
-		N4567 = new altParse(N45,N67);
-		N456789 = new altParse(N4567,N89);
-		Nany = new altParse(N0123,N456789);
 	}
 
 	virtual ~natParse() 
 	{
-		delete N0;
-		delete N1;
-		delete N2;
-		delete N3;
-		delete N4;
-		delete N5;
-		delete N6;
-		delete N7;
-		delete N8;
-		delete N9;
-		delete N01;
-		delete N23;
-		delete N45;
-		delete N67;
-		delete N89;
-		delete N0123;
-		delete N4567;
-		delete N456789;
-		delete Nany;
 		deleteAll();
 	}
 };
