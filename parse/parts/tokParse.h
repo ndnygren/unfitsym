@@ -28,6 +28,7 @@ class token : public parsePart
 	void loadString(int offset, const std::string& data)
 	{
 		succ.clear();
+		if (data.length() <= offset) { return; }
 		if (data.substr(offset, str.length()) == str)
 		{
 			succ.push_back(std::pair<int,eqnNode*>

@@ -33,7 +33,7 @@ class seqParse : public parsePart
 			{
 				succ.push_back(left->getTrees()[i]);
 			}
-			left->loadString(succ.back().first ,data);
+			left->loadString(succ.back().first, data);
 		}
 	}
 

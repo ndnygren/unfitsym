@@ -14,20 +14,27 @@
 * You should have received a copy of the GNU General Public License
 * along with this program. If not, see <http://www.gnu.org/licenses/>. */
 #include <iostream>
-#include "parts/token.h"
+#include "parts/tokParse.h"
+#include "parts/altParse.h"
+#include "parts/seqParse.h"
+#include "parts/natParse.h"
 
 using namespace std;
 
 int main()
 {
 	int i;
-	token a("1");
+	natParse d;	
 
-	a.loadString(0,"10");
+	d.loadString(0,"1024.9342");
 
-	for (i = 0; i < a.getTrees().size(); i++)
+	for (i = 0; i < d.getTrees().size(); i++)
 	{
-		cout << i << ": " << a.getTrees()[i].first << "\n";
+		cout << i << ": " << d.getTrees()[i].first;
+		if(d.getTrees()[i].second != 0)
+			{ cout << ", " << d.getTrees()[i].second->str() << "\n"; }
+		else
+			{ cout << "\n"; }
 	}
 
 	return 0;

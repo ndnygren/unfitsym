@@ -19,8 +19,14 @@
 class eqnNode
 {
 	public:
-	virtual bool isLeaf() const;
+	virtual bool isLeaf() const { return false; };
+	virtual std::string str() const { return "tree data"; };
 };
 
+std::ostream& operator<<(std::ostream& lhs, const eqnNode& rhs)
+{
+	lhs << rhs;
+	return lhs;
+}
 
 #endif

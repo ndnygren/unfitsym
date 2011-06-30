@@ -16,15 +16,25 @@
 #ifndef NN_NUMNODE_H
 #define NN_NUMNODE_H
 
+#include <sstream>
 #include "leafNode.h"
 
-class numNode : leafNode
+class numNode : public leafNode
 {
 	protected:
 	int num;
 
+	std::string toString(int input) const
+	{
+		std::stringstream sstemp;
+		sstemp << input;
+		return sstemp.str();
+	}
+
 	public:
-	numNode(int input) {num = input};
+	std::string str() const { return toString(num); }
+
+	numNode(int input) { num = input; }
 };
 
 

@@ -18,7 +18,7 @@
 
 #include "eqnNode.h"
 
-class leafNode : eqnNode
+class leafNode : public eqnNode
 {
 	public:
 	bool isLeaf() { return true; };
