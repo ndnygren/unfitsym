@@ -25,7 +25,8 @@ class parsePart
 {
 	protected:
 	std::vector<std::pair<int,eqnNode*> > succ;
-	std::map< std::pair<int,int>, int> *fails;
+	std::map< std::pair<int,int>, 
+		std::vector<std::pair<int, eqnNode*> > > *fails;
 	void deleteAll()
 	{
 		int i;
@@ -46,8 +47,24 @@ class parsePart
 				list[i].second->copy())); 
 		}
 	}
+
+	std::vector<std::pair<int,eqnNode*> > copyList(std::vector<std::pair<int, eqnNode*> > list)
+	{
+		int i;
+		std::vector<std::pair<int,eqnNode*> > outlist;
+
+		for (i = 0; i < (int)list.size(); i++ )
+		{ 
+			outlist.push_back(std::pair<int,eqnNode*>(
+				list[i].first,
+				list[i].second->copy())); 
+		}
+		return outlist;
+	}
+
 	public:
-	void setMap(std::map< std::pair<int,int>, int> *f) { fails = f; }
+	void setMap( std::map< std::pair<int,int>, 
+		std::vector<std::pair<int, eqnNode*> > > *f) { fails = f; }
 	virtual void loadString(int offset, const std::string& data, int cap) = 0;
 	std::vector<std::pair<int,eqnNode*> > getTrees() const 
 		{ return succ; };

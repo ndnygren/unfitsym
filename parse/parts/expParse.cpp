@@ -15,7 +15,6 @@
 * along with this program. If not, see <http://www.gnu.org/licenses/>. */
 #include "expParse.h"
 #include <vector>
-#include <iostream>
 
 using namespace std;
 
@@ -38,7 +37,7 @@ void expParse::loadString(int offset, const std::string& data, int cap)
 	deleteAll();
 	
 	if ((offset < (int)data.size() - cap) 
-		&& ((*fails)[pair<int,int>(offset,cap)] != -1))
+		&& ((*fails).count(pair<int,int>(offset,cap)) == 0))
 	{
 		for (i = 0; i < (int)exprs.size(); i++)
 		{
@@ -47,12 +46,13 @@ void expParse::loadString(int offset, const std::string& data, int cap)
 			copySucc(exprs[i]->getTrees()); 
 		}
 	
-		if (succ.size() == 0) 
-		{
-			(*fails)[pair<int,int>(offset,cap)] = -1; 
-			cout << "no solutions found for " << offset << " " << cap << "\n";
-		}
+		(*fails)[pair<int,int>(offset,cap)] = copyList(succ);
 	}
+	else
+	{
+		succ = copyList((*fails)[pair<int,int>(offset,cap)]);
+	}
+
 /*	for (i = 0; i< succ.size(); i++)
 	{
 		std::cout << offset << "==>" << succ[i].first;

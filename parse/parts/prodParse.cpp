@@ -39,9 +39,8 @@ void prodParse::loadString(int offset, const std::string& data, int cap)
 				succ.push_back(std::pair<int,eqnNode*>(
 					righte.getTrees()[k].first,
 					new prodNode(
-					lefte.getTrees()[i].second->copy(),
-					righte.getTrees()[k].second->copy()
-					)));
+					lefte.getTrees()[i].second,
+					righte.getTrees()[k].second)));
 			}
 		}
 	}

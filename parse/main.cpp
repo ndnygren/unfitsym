@@ -24,12 +24,29 @@ std::ostream& operator<<(std::ostream& lhs, const eqnNode& rhs)
 	return lhs;
 }
 
+void deleteList(vector<pair<int, eqnNode*> > list)
+{
+	int i;
+	for (i = 0; i < (int)list.size(); i++)
+	{
+		if (list[i].second != 0) { delete list[i].second; }
+	}
+}
+
+void freeMap(map< pair<int, int>, vector<pair<int, eqnNode*> > > fails)
+{
+	map< pair<int, int>, vector<pair<int, eqnNode*> > >::iterator it;
+
+	for (it=fails.begin(); it!=fails.end(); it++)
+		{ deleteList((*it).second); }
+}
+
 int main()
 {
 	int i;
 	expParse d;
-	map< pair<int, int>, int> fails;
-	string parsethis = "1+(2*(3))";
+	map< pair<int, int>, vector<pair<int, eqnNode*> > > fails;
+	string parsethis = "1+(32*4)-43688";
 	d.setMap(&fails);
 
 	d.loadString(0, parsethis, 0);
@@ -45,5 +62,6 @@ int main()
 		}
 	}
 
+	freeMap(fails);
 	return 0;
 }
