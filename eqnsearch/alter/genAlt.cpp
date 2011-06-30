@@ -27,8 +27,22 @@ vector<eqnNode*> getCand(eqnNode* input)
 	{
 		sumChanges = sumCand((sumNode*)input);
 	}
-
 	copyCand(sumChanges, changes);
+	sumChanges.clear();
+
+	if (input->type() == types.sub)
+	{
+		sumChanges = subCand((subNode*)input);
+	}
+	copyCand(sumChanges, changes);
+	sumChanges.clear();
+
+	if (input->type() == types.prod)
+	{
+		sumChanges = prodCand((prodNode*)input);
+	}
+	copyCand(sumChanges, changes);
+	sumChanges.clear();
 
 	return changes;
 }

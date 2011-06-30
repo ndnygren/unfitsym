@@ -14,39 +14,17 @@
 * You should have received a copy of the GNU General Public License
 * along with this program. If not, see <http://www.gnu.org/licenses/>. */
 
-#include "sumAlt.h"
+#include "subAlt.h"
 
 using namespace std;
 
-vector<eqnNode*> sumCand(sumNode* input)
+vector<eqnNode*> subCand(subNode* input)
 {
 	unsigned int i;
 	nodeTypes types;
 	vector<eqnNode*> changes;
 	vector<eqnNode*> subchanges;
-	sumNode *spare, *otherspare;
-
-	//commute
-	changes.push_back(new sumNode(input->getR(), input->getL()));
-
-
-	//associate one way
-	if (input->getL()->type() == types.sum) 
-	{
-		spare = (sumNode*)(input->getL());
-		otherspare = new sumNode(spare->getR() ,input->getR());
-		changes.push_back(new sumNode(spare->getL(), otherspare));
-		delete otherspare;
-	}
-
-	//associate the other way
-	if (input->getR()->type() == types.sum) 
-	{
-		spare = (sumNode*)(input->getR());
-		otherspare = new sumNode(input->getL(), spare->getL());
-		changes.push_back(new sumNode(otherspare, spare->getR()));
-		delete otherspare;
-	}
+	subNode *spare;
 
 	// attempt to evaluate
 	if ((input->getL()->type() == types.num) 
@@ -54,23 +32,25 @@ vector<eqnNode*> sumCand(sumNode* input)
 	{
 		changes.push_back(new numNode(
 			((numNode*)(input->getL()))->get()
-			+((numNode*)(input->getR()))->get()
+			-((numNode*)(input->getR()))->get()
 		));
 	}
 
+	//recurse left
 	copyCand(getCand(input->getL()), subchanges);
 	for (i = 0; i< subchanges.size(); i++)
 	{
-		spare = new sumNode(subchanges[i], input->getR());
+		spare = new subNode(subchanges[i], input->getR());
 		changes.push_back(spare);
 	}
 	freeCand(subchanges);
 	subchanges.clear();
 
+	//recurse right 
 	copyCand(getCand(input->getR()), subchanges);
 	for (i = 0; i< subchanges.size(); i++)
 	{
-		spare = new sumNode(input->getL(), subchanges[i]);
+		spare = new subNode(input->getL(), subchanges[i]);
 		changes.push_back(spare);
 	}
 	freeCand(subchanges);

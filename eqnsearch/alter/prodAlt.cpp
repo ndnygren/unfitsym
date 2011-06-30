@@ -14,37 +14,37 @@
 * You should have received a copy of the GNU General Public License
 * along with this program. If not, see <http://www.gnu.org/licenses/>. */
 
-#include "sumAlt.h"
+#include "prodAlt.h"
 
 using namespace std;
 
-vector<eqnNode*> sumCand(sumNode* input)
+vector<eqnNode*> prodCand(prodNode* input)
 {
 	unsigned int i;
 	nodeTypes types;
 	vector<eqnNode*> changes;
 	vector<eqnNode*> subchanges;
-	sumNode *spare, *otherspare;
+	prodNode *spare, *otherspare;
 
 	//commute
-	changes.push_back(new sumNode(input->getR(), input->getL()));
+	changes.push_back(new prodNode(input->getR(), input->getL()));
 
 
 	//associate one way
-	if (input->getL()->type() == types.sum) 
+	if (input->getL()->type() == types.prod) 
 	{
-		spare = (sumNode*)(input->getL());
-		otherspare = new sumNode(spare->getR() ,input->getR());
-		changes.push_back(new sumNode(spare->getL(), otherspare));
+		spare = (prodNode*)(input->getL());
+		otherspare = new prodNode(spare->getR() ,input->getR());
+		changes.push_back(new prodNode(spare->getL(), otherspare));
 		delete otherspare;
 	}
 
 	//associate the other way
-	if (input->getR()->type() == types.sum) 
+	if (input->getR()->type() == types.prod) 
 	{
-		spare = (sumNode*)(input->getR());
-		otherspare = new sumNode(input->getL(), spare->getL());
-		changes.push_back(new sumNode(otherspare, spare->getR()));
+		spare = (prodNode*)(input->getR());
+		otherspare = new prodNode(input->getL(), spare->getL());
+		changes.push_back(new prodNode(otherspare, spare->getR()));
 		delete otherspare;
 	}
 
@@ -54,23 +54,26 @@ vector<eqnNode*> sumCand(sumNode* input)
 	{
 		changes.push_back(new numNode(
 			((numNode*)(input->getL()))->get()
-			+((numNode*)(input->getR()))->get()
+			*((numNode*)(input->getR()))->get()
 		));
 	}
 
+
+	//recurse left
 	copyCand(getCand(input->getL()), subchanges);
 	for (i = 0; i< subchanges.size(); i++)
 	{
-		spare = new sumNode(subchanges[i], input->getR());
+		spare = new prodNode(subchanges[i], input->getR());
 		changes.push_back(spare);
 	}
 	freeCand(subchanges);
 	subchanges.clear();
 
+	//recurse right 
 	copyCand(getCand(input->getR()), subchanges);
 	for (i = 0; i< subchanges.size(); i++)
 	{
-		spare = new sumNode(input->getL(), subchanges[i]);
+		spare = new prodNode(input->getL(), subchanges[i]);
 		changes.push_back(spare);
 	}
 	freeCand(subchanges);

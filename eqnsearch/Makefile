@@ -1,5 +1,5 @@
 DO_C_O=g++ -c $(INC_DIR) -Wall
-objects= exprLinked.o parserFull.o genAlt.o sumAlt.o
+objects= exprLinked.o parserFull.o genAlt.o sumAlt.o subAlt.o prodAlt.o
 objects2=sumParse.o subParse.o expParse.o prodParse.o parenParse.o
 
 all: test
@@ -21,3 +21,9 @@ genAlt.o: alter/genAlt.cpp
 
 sumAlt.o: alter/sumAlt.cpp 
 	$(DO_C_O) alter/sumAlt.cpp
+
+subAlt.o: alter/subAlt.cpp 
+	$(DO_C_O) alter/subAlt.cpp
+
+prodAlt.o: alter/prodAlt.cpp 
+	$(DO_C_O) alter/prodAlt.cpp

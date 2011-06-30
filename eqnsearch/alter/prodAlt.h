@@ -13,22 +13,11 @@
 *
 * You should have received a copy of the GNU General Public License
 * along with this program. If not, see <http://www.gnu.org/licenses/>. */
-#ifndef NN_GENALT_H
-#define NN_GENALT_H
+#ifndef NN_PRODALT_H
+#define NN_PRODALT_H
 
-#include <vector>
-#include "../../parse/nodes/eqnNode.h"
-#include "../../parse/nodes/sumNode.h"
-#include "../../parse/nodes/subNode.h"
-#include "../../parse/nodes/prodNode.h"
-#include "../../parse/nodes/numNode.h"
-#include "../../parse/nodes/nodeTypes.h"
-#include "sumAlt.h"
-#include "subAlt.h"
-#include "prodAlt.h"
+#include "genAlt.h"
 
-std::vector<eqnNode*> getCand(eqnNode* input);
-void copyCand(const std::vector<eqnNode*>& from, std::vector<eqnNode*>& to); 
-void freeCand(std::vector<eqnNode*>& list);
+std::vector<eqnNode*> prodCand(prodNode* input);
 
 #endif
