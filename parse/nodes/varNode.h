@@ -13,17 +13,24 @@
 *
 * You should have received a copy of the GNU General Public License
 * along with this program. If not, see <http://www.gnu.org/licenses/>. */
-#ifndef NN_NODETYPES_H
-#define NN_NODETYPES_H
+#ifndef NN_VARNODE_H
+#define NN_VARNODE_H
 
-class nodeTypes
+#include "leafNode.h"
+#include <string>
+
+class varNode : public leafNode
 {
+	protected:
+	std::string name;
+
 	public:
-	static const int num = 1;
-	static const int sum = 2;
-	static const int sub = 3;
-	static const int prod = 4;
-	static const int var = 5;
+	virtual eqnNode* copy() const { return new varNode(get()); }
+	virtual int type() const { return types.var; }
+	std::string get() const { return name; }
+	virtual std::string str() const { return name; }
+
+	varNode(std::string input) { name = input; }
 };
 
 

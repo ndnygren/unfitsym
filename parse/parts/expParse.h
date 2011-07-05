@@ -20,6 +20,7 @@
 #include "natParse.h"
 #include "sumParse.h"
 #include "subParse.h"
+#include "varParse.h"
 #include "prodParse.h"
 #include "parenParse.h"
 

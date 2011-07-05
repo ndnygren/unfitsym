@@ -46,7 +46,7 @@ int main()
 	int i;
 	expParse d;
 	map< pair<int, int>, vector<pair<int, eqnNode*> > > fails;
-	string parsethis = "(1+(32*4)-43688)*8*9*1209";
+	string parsethis = "(1+(x*32*4)-43688)*8*9*1209";
 	d.setMap(&fails);
 
 	d.loadString(0, parsethis, 0);
