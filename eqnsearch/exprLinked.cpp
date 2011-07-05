@@ -25,24 +25,36 @@ std::string exprLinked::str() const
 	else { return "zero"; }
 }
 
+void exprLinked::load()
+{
+	copyCand(getCand(expr), changes);
+}
+
+exprLinked::exprLinked()
+{
+	expr = 0; 
+}
+
 exprLinked::exprLinked(eqnNode* input)
 {
-	unsigned int i; 
-	expr = input->copy(); 
-	vector<eqnNode*> changes;
-	copyCand(getCand(expr), changes);
-
-	for (i = 0; i < changes.size(); i++)
-	{
-		if (changes[i] != 0)
-		{
-			cout << changes[i]->str() << "\n";
-		}
-	}
-
-	freeCand(changes);
-	changes.clear();
+	expr = input->copy();
 }
+
+exprLinked::exprLinked(eqnNode* input, int inid)
+{
+	expr = input->copy(); 
+	id = inid;
+}
+
+exprLinked::exprLinked(const exprLinked& old)
+{
+	if (old.expr != 0)
+		{ expr = old.expr->copy(); }
+	else
+		{ expr = 0; }
+	id = old.id;
+}
+
 
 exprLinked::~exprLinked()
 {
@@ -50,4 +62,17 @@ exprLinked::~exprLinked()
 	{
 		delete expr;
 	}
+	freeCand(changes);
+	changes.clear();
+}
+
+bool exprLinked::operator< (const exprLinked& rhs) const
+{
+	exprMetric a;
+	return a.score(expr) < a.score(rhs.expr);
+}
+
+bool exprLinked::operator> (const exprLinked& rhs) const
+{
+	return rhs < *this;
 }

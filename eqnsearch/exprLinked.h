@@ -16,7 +16,9 @@
 #ifndef NN_EXPRLINKED_H
 #define NN_EXPRLINKED_H
 
+#include <vector>
 #include "exprHolder.h"
+#include "exprMetric.h"
 #include "../parse/nodes/eqnNode.h"
 
 
@@ -26,10 +28,20 @@ class exprLinked : exprHolder
 	eqnNode* expr;
 
 	public:
-	virtual std::string str() const;
+	std::vector<eqnNode*> changes;
+	int id;
 
+	virtual std::string str() const;
+	void load();
+
+	exprLinked();
 	exprLinked(eqnNode* input);
+	exprLinked(eqnNode* input, int id);
+	exprLinked(const exprLinked& old);
 	virtual ~exprLinked();
+
+	bool operator< (const exprLinked& rhs) const;
+	bool operator> (const exprLinked& rhs) const;
 	
 };
 

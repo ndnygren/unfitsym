@@ -16,6 +16,7 @@
 #include <iostream>
 #include "exprLinked.h"
 #include "parserFull.h"
+#include "searchMaxMin.cpp"
 
 using namespace std;
 
@@ -23,7 +24,7 @@ int main(int argc, char** argv)
 {
 	parserFull parser;
 	eqnNode *output;
-	exprLinked *a;
+	searchMaxMin *a;
 
 	if (argc > 1)
 	{
@@ -32,16 +33,12 @@ int main(int argc, char** argv)
 		if (output != 0)
 		{
 			cout << "parsed: " << output->str() << "\n";
+			a = new searchMaxMin(output);
+			if (output != 0) { delete output; }
+
+			delete a;
 		}
 	}
-
-	a = new exprLinked(output);
-
-	cout << "as holder: " << a->str() << "\n";
-
-	if (output != 0) { delete output; }
-
-	delete a;
 
 	return 0;
 }
