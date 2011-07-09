@@ -14,57 +14,60 @@
 * You should have received a copy of the GNU General Public License
 * along with this program. If not, see <http://www.gnu.org/licenses/>. */
 
-#include "prodAlt.h"
+#include "fracAlt.h"
 
 using namespace std;
 
-vector<eqnNode*> prodCand(prodNode* input)
+vector<eqnNode*> fracCand(fracNode* input)
 {
 	unsigned int i;
 	nodeTypes types;
 	vector<eqnNode*> changes;
 	vector<eqnNode*> subchanges;
-	prodNode *spare, *otherspare;
-	fracNode *fracspare; 
+	numNode one(1);
+	fracNode *spare, *otherspare;
+	prodNode *prodspare;
 
-	//commute
-	changes.push_back(new prodNode(input->getR(), input->getL()));
+	//separate
+	otherspare = new fracNode(&one, input->getR());
+	changes.push_back(new prodNode(input->getL(), otherspare));
+	delete otherspare;
 
-
-	//associate one way
-	if (input->getL()->type() == types.prod) 
+	//flip denominator up
+	if (input->getR()->type() == types.frac) 
 	{
-		spare = (prodNode*)(input->getL());
-		otherspare = new prodNode(spare->getR() ,input->getR());
-		changes.push_back(new prodNode(spare->getL(), otherspare));
+		spare = (fracNode*)(input->getR());
+		otherspare = new fracNode(spare->getR() ,spare->getL());
+		changes.push_back(new prodNode(input->getL(), otherspare));
 		delete otherspare;
 	}
 
-	//associate the other way
-	if (input->getR()->type() == types.prod) 
+	//numerator fraction down
+	if (input->getL()->type() == types.frac) 
 	{
-		spare = (prodNode*)(input->getR());
-		otherspare = new prodNode(input->getL(), spare->getL());
-		changes.push_back(new prodNode(otherspare, spare->getR()));
-		delete otherspare;
+		spare = (fracNode*)(input->getL());
+		prodspare = new prodNode(spare->getR(), input->getR());
+		changes.push_back(new fracNode(spare->getL(), prodspare));
+		delete prodspare;
 	}
 
-	// attempt to evaluate
+	// attempt to evaluate (exact integers only)
 	if ((input->getL()->type() == types.num) 
-		&& (input->getR()->type() == types.num))
+		&& (input->getR()->type() == types.num)
+		&& ( ((numNode*)(input->getL()))->get()
+			% ((numNode*)(input->getR()))->get() == 0))
 	{
 		changes.push_back(new numNode(
 			((numNode*)(input->getL()))->get()
-			*((numNode*)(input->getR()))->get()
+			/((numNode*)(input->getR()))->get()
 		));
 	}
-
 
 	//recurse left
 	copyCand(getCand(input->getL()), subchanges);
 	for (i = 0; i< subchanges.size(); i++)
 	{
-		spare = new prodNode(subchanges[i], input->getR());
+		spare = new fracNode(subchanges[i], input->getR());
 		changes.push_back(spare);
 	}
 	freeCand(subchanges);
@@ -74,19 +77,11 @@ vector<eqnNode*> prodCand(prodNode* input)
 	copyCand(getCand(input->getR()), subchanges);
 	for (i = 0; i< subchanges.size(); i++)
 	{
-		spare = new prodNode(input->getL(), subchanges[i]);
+		spare = new fracNode(input->getL(), subchanges[i]);
 		changes.push_back(spare);
 	}
 	freeCand(subchanges);
 	subchanges.clear();
-
-
-	//check left identity
-	if ((input->getL()->type() == types.num) 
-		&& ((numNode*)(input->getL()))->get() == 1)
-	{
-		changes.push_back(input->getR()->copy());
-	}
 
 	//check right identity
 	if ((input->getR()->type() == types.num) 
@@ -96,19 +91,10 @@ vector<eqnNode*> prodCand(prodNode* input)
 	}
 
 	//handle zero
-	if ((input->getR()->type() == types.num) 
-		&& ((numNode*)(input->getR()))->get() == 0)
+	if ((input->getL()->type() == types.num) 
+		&& ((numNode*)(input->getL()))->get() == 0)
 	{
 		changes.push_back(new numNode(0));
-	}
-
-	//handle frac
-	if (input->getR()->type() == types.frac) 
-	{
-		fracspare = (fracNode*)(input->getR());
-		otherspare = new prodNode(input->getL(),fracspare->getL());
-		changes.push_back(new fracNode(otherspare, fracspare->getR()));
-		delete otherspare;
 	}
 
 	return changes;

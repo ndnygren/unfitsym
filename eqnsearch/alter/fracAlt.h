@@ -13,19 +13,11 @@
 *
 * You should have received a copy of the GNU General Public License
 * along with this program. If not, see <http://www.gnu.org/licenses/>. */
-#ifndef NN_NODETYPES_H
-#define NN_NODETYPES_H
+#ifndef NN_FRACALT_H
+#define NN_FRACALT_H
 
-class nodeTypes
-{
-	public:
-	static const int num = 1;
-	static const int sum = 2;
-	static const int sub = 3;
-	static const int prod = 4;
-	static const int var = 5;
-	static const int frac = 6;
-};
+#include "genAlt.h"
 
+std::vector<eqnNode*> fracCand(fracNode* input);
 
 #endif

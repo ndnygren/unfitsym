@@ -35,7 +35,7 @@ void fracParse::loadString(int offset, const std::string& data, int cap)
 		lefte.loadString(leftt.getTrees()[0].first,data,cap+1);
 		for (i = 0; i < (int)lefte.getTrees().size(); i++)
 		{
-			centert.loadString(lefte.getTrees()[0].first, data, cap);
+			centert.loadString(lefte.getTrees()[i].first, data, cap);
 			if( (int)centert.getTrees().size() > 0)
 			{
 				righte.loadString(centert.getTrees()[0].first, data, cap);

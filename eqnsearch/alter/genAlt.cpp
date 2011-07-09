@@ -44,6 +44,13 @@ vector<eqnNode*> getCand(eqnNode* input)
 	copyCand(sumChanges, changes);
 	sumChanges.clear();
 
+	if (input->type() == types.frac)
+	{
+		sumChanges = fracCand((fracNode*)input);
+	}
+	copyCand(sumChanges, changes);
+	sumChanges.clear();
+
 	return changes;
 }
 

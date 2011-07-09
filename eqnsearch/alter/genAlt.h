@@ -22,10 +22,12 @@
 #include "../../parse/nodes/subNode.h"
 #include "../../parse/nodes/prodNode.h"
 #include "../../parse/nodes/numNode.h"
+#include "../../parse/nodes/fracNode.h"
 #include "../../parse/nodes/nodeTypes.h"
 #include "sumAlt.h"
 #include "subAlt.h"
 #include "prodAlt.h"
+#include "fracAlt.h"
 
 std::vector<eqnNode*> getCand(eqnNode* input);
 void copyCand(const std::vector<eqnNode*>& from, std::vector<eqnNode*>& to); 
