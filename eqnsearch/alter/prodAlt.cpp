@@ -80,5 +80,26 @@ vector<eqnNode*> prodCand(prodNode* input)
 	subchanges.clear();
 
 
+	//check left identity
+	if ((input->getL()->type() == types.num) 
+		&& ((numNode*)(input->getL()))->get() == 1)
+	{
+		changes.push_back(input->getR()->copy());
+	}
+
+	//check right identity
+	if ((input->getR()->type() == types.num) 
+		&& ((numNode*)(input->getR()))->get() == 1)
+	{
+		changes.push_back(input->getL()->copy());
+	}
+
+	//handle zero
+	if ((input->getR()->type() == types.num) 
+		&& ((numNode*)(input->getR()))->get() == 0)
+	{
+		changes.push_back(new numNode(0));
+	}
+
 	return changes;
 }

@@ -1,6 +1,6 @@
 DO_C_O=g++ -c $(INC_DIR) -Wall
 objects= exprLinked.o parserFull.o genAlt.o sumAlt.o subAlt.o prodAlt.o
-objects2=sumParse.o subParse.o expParse.o prodParse.o parenParse.o
+objects2=sumParse.o subParse.o expParse.o prodParse.o parenParse.o fracParse.o
 
 all: test
 

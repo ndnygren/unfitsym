@@ -58,6 +58,23 @@ vector<eqnNode*> sumCand(sumNode* input)
 		));
 	}
 
+
+	//check left identity
+	if ((input->getL()->type() == types.num) 
+		&& ((numNode*)(input->getL()))->get() == 0)
+	{
+		changes.push_back(input->getR()->copy());
+	}
+
+	//check right identity
+	if ((input->getR()->type() == types.num) 
+		&& ((numNode*)(input->getR()))->get() == 0)
+	{
+		changes.push_back(input->getL()->copy());
+	}
+
+
+	//recurseing
 	copyCand(getCand(input->getL()), subchanges);
 	for (i = 0; i< subchanges.size(); i++)
 	{
