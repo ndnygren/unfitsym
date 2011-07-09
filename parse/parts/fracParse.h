@@ -13,19 +13,18 @@
 *
 * You should have received a copy of the GNU General Public License
 * along with this program. If not, see <http://www.gnu.org/licenses/>. */
-#ifndef NN_NODETYPES_H
-#define NN_NODETYPES_H
+#ifndef NN_FRACPARSE_H
+#define NN_FRACPARSE_H
 
-class nodeTypes
+#include "../nodes/eqnNode.h"
+#include "../nodes/fracNode.h"
+#include "expParse.h"
+
+class fracParse : public parsePart
 {
 	public:
-	static const int num = 1;
-	static const int sum = 2;
-	static const int sub = 3;
-	static const int prod = 4;
-	static const int var = 5;
-	static const int frac = 5;
+	virtual void loadString(int offset, const std::string& data, int cap);
+	virtual ~fracParse() { deleteAll(); }
 };
-
 
 #endif

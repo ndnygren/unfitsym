@@ -23,6 +23,7 @@
 #include "varParse.h"
 #include "prodParse.h"
 #include "parenParse.h"
+#include "fracParse.h"
 
 class expParse : public parsePart
 {

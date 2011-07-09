@@ -46,14 +46,14 @@ int main()
 	int i;
 	expParse d;
 	map< pair<int, int>, vector<pair<int, eqnNode*> > > fails;
-	string parsethis = "(1+(x*32*4)-43688)*8*9*1209";
+	string parsethis = "(1+(x*32*4)-43688)*8*9*1209+\\frac{1}{1}";
 	d.setMap(&fails);
 
 	d.loadString(0, parsethis, 0);
 
 	for (i = 0; i < (int)d.getTrees().size(); i++)
 	{
-		if (d.getTrees()[i].first == (int)parsethis.length())
+		if (d.getTrees()[i].first <= (int)parsethis.length())
 		{
 			cout << i << ": " << d.getTrees()[i].first;
 			if(d.getTrees()[i].second != 0)

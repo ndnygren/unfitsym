@@ -27,6 +27,7 @@ void expParse::loadString(int offset, const std::string& data, int cap)
 	prodParse prod;
 	parenParse paren;
 	varParse var;
+	fracParse frac;
 	std::vector<parsePart*> exprs;
 	
 	exprs.push_back(&number);
@@ -35,6 +36,7 @@ void expParse::loadString(int offset, const std::string& data, int cap)
 	exprs.push_back(&prod);
 	exprs.push_back(&paren);
 	exprs.push_back(&var);
+	exprs.push_back(&frac);
 
 	deleteAll();
 	

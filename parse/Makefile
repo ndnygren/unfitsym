@@ -1,5 +1,5 @@
 DO_C_O=g++ -c $(INC_DIR) -Wall
-objects=sumParse.o subParse.o expParse.o prodParse.o parenParse.o
+objects=sumParse.o subParse.o expParse.o prodParse.o parenParse.o fracParse.o
 
 all: test
 
@@ -20,3 +20,6 @@ expParse.o: parts/expParse.cpp
 
 parenParse.o: parts/parenParse.cpp
 	$(DO_C_O) parts/parenParse.cpp
+
+fracParse.o: parts/fracParse.cpp
+	$(DO_C_O) parts/fracParse.cpp
