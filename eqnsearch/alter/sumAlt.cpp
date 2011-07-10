@@ -25,6 +25,8 @@ vector<eqnNode*> sumCand(sumNode* input)
 	vector<eqnNode*> changes;
 	vector<eqnNode*> subchanges;
 	sumNode *spare, *otherspare;
+	fracNode *fracspare;
+	prodNode *prodspare;
 
 	//commute
 	changes.push_back(new sumNode(input->getR(), input->getL()));
@@ -74,7 +76,7 @@ vector<eqnNode*> sumCand(sumNode* input)
 	}
 
 
-	//recurseing
+	//recursing
 	copyCand(getCand(input->getL()), subchanges);
 	for (i = 0; i< subchanges.size(); i++)
 	{
@@ -93,6 +95,17 @@ vector<eqnNode*> sumCand(sumNode* input)
 	freeCand(subchanges);
 	subchanges.clear();
 
+
+	//handle frac
+	if (input->getR()->type() == types.frac) 
+	{
+		fracspare = (fracNode*)(input->getR());
+		prodspare = new prodNode(fracspare->getR(), input->getL());
+		spare = new sumNode(prodspare, fracspare->getL());
+		changes.push_back(new fracNode(spare, fracspare->getR()));
+		delete spare;
+		delete prodspare;
+	}
 
 	return changes;
 }

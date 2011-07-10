@@ -17,6 +17,7 @@
 
 #include "../parse/nodes/eqnNode.h"
 #include "exprLinked.h"
+#include "eqnMetric.h"
 #include <vector>
 #include <utility>
 #include <map>
@@ -28,33 +29,58 @@ using namespace std;
 
 class eqnComp
 {
+	protected:
+	eqnMetric *rate;
+
 	public:
 	bool operator() (const eqnNode* lhs, const eqnNode* rhs)
 	{
-		return lhs->str().length() > rhs->str().length();
+		return rate->score(lhs) > rate->score(rhs);
 	}
+
+	eqnComp() { }
+	
+	eqnComp(eqnMetric* input)
+		{ rate = input; }
 };
 
 class searchMaxMin
 {
 	protected:
 	eqnNode* start;
+	eqnComp comp;
 	
-	public:
-	searchMaxMin(eqnNode* input)
+	void freeMap(std::map<std::string, eqnNode*> &inmap)
 	{
-		unsigned int i;
-		exprLinked* current = new exprLinked(input);
-		std::priority_queue<eqnNode*, std::vector<eqnNode*>, eqnComp> stack;
-		std::vector<eqnNode*> changes;
-		std::vector<std::pair<std::string, std::string> > adjPairs;
-		std::map<std::string, eqnNode*> exprMap;
+		std::map<std::string, eqnNode*>::iterator it;
+
+		for (it=inmap.begin(); it!=inmap.end(); it++)
+			{ delete (*it).second; }
+	}
+
+	public:
+	std::vector<std::pair<std::string, std::string> > adjPairs;
+	std::map<std::string, eqnNode*> exprMap;
+	std::priority_queue<eqnNode*, std::vector<eqnNode*>, eqnComp> stack;
+
+	searchMaxMin(eqnNode* input, eqnMetric* rate)
+	{
+		comp = eqnComp(rate);
+		stack = std::priority_queue<eqnNode*, std::vector<eqnNode*>, eqnComp>(comp);
 		start = input;
 		stack.push(input->copy());
+	
+		next();
+	}
 
-		while (stack.size() > 0)
+	void next(int limit = 50)
+	{
+		unsigned int i;
+		int count = 0;
+		exprLinked* current;
+
+		while (stack.size() > 0 && count < limit)
 		{
-			delete current;
 			current = new exprLinked(stack.top());
 			delete stack.top();
 			stack.pop();
@@ -75,6 +101,18 @@ class searchMaxMin
 					stack.push(current[0].changes[i]->copy());
 				}
 			}
+			count++;
+			delete current;
+		}
+	}
+
+	~searchMaxMin()
+	{
+		freeMap(exprMap);
+		while (!stack.empty())
+		{
+			delete stack.top();
+			stack.pop();
 		}
 	}
 };

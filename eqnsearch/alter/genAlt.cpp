@@ -20,8 +20,14 @@ using namespace std;
 vector<eqnNode*> getCand(eqnNode* input)
 {
 	nodeTypes types;
+	numNode one(1);
 	vector<eqnNode*> changes;
 	vector<eqnNode*> sumChanges;
+	subNode *subzero = new subNode(&one,&one);
+	
+	changes.push_back(new sumNode(input, subzero));
+	delete subzero;
+
 
 	if (input->type() == types.sum)
 	{

@@ -13,33 +13,19 @@
 *
 * You should have received a copy of the GNU General Public License
 * along with this program. If not, see <http://www.gnu.org/licenses/>. */
-#include <iostream>
-#include "exprLinked.h"
-#include "parserFull.h"
-#include "searchMaxMin.cpp"
+#ifndef NN_EQNMETRIC_H
+#define NN_EQNMETRIC_H
 
-using namespace std;
+#include "../parse/nodes/eqnNode.h"
 
-int main(int argc, char** argv)
+class eqnMetric
 {
-	parserFull parser;
-	eqnNode *output;
-	eqnMetric rate;
-	searchMaxMin *a;
-
-	if (argc > 1)
+	public:
+	int score(const eqnNode* input) const
 	{
-		cout << "input: " <<  argv[1] << "\n";
-		output = parser.getExpr(argv[1]);
-		if (output != 0)
-		{
-			cout << "parsed: " << output->str() << "\n";
-			a = new searchMaxMin(output, &rate);
-			if (output != 0) { delete output; }
-
-			delete a;
-		}
+		return (input->str()).length();
 	}
+};
 
-	return 0;
-}
+
+#endif
