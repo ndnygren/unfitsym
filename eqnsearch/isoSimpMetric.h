@@ -13,20 +13,38 @@
 *
 * You should have received a copy of the GNU General Public License
 * along with this program. If not, see <http://www.gnu.org/licenses/>. */
-#ifndef NN_EQNMETRIC_H
-#define NN_EQNMETRIC_H
+#ifndef NN_ISOSIMPMETRIC_H
+#define NN_ISOSIMPMETRIC_H
 
-#include "../parse/nodes/eqnNode.h"
+#include "eqnMetric.h"
+#include "isolateMetric.h"
+#include <string>
 
-class eqnMetric
+class isoSimpMetric : public eqnMetric
 {
+	protected:
+	std::string target;
+	eqnMetric *simpPart;
+	isolateMetric *isoPart;
+
 	public:
 	virtual int score(const eqnNode* input) const
 	{
-		return (input->str()).length();
+		return simpPart->score(input) + isoPart->score(input);
 	}
 
-	virtual ~eqnMetric() { }
+	isoSimpMetric(std::string intarget)
+	{
+		target = intarget; 
+		isoPart = new isolateMetric(target);
+		simpPart = new eqnMetric();
+	}
+
+	virtual ~isoSimpMetric()
+	{
+		delete isoPart;
+		delete simpPart;
+	}
 };
 
 

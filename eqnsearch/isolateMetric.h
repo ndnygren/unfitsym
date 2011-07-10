@@ -13,20 +13,45 @@
 *
 * You should have received a copy of the GNU General Public License
 * along with this program. If not, see <http://www.gnu.org/licenses/>. */
-#ifndef NN_EQNMETRIC_H
-#define NN_EQNMETRIC_H
+#ifndef NN_ISOLATEMETRIC_H
+#define NN_ISOLATEMETRIC_H
 
 #include "../parse/nodes/eqnNode.h"
+#include "../parse/nodes/nodeTypes.h"
+#include <string>
 
-class eqnMetric
+class isolateMetric : public eqnMetric
 {
+	protected:
+	std::string target;
+
 	public:
 	virtual int score(const eqnNode* input) const
 	{
+		if (input->type() == nodeTypes::num)
+			{ return 0; }
+		else if (input->type() == nodeTypes::var)
+		{
+			if (((varNode*)input)->get() == target )
+				{ return 1; }
+			else { return 0; }
+		}
+		else if (input->type() == nodeTypes::sum
+			|| input->type() == nodeTypes::sub
+			|| input->type() == nodeTypes::prod
+			|| input->type() == nodeTypes::frac)
+		{
+			return 2*(score(((binOpNode*)input)->getL()) 
+				+score(((binOpNode*)input)->getR()));
+			
+		}
 		return (input->str()).length();
 	}
 
-	virtual ~eqnMetric() { }
+	isolateMetric(std::string intarget)
+		{ target = intarget; }
+
+	virtual ~isolateMetric() {}
 };
 
 

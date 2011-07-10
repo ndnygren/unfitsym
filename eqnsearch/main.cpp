@@ -17,6 +17,7 @@
 #include "exprLinked.h"
 #include "parserFull.h"
 #include "searchMaxMin.cpp"
+#include "isoSimpMetric.h"
 
 using namespace std;
 
@@ -24,8 +25,10 @@ int main(int argc, char** argv)
 {
 	parserFull parser;
 	eqnNode *output;
-	eqnMetric rate;
+	eqnMetric *rate;
 	searchMaxMin *a;
+
+	rate = new isoSimpMetric("x");
 
 	if (argc > 1)
 	{
@@ -34,12 +37,14 @@ int main(int argc, char** argv)
 		if (output != 0)
 		{
 			cout << "parsed: " << output->str() << "\n";
-			a = new searchMaxMin(output, &rate);
+			a = new searchMaxMin(output, rate);
 			if (output != 0) { delete output; }
 
 			delete a;
 		}
 	}
+
+	delete rate;
 
 	return 0;
 }

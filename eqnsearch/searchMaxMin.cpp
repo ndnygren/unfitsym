@@ -109,6 +109,8 @@ class searchMaxMin
 	~searchMaxMin()
 	{
 		freeMap(exprMap);
+
+		//this is brutal, needs to be replaced with a iterator
 		while (!stack.empty())
 		{
 			delete stack.top();
