@@ -23,10 +23,12 @@ using namespace std;
 
 int main(int argc, char** argv)
 {
+	unsigned int i;
 	parserFull parser;
 	eqnNode *output;
 	eqnMetric *rate;
 	searchMaxMin *a;
+	vector<eqnNode*> list;
 
 	rate = new isoSimpMetric("x");
 
@@ -38,6 +40,33 @@ int main(int argc, char** argv)
 		{
 			cout << "parsed: " << output->str() << "\n";
 			a = new searchMaxMin(output, rate);
+			cout << "first 50:" << endl;
+			list = a->best();
+
+			for (i = 0; i < list.size(); i++)
+				{ cout << list[i]->str() << endl; }
+
+			a->next();
+			cout << "second 50:" << endl;
+			list = a->best();
+
+			for (i = 0; i < list.size(); i++)
+				{ cout << list[i]->str() << endl; }
+
+			a->next();
+			cout << "third 50:" << endl;
+			list = a->best();
+
+			for (i = 0; i < list.size(); i++)
+				{ cout << list[i]->str() << endl; }
+			
+
+			a->next(500);
+			cout << "500 more:" << endl;
+			list = a->best();
+
+			for (i = 0; i < list.size(); i++)
+				{ cout << list[i]->str() << endl; }
 			if (output != 0) { delete output; }
 
 			delete a;

@@ -49,6 +49,7 @@ class searchMaxMin
 	protected:
 	eqnNode* start;
 	eqnComp comp;
+	eqnMetric *rate;
 	
 	void freeMap(std::map<std::string, eqnNode*> &inmap)
 	{
@@ -63,8 +64,9 @@ class searchMaxMin
 	std::map<std::string, eqnNode*> exprMap;
 	std::priority_queue<eqnNode*, std::vector<eqnNode*>, eqnComp> stack;
 
-	searchMaxMin(eqnNode* input, eqnMetric* rate)
+	searchMaxMin(eqnNode* input, eqnMetric* inrate)
 	{
+		rate = inrate; 
 		comp = eqnComp(rate);
 		stack = std::priority_queue<eqnNode*, std::vector<eqnNode*>, eqnComp>(comp);
 		start = input;
@@ -84,7 +86,7 @@ class searchMaxMin
 			current = new exprLinked(stack.top());
 			delete stack.top();
 			stack.pop();
-			cout << current[0].str() << "\n";
+//			cout << current[0].str() << "\n";
 
 			current[0].load();
 
@@ -104,6 +106,36 @@ class searchMaxMin
 			count++;
 			delete current;
 		}
+	}
+
+	std::vector<eqnNode*> best(unsigned int limit = 10)
+	{
+		unsigned int i;
+		std::vector<eqnNode*> list;
+		eqnNode *toinsert, *spare;
+		std::map<std::string, eqnNode*>::iterator it;
+
+		for (it=exprMap.begin(); it!=exprMap.end(); it++)
+		{
+			toinsert = (*it).second;
+			for (i = 0; i < limit; i++)
+			{
+				if (i >= list.size())
+				{
+					list.push_back(toinsert);
+					i = limit;
+				}
+				else if (rate->score(toinsert) < rate->score(list[i]))
+				{
+					spare = list[i];
+					list[i] = toinsert;
+					toinsert = spare;
+				}
+			}
+		}
+
+		return list;
+		
 	}
 
 	~searchMaxMin()
