@@ -27,6 +27,7 @@ class eqnNode
 	virtual void deleteAll() { };
 	virtual eqnNode* copy() const = 0;
 	virtual bool eq(eqnNode* input) const = 0;
+	virtual int size() const = 0;
 	virtual int type() const = 0;
 	virtual bool isLeaf() const { return false; }
 	virtual std::string str() const { return "tree data"; }

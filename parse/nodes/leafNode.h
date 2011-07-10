@@ -21,7 +21,8 @@
 class leafNode : public eqnNode
 {
 	public:
-	virtual bool isLeaf() { return true; }
+	virtual int size() const { return 1; }
+	virtual bool isLeaf() const { return true; }
 	virtual ~leafNode() { }
 };
 

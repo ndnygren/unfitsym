@@ -34,6 +34,11 @@ class binOpNode : public eqnNode
 			&& getL()->eq(((binOpNode*)input)->getL());
 	}
 
+	virtual int size() const
+	{
+		return 1 + getR()->size() + getL()->size();
+	}
+
 	virtual void deleteAll() 
 	{
 		if (left != 0)

@@ -23,7 +23,7 @@ class eqnMetric
 	public:
 	virtual int score(const eqnNode* input) const
 	{
-		return (input->str()).length();
+		return input->size();
 	}
 
 	virtual ~eqnMetric() { }
