@@ -26,6 +26,8 @@ vector<eqnNode*> prodCand(prodNode* input)
 	vector<eqnNode*> subchanges;
 	prodNode *spare, *otherspare;
 	fracNode *fracspare; 
+	sumNode *sumspare; 
+	subNode *subspare; 
 
 	//commute
 	changes.push_back(new prodNode(input->getR(), input->getL()));
@@ -108,6 +110,26 @@ vector<eqnNode*> prodCand(prodNode* input)
 		fracspare = (fracNode*)(input->getR());
 		otherspare = new prodNode(input->getL(),fracspare->getL());
 		changes.push_back(new fracNode(otherspare, fracspare->getR()));
+		delete otherspare;
+	}
+
+	//distribute over addition
+	if (input->getR()->type() == types.sum) 
+	{
+		sumspare = (sumNode*)(input->getR());
+		spare = new prodNode(input->getL(), sumspare->getR());
+		otherspare = new prodNode(input->getL(), sumspare->getL());
+		changes.push_back(new sumNode(spare, otherspare));
+		delete otherspare;
+	}
+	
+	//distribute over subtraction
+	if (input->getR()->type() == types.sub)
+	{
+		subspare = (subNode*)(input->getR());
+		spare = new prodNode(input->getL(), subspare->getL());
+		otherspare = new prodNode(input->getL(), subspare->getR());
+		changes.push_back(new subNode(spare, otherspare));
 		delete otherspare;
 	}
 

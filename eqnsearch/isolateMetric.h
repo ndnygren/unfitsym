@@ -26,6 +26,12 @@ class isolateMetric : public eqnMetric
 	std::string target;
 
 	public:
+	int bump(int input) const
+	{
+		if (input > 0) { return input + 1; }
+		else { return 0; }
+	}
+
 	virtual int score(const eqnNode* input) const
 	{
 		if (input->type() == nodeTypes::num)
@@ -41,7 +47,7 @@ class isolateMetric : public eqnMetric
 			|| input->type() == nodeTypes::prod
 			|| input->type() == nodeTypes::frac)
 		{
-			return 2*(score(((binOpNode*)input)->getL()) 
+			return bump(score(((binOpNode*)input)->getL()) 
 				+score(((binOpNode*)input)->getR()));
 			
 		}

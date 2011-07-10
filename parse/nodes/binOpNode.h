@@ -25,6 +25,15 @@ class binOpNode : public eqnNode
 	eqnNode* right;
 
 	public:
+	virtual bool eq(eqnNode* input) const
+	{
+		if (type() != input->type())
+			{ return false; }
+
+		return getR()->eq(((binOpNode*)input)->getR())
+			&& getL()->eq(((binOpNode*)input)->getL());
+	}
+
 	virtual void deleteAll() 
 	{
 		if (left != 0)

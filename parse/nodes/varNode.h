@@ -25,6 +25,14 @@ class varNode : public leafNode
 	std::string name;
 
 	public:
+	virtual bool eq(eqnNode* input) const
+	{
+		if (type() != input->type())
+			{ return false; }
+
+		return (get() == (((varNode*)input)->get()));
+	}
+
 	virtual eqnNode* copy() const { return new varNode(get()); }
 	virtual int type() const { return types.var; }
 	std::string get() const { return name; }

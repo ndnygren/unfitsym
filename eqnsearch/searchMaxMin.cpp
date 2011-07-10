@@ -73,7 +73,7 @@ class searchMaxMin
 		next();
 	}
 
-	void next(int limit = 50)
+	void next(int limit = 100)
 	{
 		unsigned int i;
 		int count = 0;

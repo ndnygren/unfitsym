@@ -26,6 +26,7 @@ vector<eqnNode*> getCand(eqnNode* input)
 	subNode *subzero = new subNode(&one,&one);
 	
 	changes.push_back(new sumNode(input, subzero));
+	changes.push_back(new prodNode(input, &one));
 	delete subzero;
 
 

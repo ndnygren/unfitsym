@@ -32,6 +32,14 @@ class numNode : public leafNode
 	}
 
 	public:
+	virtual bool eq(eqnNode* input) const
+	{
+		if (type() != input->type())
+			{ return false; }
+
+		return (get() == (((numNode*)input)->get()));
+	}
+
 	virtual eqnNode* copy() const { return new numNode(get()); }
 	virtual int type() const { return types.num; }
 	int get() const { return num; }

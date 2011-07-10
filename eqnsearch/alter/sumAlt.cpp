@@ -25,8 +25,9 @@ vector<eqnNode*> sumCand(sumNode* input)
 	vector<eqnNode*> changes;
 	vector<eqnNode*> subchanges;
 	sumNode *spare, *otherspare;
+	subNode *subspare;
 	fracNode *fracspare;
-	prodNode *prodspare;
+	prodNode *prodspare, *otherprodspare;
 
 	//commute
 	changes.push_back(new sumNode(input->getR(), input->getL()));
@@ -106,6 +107,29 @@ vector<eqnNode*> sumCand(sumNode* input)
 		delete spare;
 		delete prodspare;
 	}
+
+	// reverse distribute
+	if (input->getL()->type() == types.prod
+		&& input->getR()->type() == types.prod)
+	{
+		prodspare = (prodNode*)(input->getL());
+		otherprodspare = (prodNode*)(input->getR());
+		if (prodspare->getR()->eq(otherprodspare->getR()))
+		{
+			spare = new sumNode(prodspare->getL(),otherprodspare->getL());
+			changes.push_back(new prodNode(spare, prodspare->getR()));
+			delete spare;
+		}
+	}
+
+	//commute with right subtraction
+	if (input->getR()->type() == types.sub)
+	{
+		subspare = new subNode(input->getL(), ((subNode*)(input->getR()))->getR());
+		changes.push_back(new sumNode( ((subNode*)(input->getR()))->getL(), subspare));
+		delete subspare;
+	}
+
 
 	return changes;
 }
