@@ -27,24 +27,56 @@ class ufForm
 	eqnMetric *rate;
 	int proofwidth;
 	int proofheight;
+	vector<eqnNode*> bList;
 
 	Gtk::Window window;
 	Gtk::HBox columns, entrybox;
 	Gtk::VBox col1, col2;
 	Gtk::Button searchDeep, closeButton, goButton;
 	Gtk::Entry exprentry,varentry;
-	Gtk::Combo entry2;
+	Gtk::ComboBoxText entry2;
 	Gtk::TextView proofText;
+
+	void fillBest()
+	{
+		unsigned int i;
+
+		bList.clear();
+		bList = engine->best();
+		entry2.clear();
+
+		for (i = 0; i < bList.size(); i++)
+		{
+			entry2.append_text(bList[i]->str());
+		}
+	}
 
 	void loadeqn()
 	{
-	    gtk_main_quit();
+		parserFull parser;
+		eqnNode *output;
+
+		if (searchinit) 
+		{
+			delete rate;
+			delete engine; 
+			searchinit = false;
+		}
+		
+		output = parser.getExpr(exprentry.get_text());
+
+		if (output != 0)
+		{
+			rate = new isoSimpMetric(varentry.get_text());
+			engine = new searchMaxMin(output,rate);
+			delete output;
+			fillBest();
+		}
 	}
 
-	void destroy()
-	{
-	    gtk_main_quit ();
-	}
+	void deeper() { engine->next(); fillBest(); }
+	void destroy() { gtk_main_quit (); }
+	bool destroy1(GdkEventAny* event) { destroy(); return false; }
 
 	public:
 	ufForm()
@@ -56,25 +88,29 @@ class ufForm
 		goButton.set_label("Go");
 		closeButton.set_label("Close");
 		searchDeep.set_label("Search Deeper");
+		varentry.set_text("x");
 		proofText.set_size_request(proofwidth, proofheight);
 
 		window.add(columns);
-		col1.pack_start(entrybox);
-		entrybox.pack_start(exprentry);
-		entrybox.pack_start(varentry);
-		entrybox.pack_start(goButton);
-		col1.pack_start(entry2);
-		col1.pack_start(searchDeep);
+		col1.pack_start(entrybox,Gtk::PACK_SHRINK);
+		entrybox.pack_start(exprentry,Gtk::PACK_SHRINK);
+		entrybox.pack_start(varentry,Gtk::PACK_SHRINK);
+		entrybox.pack_start(goButton,Gtk::PACK_SHRINK);
+		col1.pack_start(entry2,Gtk::PACK_SHRINK);
+		col1.pack_start(searchDeep,Gtk::PACK_SHRINK);
 		col2.pack_start(proofText);
-		col2.pack_start(closeButton);
-		columns.pack_start(col1);
+		col2.pack_start(closeButton,Gtk::PACK_SHRINK);
+		columns.pack_start(col1,Gtk::PACK_SHRINK);
 		columns.pack_start(col2);
 	 
 		window.set_title("unfitsym");
 
-//		closeButton.signal_clicked().connect(sigc::mem_fun(*this, &ufForm::destroy));
-//		goButton.signal_clicked().connect(sigc::mem_fun(*this, &ufForm::destroy));
-//		window.signal_delete_event().connect(sigc::mem_fun(*this, &ufForm::destroy));
+		closeButton.signal_clicked().connect(sigc::mem_fun(*this, &ufForm::destroy));
+		goButton.signal_clicked().connect(sigc::mem_fun(*this, &ufForm::loadeqn));
+		searchDeep.signal_clicked().connect(sigc::mem_fun(*this, &ufForm::deeper));
+		window.signal_delete_event().connect(sigc::mem_fun(*this, &ufForm::destroy1));
+
+		window.show_all_children();
 
 		Gtk::Main::run(window);
 	}
