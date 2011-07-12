@@ -16,9 +16,9 @@
 
 #include <iostream>
 #include "parse/parserFull.h"
-#include "eqnsearch/exprLinked.h"
 #include "eqnsearch/searchMaxMin.cpp"
 #include "eqnsearch/isoSimpMetric.h"
+#include "eqnsearch/generateProof.h"
 
 using namespace std;
 
@@ -46,7 +46,7 @@ int main(int argc, char** argv)
 
 			for (i = 0; i < list.size(); i++)
 				{ cout << list[i]->str() << endl; }
-
+/*
 			a->next();
 			cout << "second 50:" << endl;
 			list = a->best();
@@ -54,20 +54,11 @@ int main(int argc, char** argv)
 			for (i = 0; i < list.size(); i++)
 				{ cout << list[i]->str() << endl; }
 
-			a->next();
-			cout << "third 50:" << endl;
-			list = a->best();
-
-			for (i = 0; i < list.size(); i++)
-				{ cout << list[i]->str() << endl; }
+*/
+			cout << "proof:" << endl;
+			cout << generateProof::build(a->adjPairs, a->start->str(), "5") << endl;
 			
 
-			a->next(500);
-			cout << "500 more:" << endl;
-			list = a->best();
-
-			for (i = 0; i < list.size(); i++)
-				{ cout << list[i]->str() << endl; }
 			if (output != 0) { delete output; }
 
 			delete a;

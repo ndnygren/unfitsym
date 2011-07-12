@@ -18,6 +18,7 @@
 #include "parse/parserFull.h"
 #include "eqnsearch/searchMaxMin.cpp"
 #include "eqnsearch/isoSimpMetric.h"
+#include "eqnsearch/generateProof.h"
 
 class ufForm
 {
@@ -48,6 +49,7 @@ class ufForm
 		for (i = 0; i < bList.size(); i++)
 		{
 			entry2.append_text(bList[i]->str());
+			if (i == 0) { entry2.set_active_text(bList[i]->str()); }
 		}
 	}
 
@@ -74,7 +76,13 @@ class ufForm
 		}
 	}
 
-	void deeper() { engine->next(); fillBest(); }
+	void loadProof()
+	{
+		std::string temp = generateProof::build( engine->adjPairs, engine->start->str(), entry2.get_active_text());
+		proofText.get_buffer()->set_text(temp);
+	}
+
+	void deeper() { engine->next(500); fillBest(); }
 	void destroy() { gtk_main_quit (); }
 	bool destroy1(GdkEventAny* event) { destroy(); return false; }
 
@@ -108,6 +116,7 @@ class ufForm
 		closeButton.signal_clicked().connect(sigc::mem_fun(*this, &ufForm::destroy));
 		goButton.signal_clicked().connect(sigc::mem_fun(*this, &ufForm::loadeqn));
 		searchDeep.signal_clicked().connect(sigc::mem_fun(*this, &ufForm::deeper));
+		entry2.signal_changed().connect(sigc::mem_fun(*this, &ufForm::loadProof));
 		window.signal_delete_event().connect(sigc::mem_fun(*this, &ufForm::destroy1));
 
 		window.show_all_children();

@@ -47,7 +47,6 @@ class eqnComp
 class searchMaxMin
 {
 	protected:
-	eqnNode* start;
 	eqnComp comp;
 	eqnMetric *rate;
 	
@@ -60,6 +59,7 @@ class searchMaxMin
 	}
 
 	public:
+	eqnNode* start;
 	std::vector<std::pair<std::string, std::string> > adjPairs;
 	std::map<std::string, eqnNode*> exprMap;
 	std::priority_queue<eqnNode*, std::vector<eqnNode*>, eqnComp> stack;

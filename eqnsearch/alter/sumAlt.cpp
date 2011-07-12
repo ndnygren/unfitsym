@@ -130,6 +130,17 @@ vector<eqnNode*> sumCand(sumNode* input)
 		delete subspare;
 	}
 
+	//create right subtraction
+	if (input->getR()->type() == types.prod)
+	{
+		prodspare = (prodNode*)(input->getR());
+		if (prodspare->getL()->type() == types.num && 
+			((numNode*)(prodspare->getL()))->get() == -1)
+		{
+			subspare = new subNode(input->getL(), prodspare->getR());
+			changes.push_back(subspare);
+		}
+	}
 
 	return changes;
 }

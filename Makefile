@@ -1,13 +1,13 @@
 DO_C_O=g++ -c $(INC_DIR) -Wall
 objects=parserFull.o sumParse.o subParse.o expParse.o prodParse.o parenParse.o fracParse.o
-objects2= exprLinked.o genAlt.o sumAlt.o subAlt.o prodAlt.o fracAlt.o
+objects2= exprLinked.o genAlt.o sumAlt.o subAlt.o prodAlt.o fracAlt.o generateProof.o
 
 all: libufparse.a libufsearch.a unfit unfitgui
 
 unfit: main.cpp eqnsearch/searchMaxMin.cpp
 	g++ -o unfit main.cpp -lufparse -lufsearch -L.
 
-unfitgui: guimain.cpp ufForm.cpp
+unfitgui: guimain.cpp ufForm.cpp eqnsearch/generateProof.h
 	g++ `pkg-config --cflags --libs gtkmm-2.4` -o unfitgui guimain.cpp -lufparse -lufsearch -L.
 
 libufparse.a: $(objects) 
@@ -63,6 +63,9 @@ prodAlt.o: eqnsearch/alter/prodAlt.cpp
 
 fracAlt.o: eqnsearch/alter/fracAlt.cpp 
 	$(DO_C_O) eqnsearch/alter/fracAlt.cpp
+
+generateProof.o: eqnsearch/generateProof.cpp 
+	$(DO_C_O) eqnsearch/generateProof.cpp
 
 clean: 
 	rm -f *.o

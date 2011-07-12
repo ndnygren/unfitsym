@@ -17,6 +17,7 @@
 #include <iostream>
 #include <gtkmm.h>
 #include "ufForm.cpp"
+#include "eqnsearch/generateProof.h"
 
 using namespace std;
 
