@@ -97,5 +97,11 @@ vector<eqnNode*> fracCand(fracNode* input)
 		changes.push_back(new numNode(0));
 	}
 
+	// reduce to one
+	if (input->getL()->eq(input->getR()))
+	{
+		changes.push_back(new numNode(1));
+	}
+
 	return changes;
 }
