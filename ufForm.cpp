@@ -78,7 +78,9 @@ class ufForm
 
 	void loadProof()
 	{
-		std::string temp = generateProof::build( engine->adjPairs, engine->start->str(), entry2.get_active_text());
+		std::string temp = generateProof::build( engine->adjPairs, 
+			engine->start->str(), 
+			entry2.get_active_text());
 		proofText.get_buffer()->set_text(temp);
 	}
 

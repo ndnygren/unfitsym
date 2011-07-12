@@ -15,7 +15,6 @@
 * along with this program. If not, see <http://www.gnu.org/licenses/>. */
 
 #include "generateProof.h"
-#include <iostream>
 
 using namespace std;
 
@@ -73,9 +72,8 @@ vector<string> generateProof::genVector(map<string, vector<string> > &edges, con
 	if (found.count(target) > 0)
 	{
 		cr1 = found[target];
-		while (cr1.back != "")
+		while (found.count(cr1.back) > 0)
 		{
-			cout << "pushing: " << cr1.eqn << endl;
 			path.push_back(cr1.eqn);
 			cr1 = found[cr1.back];
 		}
@@ -84,22 +82,22 @@ vector<string> generateProof::genVector(map<string, vector<string> > &edges, con
 	return path;
 }
 
-std::string generateProof::convertVector(const std::vector<std::string> &path)
+string generateProof::convertVector(const vector<string> &path)
 {
-	unsigned int i;
-	std::string outstring;
+	int i;
+	string outstring;
 	
-	for (i = path.size()-1; i >= 0; i--)
+	for (i = (int)path.size()-1; i >= 0; i--)
 	{
-//			outstring += path[i] + "\n";
+			outstring += path[i] + "\n";
 	}
 
 	return outstring;
 }
 
-std::string generateProof::build(const std::vector<pair<std::string, std::string> > &pairs, const std::string &start, const std::string &target)
+string generateProof::build(const vector<pair<string, string> > &pairs, const string &start, const string &target)
 {
-	std::map<std::string, std::vector<std::string> > edges;
+	map<string, vector<string> > edges;
 	breakDown(pairs, edges);
 	
 	return convertVector(genVector(edges, start, target));	

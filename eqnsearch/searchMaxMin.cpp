@@ -69,7 +69,7 @@ class searchMaxMin
 		rate = inrate; 
 		comp = eqnComp(rate);
 		stack = std::priority_queue<eqnNode*, std::vector<eqnNode*>, eqnComp>(comp);
-		start = input;
+		start = input->copy();
 		stack.push(input->copy());
 	
 		next();
@@ -148,5 +148,6 @@ class searchMaxMin
 			delete stack.top();
 			stack.pop();
 		}
+		delete start;
 	}
 };
