@@ -7,8 +7,8 @@ all: libufparse.a libufsearch.a unfit unfitgui
 unfit: main.cpp eqnsearch/searchMaxMin.cpp
 	g++ -o unfit main.cpp -lufparse -lufsearch -L.
 
-unfitgui: guimain.cpp 
-	g++ `pkg-config --cflags --libs gtk+-2.0` -o unfitgui guimain.cpp -lufparse -lufsearch -L.
+unfitgui: guimain.cpp ufForm.cpp
+	g++ `pkg-config --cflags --libs gtkmm-2.4` -o unfitgui guimain.cpp -lufparse -lufsearch -L.
 
 libufparse.a: $(objects) 
 	ar cq libufparse.a $(objects)

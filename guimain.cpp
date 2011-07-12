@@ -15,7 +15,7 @@
 * along with this program. If not, see <http://www.gnu.org/licenses/>. */
 
 #include <iostream>
-#include <gtk/gtk.h>
+#include <gtkmm.h>
 #include "ufForm.cpp"
 
 using namespace std;
@@ -29,11 +29,9 @@ int main(int argc, char** argv)
 	searchMaxMin *a;
 	vector<eqnNode*> list;
 
-	gtk_init (&argc, &argv);
+	Gtk::Main kit(argc, argv);
 
-	
-
-	gtk_main ();
+	ufForm one;
 
 	return 0;
 }
