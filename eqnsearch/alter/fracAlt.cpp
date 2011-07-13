@@ -27,6 +27,7 @@ vector<eqnNode*> fracCand(fracNode* input)
 	numNode one(1);
 	fracNode *spare, *otherspare;
 	prodNode *prodspare;
+	hatNode *hat1spare, *hat2spare;
 
 	//separate
 	otherspare = new fracNode(&one, input->getR());
@@ -101,6 +102,22 @@ vector<eqnNode*> fracCand(fracNode* input)
 	if (input->getL()->eq(input->getR()))
 	{
 		changes.push_back(new numNode(1));
+	}
+
+	//handle same exp
+	if (input->getL()->type() == nodeTypes::hat
+		&& input->getR()->type() == nodeTypes::hat)
+	{
+		hat1spare = (hatNode*)(input->getL());
+		hat2spare = (hatNode*)(input->getR());
+	
+		if (hat1spare->getR()->eq(hat2spare->getR()))
+		{
+			spare = new fracNode(hat1spare->getL(), hat2spare->getL());
+			
+			changes.push_back(new hatNode(spare, hat1spare->getR()));
+			delete spare;
+		}
 	}
 
 	return changes;

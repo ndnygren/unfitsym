@@ -13,28 +13,36 @@
 *
 * You should have received a copy of the GNU General Public License
 * along with this program. If not, see <http://www.gnu.org/licenses/>. */
-#ifndef NN_EXPPARSE_H
-#define NN_EXPPARSE_H
 
-#include "parsePart.h"
-#include "natParse.h"
-#include "sumParse.h"
-#include "subParse.h"
-#include "varParse.h"
-#include "prodParse.h"
-#include "parenParse.h"
-#include "curlyParse.h"
-#include "fracParse.h"
-#include "negParse.h"
 #include "hatParse.h"
+#include <string>
 
-class expParse : public parsePart
+void hatParse::loadString(int offset, const std::string& data, int cap)
 {
-	public:
-	virtual void loadString(int offset, const std::string& data, int cap);
-	expParse();
-	virtual ~expParse() { deleteAll(); }
-};
+	int i,j,k;
+	expParse lefte;
+	curlyParse righte;
+	token op("^");
 
+	lefte.setMap(fails);
+	righte.setMap(fails);
 
-#endif
+	lefte.loadString(offset, data, cap + 1);
+	for (i = 0; i < (int)lefte.getTrees().size(); i++)
+	{
+		op.loadString(lefte.getTrees()[i].first, data, cap);
+		for (j = 0; j < (int)op.getTrees().size(); j++)
+		{
+			righte.loadString(op.getTrees()[j].first, data, cap);
+			for (k = 0; k < (int)righte.getTrees().size(); k++)
+			{
+				succ.push_back(std::pair<int,eqnNode*>(
+					righte.getTrees()[k].first,
+					new hatNode(
+					lefte.getTrees()[i].second,
+					righte.getTrees()[k].second)));
+			}
+		}
+	}
+
+}

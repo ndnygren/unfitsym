@@ -13,28 +13,32 @@
 *
 * You should have received a copy of the GNU General Public License
 * along with this program. If not, see <http://www.gnu.org/licenses/>. */
-#ifndef NN_GENALT_H
-#define NN_GENALT_H
+#ifndef NN_HATNODE_H
+#define NN_HATNODE_H
 
-#include <vector>
-#include "../../parse/nodes/eqnNode.h"
-#include "../../parse/nodes/sumNode.h"
-#include "../../parse/nodes/subNode.h"
-#include "../../parse/nodes/prodNode.h"
-#include "../../parse/nodes/numNode.h"
-#include "../../parse/nodes/fracNode.h"
-#include "../../parse/nodes/negNode.h"
-#include "../../parse/nodes/hatNode.h"
-#include "../../parse/nodes/nodeTypes.h"
-#include "sumAlt.h"
-#include "subAlt.h"
-#include "prodAlt.h"
-#include "fracAlt.h"
-#include "negAlt.h"
-#include "hatAlt.h"
+#include "binOpNode.h"
 
-std::vector<eqnNode*> getCand(eqnNode* input);
-void copyCand(const std::vector<eqnNode*>& from, std::vector<eqnNode*>& to); 
-void freeCand(std::vector<eqnNode*>& list);
+class hatNode : public binOpNode
+{
+	public:
+	virtual eqnNode* copy() const 
+		{ return new hatNode(getL(), getR()); } 
+
+	virtual int type() const { return types.hat; } 
+
+	virtual std::string str() const
+	{
+		return "(" + left->str() + ")^{" + right->str() + "}";
+	}
+
+	hatNode(eqnNode* lin, eqnNode* rin)
+	{
+		left = lin->copy();
+		right = rin->copy();
+	}
+	
+	virtual ~hatNode() { deleteAll(); }
+};
+
 
 #endif

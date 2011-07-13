@@ -24,6 +24,12 @@ class binOpNode : public eqnNode
 	eqnNode* left;
 	eqnNode* right;
 
+	int max(int left, int right) const
+	{
+		if (left < right) { return right; }
+		return left;
+	}
+
 	public:
 	virtual bool eq(eqnNode* input) const
 	{
@@ -36,7 +42,7 @@ class binOpNode : public eqnNode
 
 	virtual int size() const
 	{
-		return 1 + getR()->size() + getL()->size();
+		return 1 + max(getR()->size(), getL()->size());
 	}
 
 	virtual void deleteAll() 

@@ -26,6 +26,7 @@ class nodeTypes
 	static const int var = 5;
 	static const int frac = 6;
 	static const int neg = 7;
+	static const int hat = 8;
 };
 
 

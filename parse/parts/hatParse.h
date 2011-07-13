@@ -13,28 +13,18 @@
 *
 * You should have received a copy of the GNU General Public License
 * along with this program. If not, see <http://www.gnu.org/licenses/>. */
-#ifndef NN_GENALT_H
-#define NN_GENALT_H
+#ifndef NN_HATPARSE_H
+#define NN_HATPARSE_H
 
-#include <vector>
-#include "../../parse/nodes/eqnNode.h"
-#include "../../parse/nodes/sumNode.h"
-#include "../../parse/nodes/subNode.h"
-#include "../../parse/nodes/prodNode.h"
-#include "../../parse/nodes/numNode.h"
-#include "../../parse/nodes/fracNode.h"
-#include "../../parse/nodes/negNode.h"
-#include "../../parse/nodes/hatNode.h"
-#include "../../parse/nodes/nodeTypes.h"
-#include "sumAlt.h"
-#include "subAlt.h"
-#include "prodAlt.h"
-#include "fracAlt.h"
-#include "negAlt.h"
-#include "hatAlt.h"
+#include "../nodes/hatNode.h"
+#include "expParse.h"
+#include "tokParse.h"
 
-std::vector<eqnNode*> getCand(eqnNode* input);
-void copyCand(const std::vector<eqnNode*>& from, std::vector<eqnNode*>& to); 
-void freeCand(std::vector<eqnNode*>& list);
+class hatParse : public parsePart
+{
+	public:
+	virtual void loadString(int offset, const std::string& data, int cap);
+	virtual ~hatParse() { deleteAll(); }
+};
 
 #endif

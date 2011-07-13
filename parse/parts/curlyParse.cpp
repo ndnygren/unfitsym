@@ -13,28 +13,36 @@
 *
 * You should have received a copy of the GNU General Public License
 * along with this program. If not, see <http://www.gnu.org/licenses/>. */
-#ifndef NN_GENALT_H
-#define NN_GENALT_H
 
-#include <vector>
-#include "../../parse/nodes/eqnNode.h"
-#include "../../parse/nodes/sumNode.h"
-#include "../../parse/nodes/subNode.h"
-#include "../../parse/nodes/prodNode.h"
-#include "../../parse/nodes/numNode.h"
-#include "../../parse/nodes/fracNode.h"
-#include "../../parse/nodes/negNode.h"
-#include "../../parse/nodes/hatNode.h"
-#include "../../parse/nodes/nodeTypes.h"
-#include "sumAlt.h"
-#include "subAlt.h"
-#include "prodAlt.h"
-#include "fracAlt.h"
-#include "negAlt.h"
-#include "hatAlt.h"
+#include "curlyParse.h"
+#include <string>
+#include <iostream>
 
-std::vector<eqnNode*> getCand(eqnNode* input);
-void copyCand(const std::vector<eqnNode*>& from, std::vector<eqnNode*>& to); 
-void freeCand(std::vector<eqnNode*>& list);
+void curlyParse::loadString(int offset, const std::string& data, int cap)
+{
+	int i,j,k;
+	token lp("{");
+	expParse ex;
+	token rp("}");
 
-#endif
+	ex.setMap(fails);
+
+	deleteAll();
+
+	lp.loadString(offset, data, cap);
+	for (i = 0; i < (int)lp.getTrees().size(); i++)
+	{
+		ex.loadString(lp.getTrees()[i].first, data, cap);
+		for (j = 0; j < (int)ex.getTrees().size(); j++)
+		{
+			rp.loadString(ex.getTrees()[j].first, data, cap);
+			for (k = 0; k < (int)rp.getTrees().size(); k++)
+			{
+				succ.push_back(std::pair<int,eqnNode*>(
+					rp.getTrees()[k].first,
+					ex.getTrees()[j].second->copy()));
+			}
+		}
+	}
+
+}

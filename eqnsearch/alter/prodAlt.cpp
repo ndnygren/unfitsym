@@ -28,6 +28,8 @@ vector<eqnNode*> prodCand(prodNode* input)
 	fracNode *fracspare; 
 	sumNode *sumspare; 
 	subNode *subspare; 
+	prodNode *prodspare; 
+	hatNode *hat1spare, *hat2spare; 
 
 	//commute
 	changes.push_back(new prodNode(input->getR(), input->getL()));
@@ -81,7 +83,6 @@ vector<eqnNode*> prodCand(prodNode* input)
 	}
 	freeCand(subchanges);
 	subchanges.clear();
-
 
 	//check left identity
 	if ((input->getL()->type() == types.num) 
@@ -139,6 +140,40 @@ vector<eqnNode*> prodCand(prodNode* input)
 		changes.push_back(new subNode(spare, otherspare));
 		delete otherspare;
 	}
+
+	//handle same exp bases
+	if (input->getL()->type() == nodeTypes::hat
+		&& input->getR()->type() == nodeTypes::hat)
+	{
+		hat1spare = (hatNode*)(input->getL());
+		hat2spare = (hatNode*)(input->getR());
+	
+		if (hat1spare->getL()->eq(hat2spare->getL()))
+		{
+			sumspare = new sumNode(hat1spare->getR(), hat2spare->getR());
+			
+			changes.push_back(new hatNode(hat1spare->getL(), sumspare));
+			delete sumspare;
+		}
+	}
+
+	//handle same exp
+	if (input->getL()->type() == nodeTypes::hat
+		&& input->getR()->type() == nodeTypes::hat)
+	{
+		hat1spare = (hatNode*)(input->getL());
+		hat2spare = (hatNode*)(input->getR());
+	
+		if (hat1spare->getR()->eq(hat2spare->getR()))
+		{
+			prodspare = new prodNode(hat1spare->getL(), hat2spare->getL());
+			
+			changes.push_back(new hatNode(prodspare, hat1spare->getR()));
+			delete prodspare;
+		}
+	}
+	
+	
 
 	return changes;
 }

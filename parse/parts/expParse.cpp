@@ -26,9 +26,11 @@ void expParse::loadString(int offset, const std::string& data, int cap)
 	subParse diff;
 	prodParse prod;
 	parenParse paren;
+	curlyParse curly;
 	varParse var;
 	fracParse frac;
 	negParse neg;
+	hatParse hat;
 
 	std::vector<parsePart*> exprs;
 	
@@ -37,9 +39,11 @@ void expParse::loadString(int offset, const std::string& data, int cap)
 	exprs.push_back(&diff);
 	exprs.push_back(&prod);
 	exprs.push_back(&paren);
+	exprs.push_back(&curly);
 	exprs.push_back(&var);
 	exprs.push_back(&frac);
 	exprs.push_back(&neg);
+	exprs.push_back(&hat);
 
 	deleteAll();
 	

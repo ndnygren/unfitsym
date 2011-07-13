@@ -24,10 +24,13 @@ vector<eqnNode*> getCand(eqnNode* input)
 	vector<eqnNode*> changes;
 	vector<eqnNode*> sumChanges;
 	subNode *subzero = new subNode(&one,&one);
+	fracNode *fraczero = new fracNode(&one,&one);
 	
 	changes.push_back(new sumNode(input, subzero));
-	changes.push_back(new prodNode(input, &one));
+	changes.push_back(new prodNode(input, fraczero));
+	changes.push_back(new hatNode(input, &one));
 	delete subzero;
+	delete fraczero;
 
 
 	if (input->type() == types.sum)
@@ -61,6 +64,13 @@ vector<eqnNode*> getCand(eqnNode* input)
 	if (input->type() == types.neg)
 	{
 		sumChanges = negCand((negNode*)input);
+	}
+	copyCand(sumChanges, changes);
+	sumChanges.clear();
+
+	if (input->type() == types.hat)
+	{
+		sumChanges = hatCand((hatNode*)input);
 	}
 	copyCand(sumChanges, changes);
 	sumChanges.clear();
