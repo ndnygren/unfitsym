@@ -101,9 +101,9 @@ class searchMaxMin
 					exprMap[current[0].changes[i]->str()] = current[0].changes[i]->copy();
 					adjPairs.push_back( std::pair<std::string,std::string> (current[0].str(), current[0].changes[i]->str()));
 					stack.push(current[0].changes[i]->copy());
+					count++;
 				}
 			}
-			count++;
 			delete current;
 		}
 	}

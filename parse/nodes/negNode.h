@@ -34,7 +34,7 @@ class negNode : public eqnNode
 
 	virtual int size() const
 	{
-		return 1 + getR()->size();
+		return getR()->size();
 	}
 
 	virtual void deleteAll() 

@@ -21,57 +21,34 @@ vector<eqnNode*> getCand(eqnNode* input)
 {
 	nodeTypes types;
 	numNode one(1);
+	numNode negone(-1);
 	vector<eqnNode*> changes;
 	vector<eqnNode*> sumChanges;
 	subNode *subzero = new subNode(&one,&one);
 	fracNode *fraczero = new fracNode(&one,&one);
+	hatNode *hatspare = new hatNode(input, &negone);
 	
 	changes.push_back(new sumNode(input, subzero));
 	changes.push_back(new prodNode(input, fraczero));
 	changes.push_back(new hatNode(input, &one));
+	changes.push_back(new fracNode(&one,hatspare));
 	delete subzero;
 	delete fraczero;
+	delete hatspare;
 
 
 	if (input->type() == types.sum)
-	{
-		sumChanges = sumCand((sumNode*)input);
-	}
-	copyCand(sumChanges, changes);
-	sumChanges.clear();
-
-	if (input->type() == types.sub)
-	{
-		sumChanges = subCand((subNode*)input);
-	}
-	copyCand(sumChanges, changes);
-	sumChanges.clear();
-
-	if (input->type() == types.prod)
-	{
-		sumChanges = prodCand((prodNode*)input);
-	}
-	copyCand(sumChanges, changes);
-	sumChanges.clear();
-
-	if (input->type() == types.frac)
-	{
-		sumChanges = fracCand((fracNode*)input);
-	}
-	copyCand(sumChanges, changes);
-	sumChanges.clear();
-
-	if (input->type() == types.neg)
-	{
-		sumChanges = negCand((negNode*)input);
-	}
-	copyCand(sumChanges, changes);
-	sumChanges.clear();
-
-	if (input->type() == types.hat)
-	{
-		sumChanges = hatCand((hatNode*)input);
-	}
+		{ sumChanges = sumCand((sumNode*)input); }
+	else if (input->type() == types.sub)
+		{ sumChanges = subCand((subNode*)input); }
+	else if (input->type() == types.prod)
+		{ sumChanges = prodCand((prodNode*)input); }
+	else if (input->type() == types.frac)
+		{ sumChanges = fracCand((fracNode*)input); }
+	else if (input->type() == types.neg)
+		{ sumChanges = negCand((negNode*)input); }
+	else if (input->type() == types.hat)
+		{ sumChanges = hatCand((hatNode*)input); }
 	copyCand(sumChanges, changes);
 	sumChanges.clear();
 

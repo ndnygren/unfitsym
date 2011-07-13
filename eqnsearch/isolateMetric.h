@@ -45,12 +45,18 @@ class isolateMetric : public eqnMetric
 		else if (input->type() == nodeTypes::sum
 			|| input->type() == nodeTypes::sub
 			|| input->type() == nodeTypes::prod
-			|| input->type() == nodeTypes::frac)
+			|| input->type() == nodeTypes::frac
+			|| input->type() == nodeTypes::hat)
 		{
 			return bump(score(((binOpNode*)input)->getL()) 
 				+score(((binOpNode*)input)->getR()));
 			
 		}
+		else if (input->type() == nodeTypes::neg)
+		{
+			return bump(score(((negNode*)input)->getR())); 
+		}
+		
 		return (input->str()).length();
 	}
 

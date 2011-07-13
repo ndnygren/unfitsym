@@ -28,6 +28,7 @@ vector<eqnNode*> fracCand(fracNode* input)
 	fracNode *spare, *otherspare;
 	prodNode *prodspare;
 	hatNode *hat1spare, *hat2spare;
+	negNode *negspare;
 
 	//separate
 	otherspare = new fracNode(&one, input->getR());
@@ -118,6 +119,26 @@ vector<eqnNode*> fracCand(fracNode* input)
 			changes.push_back(new hatNode(spare, hat1spare->getR()));
 			delete spare;
 		}
+	}
+
+	//handle denominator expo
+	if (input->getR()->type() == nodeTypes::hat)
+	{
+		hat1spare = (hatNode*)(input->getR());
+		negspare = new negNode(hat1spare->getR());
+		hat2spare = new hatNode(hat1spare->getL(),negspare);
+		changes.push_back(new prodNode(input->getL(), hat2spare));
+		delete negspare;
+		delete hat2spare;
+	}
+
+	//numerator extraction 
+	if (input->getL()->type() == types.prod) 
+	{
+		prodspare = (prodNode*)(input->getL());
+		spare = new fracNode(prodspare->getR(), input->getR());
+		changes.push_back( new prodNode(prodspare->getL(), spare));
+		delete spare;
 	}
 
 	return changes;

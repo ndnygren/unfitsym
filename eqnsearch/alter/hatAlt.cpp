@@ -29,6 +29,7 @@ vector<eqnNode*> hatCand(hatNode* input)
 	subNode *subspare;
 	sumNode *sumspare;
 	prodNode *prodspare;
+	negNode *negspare;
 
 	//handle identity
 	if (input->getR()->type() == nodeTypes::num
@@ -101,6 +102,13 @@ vector<eqnNode*> hatCand(hatNode* input)
 	}
 	freeCand(subchanges);
 	subchanges.clear();
+
+	//flip
+	negspare = new negNode(input->getR());
+	spare = new hatNode(input->getL(), negspare);
+	changes.push_back(new fracNode(&one, spare));
+	delete spare;
+	delete negspare;
 
 	return changes;
 }
