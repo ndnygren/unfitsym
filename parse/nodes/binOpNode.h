@@ -42,7 +42,7 @@ class binOpNode : public eqnNode
 
 	virtual int size() const
 	{
-		return 1 + max(getR()->size(), getL()->size());
+		return 1 + getR()->size() + getL()->size();
 	}
 
 	virtual void deleteAll() 

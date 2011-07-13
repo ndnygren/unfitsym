@@ -21,15 +21,27 @@ using namespace std;
 vector<eqnNode*> hatCand(hatNode* input)
 {
 	unsigned int i;
+	int intspare;
 	vector<eqnNode*> changes;
 	vector<eqnNode*> subchanges;
 	numNode one(1);
 	numNode zero(0);
 	hatNode *spare, *otherspare;
-	subNode *subspare;
 	sumNode *sumspare;
 	prodNode *prodspare;
 	negNode *negspare;
+	numNode *numspare;
+
+	//pull one out
+	if (input->getR()->type() == nodeTypes::num)
+	{
+		intspare = ((numNode*)(input->getR()))->get();
+		numspare = new numNode(intspare-1);
+		spare = new hatNode(input->getL(), numspare);
+		changes.push_back(new prodNode(spare, input->getL()));
+		delete spare;
+		delete numspare;
+	}
 
 	//handle identity
 	if (input->getR()->type() == nodeTypes::num
@@ -44,13 +56,6 @@ vector<eqnNode*> hatCand(hatNode* input)
 	{
 		changes.push_back(new numNode(1));
 	}
-
-	//pull one out
-	subspare = new subNode(input->getR(), &one);
-	spare = new hatNode(input->getL(), subspare);
-	changes.push_back(new prodNode(spare, input->getL()));
-	delete spare;
-	delete subspare;
 
 	//handle addition
 	if (input->getR()->type() == nodeTypes::sum)

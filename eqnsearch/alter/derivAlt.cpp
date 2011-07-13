@@ -21,11 +21,14 @@ using namespace std;
 vector<eqnNode*> derivCand(derivNode* input)
 {
 	unsigned int i;
+	int intspare;
 	vector<eqnNode*> changes;
 	vector<eqnNode*> subchanges;
 	derivNode *spare, *otherspare;
 	sumNode *sumspare;
 	prodNode *prodspare, *prod1spare, *prod2spare;
+	numNode *num1spare, *num2spare;
+	hatNode *hatspare, *hat2spare;
 
 	//check for int 
 	if (input->getL()->type() == nodeTypes::num) 
@@ -63,6 +66,32 @@ vector<eqnNode*> derivCand(derivNode* input)
 		delete otherspare;
 		delete prod1spare;
 		delete prod2spare;
+	}
+
+	//power rule
+	if (input->getL()->type() == nodeTypes::hat) 
+	{
+		hatspare = (hatNode*)(input->getL());
+		if (hatspare->getR()->type() == nodeTypes::num)
+		{
+			intspare = ((numNode*)(hatspare->getR()))->get();
+			num1spare = new numNode(intspare);
+			if (intspare != 0)
+				{ num2spare = new numNode(intspare-1); }
+			else
+				{ num2spare = new numNode(0); }
+			hat2spare = new hatNode(hatspare->getL(),num2spare);
+			prodspare = new prodNode(num1spare, hat2spare);
+			spare = new derivNode(hatspare->getL(),input->getR());
+				
+			changes.push_back(new prodNode(prodspare,spare));
+	
+			delete num1spare;
+			delete num2spare;
+			delete hat2spare;
+			delete prodspare;
+			delete spare;
+		}
 	}
 
 	//recursing

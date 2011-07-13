@@ -34,6 +34,8 @@ class negNode : public eqnNode
 
 	virtual int size() const
 	{
+		if (getR()->type()==nodeTypes::neg)
+		{ return getR()->size() + 2; }
 		return getR()->size();
 	}
 

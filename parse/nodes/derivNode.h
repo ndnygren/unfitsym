@@ -31,6 +31,11 @@ class derivNode : public binOpNode
 		return "\\frac{d" + left->str() + "}{d" + right->str() + "}";
 	}
 
+	virtual int size() const
+	{
+		return (getL()->size()) * (getL()->size());
+	}
+
 	derivNode(eqnNode* lin, eqnNode* rin)
 	{
 		left = lin->copy();
