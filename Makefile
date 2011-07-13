@@ -1,6 +1,6 @@
 DO_C_O=g++ -c $(INC_DIR) -Wall
-objects=parserFull.o sumParse.o subParse.o expParse.o prodParse.o parenParse.o curlyParse.o fracParse.o negParse.o hatParse.o
-objects2= exprLinked.o genAlt.o sumAlt.o subAlt.o prodAlt.o fracAlt.o negAlt.o hatAlt.o generateProof.o
+objects=parserFull.o sumParse.o subParse.o expParse.o prodParse.o parenParse.o curlyParse.o fracParse.o negParse.o hatParse.o derivParse.o
+objects2= exprLinked.o genAlt.o sumAlt.o subAlt.o prodAlt.o fracAlt.o negAlt.o hatAlt.o derivAlt.o generateProof.o
 
 all: unfit unfitgui
 
@@ -54,6 +54,9 @@ negParse.o: parse/parts/negParse.cpp
 hatParse.o: parse/parts/hatParse.cpp
 	$(DO_C_O) parse/parts/hatParse.cpp
 
+derivParse.o: parse/parts/derivParse.cpp
+	$(DO_C_O) parse/parts/derivParse.cpp
+
 
 
 exprLinked.o: eqnsearch/exprLinked.cpp 
@@ -79,6 +82,9 @@ negAlt.o: eqnsearch/alter/negAlt.cpp
 
 hatAlt.o: eqnsearch/alter/hatAlt.cpp 
 	$(DO_C_O) eqnsearch/alter/hatAlt.cpp
+
+derivAlt.o: eqnsearch/alter/derivAlt.cpp 
+	$(DO_C_O) eqnsearch/alter/derivAlt.cpp
 
 generateProof.o: eqnsearch/generateProof.cpp 
 	$(DO_C_O) eqnsearch/generateProof.cpp

@@ -56,6 +56,11 @@ class isolateMetric : public eqnMetric
 		{
 			return bump(score(((negNode*)input)->getR())); 
 		}
+		else if (input->type() == nodeTypes::deriv)
+		{
+			return (score(((derivNode*)input)->getL())+1)*
+				(score(((derivNode*)input)->getL())+1);
+		}
 		
 		return (input->str()).length();
 	}

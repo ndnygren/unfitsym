@@ -25,6 +25,7 @@
 #include "../../parse/nodes/fracNode.h"
 #include "../../parse/nodes/negNode.h"
 #include "../../parse/nodes/hatNode.h"
+#include "../../parse/nodes/derivNode.h"
 #include "../../parse/nodes/nodeTypes.h"
 #include "sumAlt.h"
 #include "subAlt.h"
@@ -32,6 +33,7 @@
 #include "fracAlt.h"
 #include "negAlt.h"
 #include "hatAlt.h"
+#include "derivAlt.h"
 
 std::vector<eqnNode*> getCand(eqnNode* input);
 void copyCand(const std::vector<eqnNode*>& from, std::vector<eqnNode*>& to); 

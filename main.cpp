@@ -41,10 +41,11 @@ int main(int argc, char** argv)
 		{
 			cout << "parsed: " << output->str() << "\n";
 			a = new searchMaxMin(output, rate);
-			cout << "first 50:" << endl;
+			a->next(10000);
+			cout << "best: ";
 			list = a->best();
 
-			for (i = 0; i < list.size(); i++)
+			for (i = 0; i < 1; i++)
 				{ cout << list[i]->str() << endl; }
 /*
 			a->next();
@@ -56,7 +57,7 @@ int main(int argc, char** argv)
 
 */
 			cout << "proof:" << endl;
-			cout << generateProof::build(a->adjPairs, a->start->str(), "5") << endl;
+			cout << generateProof::build(a->adjPairs, a->start->str(), list[0]->str()) << endl;
 			
 
 			if (output != 0) { delete output; }

@@ -19,7 +19,6 @@ using namespace std;
 
 vector<eqnNode*> getCand(eqnNode* input)
 {
-	nodeTypes types;
 	numNode one(1);
 	numNode negone(-1);
 	vector<eqnNode*> changes;
@@ -37,18 +36,20 @@ vector<eqnNode*> getCand(eqnNode* input)
 	delete hatspare;
 
 
-	if (input->type() == types.sum)
+	if (input->type() == nodeTypes::sum)
 		{ sumChanges = sumCand((sumNode*)input); }
-	else if (input->type() == types.sub)
+	else if (input->type() == nodeTypes::sub)
 		{ sumChanges = subCand((subNode*)input); }
-	else if (input->type() == types.prod)
+	else if (input->type() == nodeTypes::prod)
 		{ sumChanges = prodCand((prodNode*)input); }
-	else if (input->type() == types.frac)
+	else if (input->type() == nodeTypes::frac)
 		{ sumChanges = fracCand((fracNode*)input); }
-	else if (input->type() == types.neg)
+	else if (input->type() == nodeTypes::neg)
 		{ sumChanges = negCand((negNode*)input); }
-	else if (input->type() == types.hat)
+	else if (input->type() == nodeTypes::hat)
 		{ sumChanges = hatCand((hatNode*)input); }
+	else if (input->type() == nodeTypes::deriv)
+		{ sumChanges = derivCand((derivNode*)input); }
 	copyCand(sumChanges, changes);
 	sumChanges.clear();
 
