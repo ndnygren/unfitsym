@@ -24,6 +24,7 @@
 #include "prodParse.h"
 #include "parenParse.h"
 #include "fracParse.h"
+#include "negParse.h"
 
 class expParse : public parsePart
 {

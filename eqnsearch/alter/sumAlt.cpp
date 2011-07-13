@@ -28,6 +28,7 @@ vector<eqnNode*> sumCand(sumNode* input)
 	subNode *subspare;
 	fracNode *fracspare;
 	prodNode *prodspare, *otherprodspare;
+	negNode* negspare;
 
 	//commute
 	changes.push_back(new sumNode(input->getR(), input->getL()));
@@ -140,6 +141,13 @@ vector<eqnNode*> sumCand(sumNode* input)
 			subspare = new subNode(input->getL(), prodspare->getR());
 			changes.push_back(subspare);
 		}
+	}
+
+	//handle neg
+	if (input->getR()->type() == types.neg)
+	{
+		negspare = (negNode*)(input->getR());
+		changes.push_back(new subNode(input->getL(),negspare->getR()));
 	}
 
 	return changes;

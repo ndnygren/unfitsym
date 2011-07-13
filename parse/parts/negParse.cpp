@@ -13,26 +13,28 @@
 *
 * You should have received a copy of the GNU General Public License
 * along with this program. If not, see <http://www.gnu.org/licenses/>. */
-#ifndef NN_GENALT_H
-#define NN_GENALT_H
 
-#include <vector>
-#include "../../parse/nodes/eqnNode.h"
-#include "../../parse/nodes/sumNode.h"
-#include "../../parse/nodes/subNode.h"
-#include "../../parse/nodes/prodNode.h"
-#include "../../parse/nodes/numNode.h"
-#include "../../parse/nodes/fracNode.h"
-#include "../../parse/nodes/negNode.h"
-#include "../../parse/nodes/nodeTypes.h"
-#include "sumAlt.h"
-#include "subAlt.h"
-#include "prodAlt.h"
-#include "fracAlt.h"
-#include "negAlt.h"
+#include "negParse.h"
+#include <string>
 
-std::vector<eqnNode*> getCand(eqnNode* input);
-void copyCand(const std::vector<eqnNode*>& from, std::vector<eqnNode*>& to); 
-void freeCand(std::vector<eqnNode*>& list);
+void negParse::loadString(int offset, const std::string& data, int cap)
+{
+	int j,k;
+	expParse lefte;
+	expParse righte;
+	token dash("-");
 
-#endif
+	righte.setMap(fails);
+
+	dash.loadString(offset, data, cap);
+	for (j = 0; j < (int)dash.getTrees().size(); j++)
+	{
+		righte.loadString(dash.getTrees()[j].first, data, cap);
+		for (k = 0; k < (int)righte.getTrees().size(); k++)
+		{
+			succ.push_back(std::pair<int,eqnNode*>(
+				righte.getTrees()[k].first,
+				new negNode(righte.getTrees()[k].second)));
+		}
+	}
+}

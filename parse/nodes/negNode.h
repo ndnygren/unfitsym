@@ -13,19 +13,61 @@
 *
 * You should have received a copy of the GNU General Public License
 * along with this program. If not, see <http://www.gnu.org/licenses/>. */
-#ifndef NN_NODETYPES_H
-#define NN_NODETYPES_H
+#ifndef NN_NEGNODE_H
+#define NN_NEGNODE_H
 
-class nodeTypes
+#include "eqnNode.h"
+
+class negNode : public eqnNode
 {
+	protected:
+	eqnNode* right;
+
 	public:
-	static const int num = 1;
-	static const int sum = 2;
-	static const int sub = 3;
-	static const int prod = 4;
-	static const int var = 5;
-	static const int frac = 6;
-	static const int neg = 7;
+	virtual bool eq(eqnNode* input) const
+	{
+		if (type() != input->type())
+			{ return false; }
+
+		return getR()->eq(((negNode*)input)->getR());
+	}
+
+	virtual int size() const
+	{
+		return 1 + getR()->size();
+	}
+
+	virtual void deleteAll() 
+	{
+		if (right != 0)
+		{
+			right->deleteAll();
+			delete right;
+			right = 0;
+		}
+	}
+
+	virtual std::string str() const
+	{
+		return "-" + right->str();
+	}
+
+	virtual eqnNode* copy() const
+	{
+		return new negNode(right);
+	}
+
+	virtual int type() const
+	{
+		return nodeTypes::neg;
+	}
+
+	negNode(eqnNode* input)
+	{
+		right = input->copy();
+	}
+
+	eqnNode* getR() const { return right; }
 };
 
 

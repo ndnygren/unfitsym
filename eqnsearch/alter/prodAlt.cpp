@@ -97,6 +97,13 @@ vector<eqnNode*> prodCand(prodNode* input)
 		changes.push_back(input->getL()->copy());
 	}
 
+	//create neg
+	if ((input->getL()->type() == types.num) 
+		&& ((numNode*)(input->getL()))->get() == -1)
+	{
+		changes.push_back(new negNode(input->getR()));
+	}
+
 	//handle zero
 	if ((input->getR()->type() == types.num) 
 		&& ((numNode*)(input->getR()))->get() == 0)

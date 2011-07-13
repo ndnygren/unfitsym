@@ -29,6 +29,7 @@ vector<eqnNode*> subCand(subNode* input)
 	subNode *spare;
 	sumNode *sumspare;
 	prodNode *prodspare;
+	negNode *negspare;
 
 	// attempt to evaluate
 	if ((input->getL()->type() == types.num) 
@@ -70,6 +71,11 @@ vector<eqnNode*> subCand(subNode* input)
 	prodspare = new prodNode(&negone, input->getR());
 	changes.push_back(new sumNode(input->getL(), prodspare));
 	delete prodspare;
+
+	// replace with addition alternate
+	negspare = new negNode(input->getR());
+	changes.push_back(new sumNode(input->getL(), negspare));
+	delete negspare;
 
 	//distribute left over addition
 	if (input->getL()->type() == nodeTypes::sum) 

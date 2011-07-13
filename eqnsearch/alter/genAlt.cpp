@@ -58,6 +58,13 @@ vector<eqnNode*> getCand(eqnNode* input)
 	copyCand(sumChanges, changes);
 	sumChanges.clear();
 
+	if (input->type() == types.neg)
+	{
+		sumChanges = negCand((negNode*)input);
+	}
+	copyCand(sumChanges, changes);
+	sumChanges.clear();
+
 	return changes;
 }
 
