@@ -24,6 +24,8 @@ vector<eqnNode*> sumCand(sumNode* input)
 	nodeTypes types;
 	vector<eqnNode*> changes;
 	vector<eqnNode*> subchanges;
+	numNode one(1);
+	numNode two(2);
 	sumNode *spare, *otherspare;
 	subNode *subspare;
 	fracNode *fracspare;
@@ -148,6 +150,24 @@ vector<eqnNode*> sumCand(sumNode* input)
 	{
 		negspare = (negNode*)(input->getR());
 		changes.push_back(new subNode(input->getL(),negspare->getR()));
+	}
+
+	//check	for same base
+	if (input->getL()->type() == nodeTypes::prod)
+	{
+		prodspare = (prodNode*)(input->getL());
+		if (prodspare->getR()->eq(input->getR()))
+		{
+			spare = new sumNode(prodspare->getL(),&one);
+			changes.push_back(new prodNode(spare,input->getR()));
+			delete spare;
+		}
+	}
+
+	// check double
+	if (input->getR()->eq(input->getL()))
+	{
+		changes.push_back(new prodNode(&two,input->getR()));
 	}
 
 	return changes;

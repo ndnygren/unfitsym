@@ -10,13 +10,16 @@ unfit: main.cpp eqnsearch/searchMaxMin.cpp libufparse.a libufsearch.a
 unfitgui: guimain.cpp ufForm.cpp eqnsearch/generateProof.h libufparse.a libufsearch.a 
 	g++ `pkg-config --cflags --libs gtkmm-2.4` -o unfitgui guimain.cpp -lufparse -lufsearch -L.
 
-libufparse.a: $(objects) 
+libufparse.a: $(objects)
+	rm -f libufparse.a 
 	ar cq libufparse.a $(objects)
 
 libufparse.so: $(objects) 
+	rm -f libufparse.so
 	ld -G -o libufparse.so $(objects)
 
 libufsearch.a: $(objects2) 
+	rm -f libufsearch.a 
 	ar cq libufsearch.a $(objects2)
 
 libufsearch.so: $(objects2) 

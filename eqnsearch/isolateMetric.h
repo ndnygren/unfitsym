@@ -58,8 +58,8 @@ class isolateMetric : public eqnMetric
 		}
 		else if (input->type() == nodeTypes::deriv)
 		{
-			return (score(((derivNode*)input)->getL())+1)*
-				(score(((derivNode*)input)->getL())+1);
+			return score(((derivNode*)input)->getL())*
+				score(((derivNode*)input)->getL());
 		}
 		
 		return (input->str()).length();

@@ -94,7 +94,18 @@ vector<eqnNode*> subCand(subNode* input)
 		changes.push_back(new subNode(spare, sumspare->getR()));
 		delete spare;
 	}
-	
+
+	//check	for same base
+	if (input->getL()->type() == nodeTypes::prod)
+	{
+		prodspare = (prodNode*)(input->getL());
+		if (prodspare->getR()->eq(input->getR()))
+		{
+			sumspare = new sumNode(prodspare->getL(),&negone);
+			changes.push_back(new prodNode(sumspare,input->getR()));
+			delete sumspare;
+		}
+	}
 
 	return changes;
 }

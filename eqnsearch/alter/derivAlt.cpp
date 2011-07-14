@@ -26,9 +26,12 @@ vector<eqnNode*> derivCand(derivNode* input)
 	vector<eqnNode*> subchanges;
 	derivNode *spare, *otherspare;
 	sumNode *sumspare;
+	subNode *subspare;
+	fracNode *fracspare;
 	prodNode *prodspare, *prod1spare, *prod2spare;
 	numNode *num1spare, *num2spare;
 	hatNode *hatspare, *hat2spare;
+	numNode two(2);
 
 	//check for int 
 	if (input->getL()->type() == nodeTypes::num) 
@@ -53,6 +56,17 @@ vector<eqnNode*> derivCand(derivNode* input)
 		delete otherspare;
 	}
 
+	// difference rule
+	if (input->getL()->type() == nodeTypes::sub)
+	{
+		subspare = (subNode*)(input->getL());
+		spare = new derivNode(subspare->getL(), input->getR());
+		otherspare = new derivNode(subspare->getR(), input->getR());
+		changes.push_back(new subNode(spare,otherspare));
+		delete spare;
+		delete otherspare;
+	}
+
 	//product rule
 	if (input->getL()->type() == nodeTypes::prod) 
 	{
@@ -66,6 +80,27 @@ vector<eqnNode*> derivCand(derivNode* input)
 		delete otherspare;
 		delete prod1spare;
 		delete prod2spare;
+	}
+
+	//quotient rule
+	if (input->getL()->type() == nodeTypes::frac)
+	{
+		fracspare = (fracNode*)(input->getL());
+		spare = new derivNode(fracspare->getL(), input->getR());
+		otherspare = new derivNode(fracspare->getR(), input->getR());
+		prod1spare = new prodNode(spare, fracspare->getR());
+		prod2spare = new prodNode(otherspare, fracspare->getL());
+		subspare = new subNode(prod1spare,prod2spare);
+		hatspare = new hatNode(fracspare->getR(),&two);
+
+		changes.push_back(new fracNode(subspare,hatspare));
+
+		delete spare;
+		delete otherspare;
+		delete prod1spare;
+		delete prod2spare;
+		delete subspare;
+		delete hatspare;
 	}
 
 	//power rule

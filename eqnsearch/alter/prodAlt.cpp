@@ -24,6 +24,8 @@ vector<eqnNode*> prodCand(prodNode* input)
 	nodeTypes types;
 	vector<eqnNode*> changes;
 	vector<eqnNode*> subchanges;
+	numNode one(1);
+	numNode two(2);
 	prodNode *spare, *otherspare;
 	fracNode *fracspare; 
 	sumNode *sumspare; 
@@ -150,11 +152,28 @@ vector<eqnNode*> prodCand(prodNode* input)
 	
 		if (hat1spare->getL()->eq(hat2spare->getL()))
 		{
-			sumspare = new sumNode(hat1spare->getR(), hat2spare->getR());
-			
+			sumspare = new sumNode(hat1spare->getR(), hat2spare->getR());	
 			changes.push_back(new hatNode(hat1spare->getL(), sumspare));
 			delete sumspare;
 		}
+	}
+
+	//handle same exp bases(one side non-hat)
+	if (input->getL()->type() == nodeTypes::hat)
+	{
+		hat1spare = (hatNode*)(input->getL());
+		if (hat1spare->getL()->eq(input->getR()))
+		{
+			sumspare = new sumNode(hat1spare->getR(), &one);
+			changes.push_back(new hatNode(hat1spare->getL(), sumspare));
+			delete sumspare;
+		}
+	}
+
+	//handle same exp bases(one side no-hats)
+	if (input->getL()->eq(input->getR()))
+	{
+		changes.push_back(new hatNode(input->getL(), &two));
 	}
 
 	//handle same exp
