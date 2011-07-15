@@ -69,6 +69,11 @@ class negNode : public eqnNode
 		right = input->copy();
 	}
 
+	virtual ~negNode()
+	{
+		deleteAll();
+	}
+
 	eqnNode* getR() const { return right; }
 };
 

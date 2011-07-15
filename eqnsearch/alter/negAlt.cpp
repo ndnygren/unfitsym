@@ -60,5 +60,12 @@ vector<eqnNode*> negCand(negNode* input)
 		delete otherspare;
 	}
 
+	// attempt to evaluate
+	if (input->getR()->type() == nodeTypes::num)
+	{
+		changes.push_back(new numNode( -1*((numNode*)(input->getR()))->get()));
+	}
+
+
 	return changes;
 }

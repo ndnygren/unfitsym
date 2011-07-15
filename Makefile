@@ -1,5 +1,5 @@
 DO_C_O=g++ -c $(INC_DIR) -Wall
-objects=parserFull.o sumParse.o subParse.o expParse.o prodParse.o parenParse.o curlyParse.o fracParse.o negParse.o hatParse.o derivParse.o
+objects=parserFull.o sumParse.o subParse.o expParse.o prodParse.o parenParse.o curlyParse.o fracParse.o negParse.o hatParse.o derivParse.o cassetteMachine.o
 objects2= exprLinked.o genAlt.o sumAlt.o subAlt.o prodAlt.o fracAlt.o negAlt.o hatAlt.o derivAlt.o generateProof.o
 
 all: unfit unfitgui
@@ -59,6 +59,9 @@ hatParse.o: parse/parts/hatParse.cpp
 
 derivParse.o: parse/parts/derivParse.cpp
 	$(DO_C_O) parse/parts/derivParse.cpp
+
+cassetteMachine.o: parse/parts/cassetteMachine.cpp
+	$(DO_C_O) parse/parts/cassetteMachine.cpp
 
 
 

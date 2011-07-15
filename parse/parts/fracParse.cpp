@@ -15,6 +15,7 @@
 * along with this program. If not, see <http://www.gnu.org/licenses/>. */
 
 #include "fracParse.h"
+#include "cassetteMachine.h"
 #include <string>
 
 void fracParse::loadString(int offset, const std::string& data, int cap)
@@ -25,6 +26,17 @@ void fracParse::loadString(int offset, const std::string& data, int cap)
 	token leftt("\\frac{");
 	token centert("}{");
 	token rightt("}");
+
+	token ct("\\frac");
+	curlyParse cl;
+	curlyParse cr;
+	cassetteMachine seq;
+
+	seq.setMap(fails);
+	seq.add(&ct);
+	seq.add(&cl);
+	seq.add(&cr);
+	seq.loadString(offset,data,cap);
 
 	lefte.setMap(fails);
 	righte.setMap(fails);
