@@ -17,7 +17,6 @@
 
 #include "cassetteMachine.h"
 #include <cassert>
-#include <iostream>
 
 using namespace std;
 
@@ -50,22 +49,18 @@ std::vector<std::pair <int, eqnNode*> > cassetteMachine::copySucc(const std::vec
 void cassetteMachine::collectSuccess() 
 {
 	unsigned int i;
+	int last;
 	eqnNode* temp;
+	vector<eqnNode*> comp;
 
 	for (i = 0; i < cassette.size(); i++)
 	{
 		temp = cassette[i].second[cassette[i].first].second;
-		cout << cassette[i].second[cassette[i].first].first << ": ";
-		if (temp == 0)
-		{
-			cout << "_,";
-		}
-		else 
-		{
-			cout << temp->str() << ",";
-		}
+		if (temp == 0) { comp.push_back(0); }
+		else { comp.push_back(temp->copy()); }
 	}
-	cout << endl;
+	last = cassette[i-1].second[cassette[i-1].first].first;
+	pieces.push_back(pair<int,vector<eqnNode*> >(last, comp));
 }
 
 bool cassetteMachine::endOfSucc() const

@@ -25,7 +25,6 @@ class cassetteMachine
 	protected:
 	std::vector<parsePart*> partlist;
 	std::vector<std::pair<int, std::vector<std::pair<int,eqnNode*> > > > cassette;
-	std::vector<std::pair<int,std::vector<eqnNode*> > > pieces;
 	std::map< std::pair<int,int>, std::vector<std::pair<int, eqnNode*> > > *fails;
 
 	int goodCap() const;
@@ -36,6 +35,8 @@ class cassetteMachine
 	std::pair<int,std::vector<std::pair<int,eqnNode*> > > makeCMP(parsePart* input) const;
 	
 	public:
+	std::vector<std::pair<int,std::vector<eqnNode*> > > pieces;
+
 	void setMap( std::map< std::pair<int,int>, std::vector<std::pair<int, eqnNode*> > > *f) { fails = f; }
 	void add(parsePart* input);
 	void loadString(int offset, const std::string& data, int cap);
