@@ -19,40 +19,25 @@
 
 void derivParse::loadString(int offset, const std::string& data, int cap)
 {
-	int i,k;
-	expParse lefte;
-	expParse righte;
+	unsigned int i;
 	token leftt("\\frac{d");
 	token centert("}{d");
 	token rightt("}");
+	expParse cl;
+	expParse cr;
+	cassetteMachine seq;
 
-	lefte.setMap(fails);
-	righte.setMap(fails);
+	seq.setMap(fails);
+	seq.add(&leftt);
+	seq.add(&cl);
+	seq.add(&centert);
+	seq.add(&cr);
+	seq.add(&rightt);
+	seq.loadString(offset,data,cap);
 
-	leftt.loadString(offset,data,cap);
-	if (leftt.getTrees().size() > 0)
+	for (i = 0; i< seq.pieces.size(); i++)
 	{
-		lefte.loadString(leftt.getTrees()[0].first,data,cap+1);
-		for (i = 0; i < (int)lefte.getTrees().size(); i++)
-		{
-			centert.loadString(lefte.getTrees()[i].first, data, cap);
-			if( (int)centert.getTrees().size() > 0)
-			{
-				righte.loadString(centert.getTrees()[0].first, data, cap);
-				for (k = 0; k < (int)righte.getTrees().size(); k++)
-				{
-					rightt.loadString(righte.getTrees()[k].first,data,cap);
-					if (rightt.getTrees().size()>0)
-					{
-					succ.push_back(std::pair<int,eqnNode*>(
-						rightt.getTrees()[0].first,
-						new derivNode(
-						lefte.getTrees()[i].second,
-						righte.getTrees()[k].second)));
-						
-					}
-				}
-			}		
-		}
+		succ.push_back(std::pair<int,eqnNode*>( seq.pieces[i].first, new derivNode(seq.pieces[i].second[1], seq.pieces[i].second[3])));
 	}
+
 }

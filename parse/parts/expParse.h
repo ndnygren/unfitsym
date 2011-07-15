@@ -16,6 +16,7 @@
 #ifndef NN_EXPPARSE_H
 #define NN_EXPPARSE_H
 
+#include "cassetteMachine.h"
 #include "parsePart.h"
 #include "natParse.h"
 #include "sumParse.h"

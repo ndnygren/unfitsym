@@ -20,30 +20,21 @@
 
 void sumParse::loadString(int offset, const std::string& data, int cap)
 {
-	int i,j,k;
-	expParse lefte;
-	expParse righte;
-	token plus("+");
+	unsigned int i;
+	token op("+");
+	expParse cl;
+	expParse cr;
+	cassetteMachine seq;
 
-	lefte.setMap(fails);
-	righte.setMap(fails);
+	seq.setMap(fails);
+	seq.add(&cl);
+	seq.add(&op);
+	seq.add(&cr);
+	seq.loadString(offset,data,cap);
 
-	lefte.loadString(offset, data, cap + 1);
-	for (i = 0; i < (int)lefte.getTrees().size(); i++)
+	for (i = 0; i< seq.pieces.size(); i++)
 	{
-		plus.loadString(lefte.getTrees()[i].first, data, cap);
-		for (j = 0; j < (int)plus.getTrees().size(); j++)
-		{
-			righte.loadString(plus.getTrees()[j].first, data, cap);
-			for (k = 0; k < (int)righte.getTrees().size(); k++)
-			{
-				succ.push_back(std::pair<int,eqnNode*>(
-					righte.getTrees()[k].first,
-					new sumNode(
-					lefte.getTrees()[i].second,
-					righte.getTrees()[k].second)));
-			}
-		}
+		succ.push_back(std::pair<int,eqnNode*>( seq.pieces[i].first, new sumNode(seq.pieces[i].second[0], seq.pieces[i].second[2])));
 	}
 
 }

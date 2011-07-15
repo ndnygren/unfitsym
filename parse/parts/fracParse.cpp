@@ -15,7 +15,6 @@
 * along with this program. If not, see <http://www.gnu.org/licenses/>. */
 
 #include "fracParse.h"
-#include "cassetteMachine.h"
 #include <string>
 
 void fracParse::loadString(int offset, const std::string& data, int cap)

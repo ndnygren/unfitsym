@@ -22,7 +22,7 @@ using namespace std;
 
 int cassetteMachine::goodCap() const
 {
-	if (partlist.size() - cassette.size() > 2)
+	if (partlist.size() - cassette.size() > 1)
 		{ return 1; }
 	return 0;
 }
@@ -94,7 +94,7 @@ void cassetteMachine:: loadString(int offset, const string& data, int cap)
 
 	cassette.clear();
 
-	partlist[0]->loadString(offset, data, goodCap());
+	partlist[0]->loadString(offset, data, cap + goodCap());
 	cassette.push_back(makeCMP(partlist[0]));
 
 	while (cassette.size() > 0)
@@ -108,7 +108,7 @@ void cassetteMachine:: loadString(int offset, const string& data, int cap)
 		else if (cassette.size() < partlist.size())
 		{
 			current = partlist[cassette.size()];
-			current->loadString(currentOffset(), data, goodCap());
+			current->loadString(currentOffset(), data, cap + goodCap());
 			cassette.push_back(makeCMP(current));
 		}
 		else // (cassette.size() == partlist.size()) with any luck;
