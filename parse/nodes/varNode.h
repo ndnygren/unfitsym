@@ -19,6 +19,15 @@
 #include "leafNode.h"
 #include <string>
 
+/*
+ * class varNode
+ *
+ * Terminal parse tree node represting a variable in the equation. The parser
+ *	will only accept single lower case letters for variable, this is by
+ *	choice. The structure allows for strings of arbitrary length and will
+ *	also be used for LaTeX syntax greek ("\pi","\phi",...)
+ */
+
 class varNode : public leafNode
 {
 	protected:
@@ -34,7 +43,7 @@ class varNode : public leafNode
 	}
 
 	virtual eqnNode* copy() const { return new varNode(get()); }
-	virtual int type() const { return types.var; }
+	virtual int type() const { return nodeTypes::var; }
 	std::string get() const { return name; }
 	virtual std::string str() const { return name; }
 

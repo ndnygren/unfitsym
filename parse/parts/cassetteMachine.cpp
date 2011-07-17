@@ -22,6 +22,8 @@ using namespace std;
 
 int cassetteMachine::goodCap() const
 {
+	//for all parseParts except the last in sequence, the cap is changed
+	//	reduce the string size by one
 	if (partlist.size() - cassette.size() > 1)
 		{ return 1; }
 	return 0;
@@ -34,10 +36,12 @@ std::vector<std::pair <int, eqnNode*> > cassetteMachine::copySucc(const std::vec
 	
 	for (i = 0; i < (int)list.size(); i++ )
 	{ 
+		// do not try to copy null pointers
 		if (list[i].second == 0)
 		{
 			outlist.push_back(std::pair<int,eqnNode*>(list[i].first,0)); 
 		}
+		// create of copy of any real parse tree
 		else
 		{ 
 			outlist.push_back(std::pair<int,eqnNode*>( list[i].first, list[i].second->copy())); 
@@ -55,10 +59,15 @@ void cassetteMachine::collectSuccess()
 
 	for (i = 0; i < cassette.size(); i++)
 	{
+		// cassette=stack.
+		// iterate over the cassette and collect one parse tree 
+		// 	from each parsePart
 		temp = cassette[i].second[cassette[i].first].second;
 		if (temp == 0) { comp.push_back(0); }
 		else { comp.push_back(temp->copy()); }
 	}
+	//the offset to be collected is the same as the offset of the success
+	//	of the parsePart at the top of the stack.
 	last = cassette[i-1].second[cassette[i-1].first].first;
 	pieces.push_back(pair<int,vector<eqnNode*> >(last, comp));
 }
@@ -72,18 +81,21 @@ bool cassetteMachine::endOfSucc() const
 	
 int cassetteMachine::currentOffset () const
 {
+	// the offset of the "current" index of the top succ list on the stack
 	return cassette.back().second[cassette.back().first].first;
 }
 
 pair<int,vector<pair<int,eqnNode*> > > cassetteMachine::makeCMP(parsePart* input) const
 {
-	
+	// makes a copy, then pairs it with an int=0(the index of the new list)
 	return pair<int,vector<pair<int,eqnNode*> > >(0,copySucc(input->getTrees()));
 }
 
 void cassetteMachine::add(parsePart* input)
 {
+	// passes the parse cache
 	input->setMap(fails);
+	// adds the new parsePart
 	partlist.push_back(input);
 }
 
@@ -92,8 +104,10 @@ void cassetteMachine:: loadString(int offset, const string& data, int cap)
 	parsePart* current;
 	assert(partlist.size() > 0);
 
+	// this should be unneccessary, but here incase the same cassette is called twice
 	cassette.clear();
 
+	// initialize the cassette
 	partlist[0]->loadString(offset, data, cap + goodCap());
 	cassette.push_back(makeCMP(partlist[0]));
 
@@ -101,18 +115,23 @@ void cassetteMachine:: loadString(int offset, const string& data, int cap)
 	{
 		if (endOfSucc())
 		{
+			// when all successes have been considered, retreat one 
+			//	layer and move to the next success at that layer
 			cassette.pop_back();
 			if (cassette.size() > 0)
 				{ cassette.back().first++; }
 		}
 		else if (cassette.size() < partlist.size())
 		{
+			// if some parseParts have not been called,
+			// 	move a layer deeper
 			current = partlist[cassette.size()];
 			current->loadString(currentOffset(), data, cap + goodCap());
 			cassette.push_back(makeCMP(current));
 		}
 		else // (cassette.size() == partlist.size()) with any luck;
 		{
+			// at the final parsePart, collect the successfull sequence
 			collectSuccess();
 			cassette.back().first++; 
 		}

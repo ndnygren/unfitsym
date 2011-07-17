@@ -20,6 +20,13 @@
 #include "../nodes/subNode.h"
 #include "expParse.h"
 
+
+/*
+ * class subParse
+ *
+ * the CFG Expr -> Expr "-" Expr
+ * Parses subtraction
+ */
 class subParse : public parsePart
 {
 	public:

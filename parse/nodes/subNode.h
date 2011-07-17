@@ -17,14 +17,19 @@
 #define NN_SUBNODE_H
 
 #include "binOpNode.h"
-
+/*
+ * class subNode
+ * 
+ * the parse tree node representing the subtraction of the right subtree 
+ *	from the left subtree.
+ */
 class subNode : public binOpNode
 {
 	public:
 	virtual eqnNode* copy() const
 		{ return new subNode(getL(), getR()); }
 
-	virtual int type() const { return types.sub; }
+	virtual int type() const { return nodeTypes::sub; }
 
 	virtual std::string str() const 
 		{ return "(" + left->str() + "-" + right->str() + ")"; }

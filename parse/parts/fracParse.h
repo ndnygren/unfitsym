@@ -20,6 +20,13 @@
 #include "../nodes/fracNode.h"
 #include "expParse.h"
 
+/*
+ * class fracParse
+ * 
+ * the CFG rule Expr -> "\frac" Curl Curl
+ * Parses fractions
+ */
+
 class fracParse : public parsePart
 {
 	public:

@@ -18,6 +18,11 @@
 
 #include "eqnNode.h"
 
+/*
+ * class leafNode
+ *
+ * Virtual class containing some common functions for numbers and variables
+ */
 class leafNode : public eqnNode
 {
 	public:

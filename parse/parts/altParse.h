@@ -20,6 +20,12 @@
 #include <string>
 #include <iostream>
 
+/*
+ * class altParse
+ *
+ * A composite parsePart returns parses from one parsePart or another in parallel
+ */
+
 class altParse : public parsePart
 {
 	protected:
@@ -31,13 +37,16 @@ class altParse : public parsePart
 	{
 		int i;
 
+		// clears any pre-existing data
 		deleteAll();
 
 		if (offset < (int)data.length() - cap)
 		{
+			// calls both child parseParts
 			left->loadString(offset,data,cap);
 			right->loadString(offset,data,cap);
 
+			// merges the results
 			for (i = 0; i < (int)left->getTrees().size(); i++ )
 				{ succ.push_back(left->getTrees()[i]); }
 			for ( i = 0; i < (int)right->getTrees().size(); i++)

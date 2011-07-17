@@ -20,6 +20,13 @@
 #include "expParse.h"
 #include "tokParse.h"
 
+/*
+ * class hatParse
+ *
+ * the CFG rule Expr -> Expr "^" Curl
+ * Parses exponentiation. note: the exponent must be in brackets(slightly more strict than true LaTeX).
+ */
+
 class hatParse : public parsePart
 {
 	public:

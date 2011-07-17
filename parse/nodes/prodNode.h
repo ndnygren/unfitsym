@@ -18,13 +18,19 @@
 
 #include "binOpNode.h"
 
+/*
+ * class prodNode
+ *
+ * The parse tree node representing the product of the left subtree 
+ * 	with the right subtree.
+ */
 class prodNode : public binOpNode
 {
 	public:
 	virtual eqnNode* copy() const 
 		{ return new prodNode(getL(), getR()); } 
 
-	virtual int type() const { return types.prod; } 
+	virtual int type() const { return nodeTypes::prod; } 
 
 	virtual std::string str() const
 	{

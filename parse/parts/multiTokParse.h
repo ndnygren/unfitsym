@@ -19,6 +19,12 @@
 #include "parsePart.h"
 #include <string>
 
+/*
+ * class multiTokParse
+ *
+ * Very similar to altParse, but rather than pairs, parses an arbitrarily long
+ * 	list of tokens.
+ */
 class multiTokParse : public parsePart
 {
 	protected:
@@ -42,6 +48,11 @@ class multiTokParse : public parsePart
 		}
 	}
 
+	/*
+	 * void add(std::string input)
+	 *
+	 * adds the string, input, to the list of tokens that may be accepted.
+	 */
 	void add(std::string input) { str.push_back(input); }
 	multiTokParse(std::string input) { str.push_back(input); }
 	multiTokParse() { }

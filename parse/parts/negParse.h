@@ -20,6 +20,12 @@
 #include "expParse.h"
 #include "tokParse.h"
 
+/*
+ * class negParse
+ *
+ * the CFG rule Expr -> "-" Expr
+ * Parses the arithmetic negation operator
+ */
 class negParse : public parsePart
 {
 	public:

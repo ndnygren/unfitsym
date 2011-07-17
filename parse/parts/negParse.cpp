@@ -26,6 +26,8 @@ void negParse::loadString(int offset, const std::string& data, int cap)
 
 	righte.setMap(fails);
 
+	deleteAll();
+
 	dash.loadString(offset, data, cap);
 	for (j = 0; j < (int)dash.getTrees().size(); j++)
 	{

@@ -23,10 +23,19 @@
 #include "../nodes/numNode.h"
 
 
+/*
+ * class natParse
+ * 
+ * parses a string of digits, {0,...,9} returns numNodes on success
+ */
 class natParse : public parsePart
 {
 	protected:
-
+	/*
+	 * int getInt(std::string value)
+	 *
+	 * uses string streams to parse ints from strings;
+	 */
 	int getInt(std::string value)
 	{
 		int temp;
@@ -42,7 +51,7 @@ class natParse : public parsePart
 		int out = 0;
 		multiTokParse digits;
 		digits.add("1");
-		digits.add("2");
+		digits.add("2"); //adds all digits to the multiTok
 		digits.add("3");
 		digits.add("4");
 		digits.add("5");
@@ -52,7 +61,7 @@ class natParse : public parsePart
 		digits.add("9");
 		digits.add("0");
 		seqParse NATStrip(&digits);
-		deleteAll();
+		deleteAll(); // clears the existing succ list
 		if (offset < (int)data.length() - cap)
 		{
 			NATStrip.loadString(offset,data,cap);

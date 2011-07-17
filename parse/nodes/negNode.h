@@ -18,10 +18,15 @@
 
 #include "eqnNode.h"
 
+/*
+ * class negNode
+ *
+ * Monic operator, representing the negative of the subtree it contains
+ */
 class negNode : public eqnNode
 {
 	protected:
-	eqnNode* right;
+	eqnNode* right; //only one subtree
 
 	public:
 	virtual bool eq(eqnNode* input) const
@@ -32,9 +37,10 @@ class negNode : public eqnNode
 		return getR()->eq(((negNode*)input)->getR());
 	}
 
+	//this nodes size is ignored as long as it does not occur twice in a row. This will be modified in the future, when a proper metric will make this distinction.
 	virtual int size() const
 	{
-		if (getR()->type()==nodeTypes::neg)
+		if (getR()->type()==nodeTypes::neg) 
 		{ return getR()->size() + 2; }
 		return getR()->size();
 	}

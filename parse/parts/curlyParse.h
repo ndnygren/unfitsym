@@ -18,7 +18,11 @@
 
 #include "../nodes/eqnNode.h"
 #include "expParse.h"
-
+/*
+ * class curlyParse
+ * 
+ * Represents the CFG rule Expr -> "{" Expr "}" (parses curly brackets)
+ */
 class curlyParse : public parsePart
 {
 	public:

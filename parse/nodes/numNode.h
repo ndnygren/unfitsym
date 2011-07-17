@@ -19,11 +19,24 @@
 #include <sstream>
 #include "leafNode.h"
 
+/*
+ * class numNode
+ *
+ * A terminal parse tree node, containing an integer value.
+ *
+ */
+
 class numNode : public leafNode
 {
 	protected:
-	int num;
+	int num; //the integer value of this node
 
+	/*
+	 * std::string toString(int input) const
+	 * 
+	 * Uses a string stream to convert the integer argument to string. 
+	 * 
+	 */
 	std::string toString(int input) const
 	{
 		std::stringstream sstemp;
@@ -41,7 +54,7 @@ class numNode : public leafNode
 	}
 
 	virtual eqnNode* copy() const { return new numNode(get()); }
-	virtual int type() const { return types.num; }
+	virtual int type() const { return nodeTypes::num; }
 	int get() const { return num; }
 	virtual std::string str() const { return toString(num); }
 

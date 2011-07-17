@@ -23,10 +23,18 @@ void derivParse::loadString(int offset, const std::string& data, int cap)
 	token leftt("\\frac{d");
 	token centert("}{d");
 	token rightt("}");
+	token leftt2("\\frac{d}{d");
+	token centert2("}");
 	expParse cl;
 	expParse cr;
+	expParse cl2;
+	parenParse cr2;
 	cassetteMachine seq;
+	cassetteMachine seq2;
 
+	deleteAll();
+
+	//parsing the "small" format: \frac{df(x)}{dx}
 	seq.setMap(fails);
 	seq.add(&leftt);
 	seq.add(&cl);
@@ -35,9 +43,23 @@ void derivParse::loadString(int offset, const std::string& data, int cap)
 	seq.add(&rightt);
 	seq.loadString(offset,data,cap);
 
+
 	for (i = 0; i< seq.pieces.size(); i++)
 	{
 		succ.push_back(std::pair<int,eqnNode*>( seq.pieces[i].first, new derivNode(seq.pieces[i].second[1], seq.pieces[i].second[3])));
+	}
+
+	//parsing the "large" format: \frac{d}{dx}(f(x))
+	seq2.setMap(fails);
+	seq2.add(&leftt2);
+	seq2.add(&cl2);
+	seq2.add(&centert2);
+	seq2.add(&cr2);
+	seq2.loadString(offset,data,cap);
+
+	for (i = 0; i< seq2.pieces.size(); i++)
+	{
+		succ.push_back(std::pair<int,eqnNode*>( seq2.pieces[i].first, new derivNode(seq2.pieces[i].second[3], seq2.pieces[i].second[1])));
 	}
 
 }

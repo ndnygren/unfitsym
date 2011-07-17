@@ -22,6 +22,7 @@ void parserFull::deleteList(vector<pair<int, eqnNode*> > list)
 	int i;
 	for (i = 0; i < (int)list.size(); i++)
 	{
+		// free all non-null pointers in the vector
 		if (list[i].second != 0) { delete list[i].second; }
 	}
 }
@@ -29,7 +30,9 @@ void parserFull::deleteList(vector<pair<int, eqnNode*> > list)
 void parserFull::freeMap(map< pair<int, int>, vector<pair<int, eqnNode*> > > fails)
 {
 	map< pair<int, int>, vector<pair<int, eqnNode*> > >::iterator it;
-
+	
+	// calls deleteList on every element stored in the map,
+	//	freeing all non-null eqnNode* pointers
 	for (it=fails.begin(); it!=fails.end(); it++)
 		{ deleteList((*it).second); }
 }
@@ -38,20 +41,31 @@ void parserFull::freeMap(map< pair<int, int>, vector<pair<int, eqnNode*> > > fai
 eqnNode* parserFull::getExpr(string input) 
 {
 	int i;
+	// expParse represents the main variable in the CFG, 
+	//	any arithmetic expression.
 	expParse d;
-//	string parsethis = "(1+(32*4)-43688)*8*9*1209";
-	
+
+	// the cache is pasted down when recursing, so the same sub-strings	
+	// 	will not be parsed twice.
 	d.setMap(&fails);
 
+	// the lower(offset) and upper(cap) bounds are set to zero in the 
+	//	beginning
 	d.loadString(0, input, 0);
 
 	for (i = 0; i < (int)d.getTrees().size(); i++)
 	{
+		// if too few brackets are used multiple interpretations 
+		//	may exist. the first interpretation which utilizes all
+		// 	supplied characters is assumed to be the correct one.
 		if (d.getTrees()[i].first == (int)input.length())
 		{
+		// a copy is returned. The original is freed when the 
+		//	function returns.
 			 return d.getTrees()[i].second->copy();
 		}
 	}
+	// returns null if no such interpretations exist
 	return 0;
 }
 

@@ -21,6 +21,12 @@
 #include "expParse.h"
 #include "tokParse.h"
 
+/*
+ * class sumParse
+ *
+ * the CFG rule Expr -> Expr "+" Expr 
+ * Parses addition
+ */
 class sumParse : public parsePart
 {
 	public:

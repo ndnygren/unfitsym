@@ -22,15 +22,43 @@
 #include <map>
 #include <utility>
 
+/*
+ * class parserFull
+ *
+ * The parser's user accessible side works through a single method getExpr(),
+ *	which accepts a string as argument and returns a parse tree
+ */
+
 class parserFull
 {
 	protected:
+	// map fails - caches all successful parses, with this parse runs in 
+	//	quadratic time, rather than exponential.
 	std::map< std::pair<int, int>, std::vector<std::pair<int, eqnNode*> > > fails;
 
+	/*	
+	 * void deleteList(std::vector<std::pair<int, eqnNode*> > list)
+	 *
+	 * Iterates over the provided list, freeing all memory from the 
+	 * 	second element in each pair.
+	 */
 	void deleteList(std::vector<std::pair<int, eqnNode*> > list);
+
+	/*
+	 * void freeMap(std::map< std::pair<int, int>, std::vector<std::pair<int, eqnNode*> > > fails)
+	*
+	* Iterates over the provided map, calling deleteList() on each element.
+	*/
 	void freeMap(std::map< std::pair<int, int>, std::vector<std::pair<int, eqnNode*> > > fails);
 
 	public:
+
+	/*
+	 *eqnNode* getExpr(std::string input);
+	 *
+	 * If the string, input, is syntactically correct, a parse tree 
+	 *	is returned, otherwise a null pointer is returned.
+	 */
 	eqnNode* getExpr(std::string input);
 	~parserFull();
 };

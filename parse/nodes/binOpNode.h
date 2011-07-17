@@ -18,12 +18,27 @@
 
 #include "eqnNode.h"
 
+
+/*
+ * class binOpNode 
+ * 
+ *  virtual class describing parse tree nodes for binary operators.
+ * (ex. addition, subtraction). Handles memory allocation details.
+ * 
+ * 
+ */
+
 class binOpNode : public eqnNode
 {
 	protected:
 	eqnNode* left;
 	eqnNode* right;
 
+	/*
+	 * int max(int left, int right) const
+	 * 
+	 *  returns the largest of {left,right}
+	 */
 	int max(int left, int right) const
 	{
 		if (left < right) { return right; }
@@ -31,6 +46,12 @@ class binOpNode : public eqnNode
 	}
 
 	public:
+	/*
+	 * virtual bool eq(eqnNode* input) const
+	 *
+	 * Comparison function. Recursively comparse this parse
+	 *	tree to the "input" parse tree.
+	 */
 	virtual bool eq(eqnNode* input) const
 	{
 		if (type() != input->type())
@@ -40,11 +61,22 @@ class binOpNode : public eqnNode
 			&& getL()->eq(((binOpNode*)input)->getL());
 	}
 
+
+	/*
+	 * virtual int size() const
+	 * 
+	 * Recursively counts the number of nodes in the parse tree
+	 */
 	virtual int size() const
 	{
 		return 1 + getR()->size() + getL()->size();
 	}
 
+	/*
+	 * virtual void deleteAll() 
+	 * 
+	 * Recursively handles the deallocation of memory for the parse tree
+	 */
 	virtual void deleteAll() 
 	{
 		if (left != 0)
@@ -60,7 +92,10 @@ class binOpNode : public eqnNode
 			right = 0;
 		}
 	}
+
+	// getL() returns the left subtree
 	eqnNode* getL() const { return left; }
+	// getR() returns the right subtree
 	eqnNode* getR() const { return right; }
 };
 

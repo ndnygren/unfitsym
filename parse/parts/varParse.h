@@ -21,6 +21,13 @@
 #include "../nodes/varNode.h"
 
 
+/*
+ * class varParse
+ *
+ * Parses single letter variables. As needed new variables can simply be 
+ * 	added to this list ("\pi", "\phi",  etc.)
+ */
+
 class varParse : public parsePart
 {
 	public:

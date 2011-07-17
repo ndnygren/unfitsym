@@ -20,6 +20,12 @@
 #include "../nodes/prodNode.h"
 #include "expParse.h"
 
+/*
+ * class prodParse
+ *
+ * the CFG rule Expr -> Expr "*" Expr
+ * Parses mulitiplication
+ */
 class prodParse : public parsePart
 {
 	public:

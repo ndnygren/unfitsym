@@ -18,13 +18,18 @@
 
 #include "binOpNode.h"
 
+/*
+ * class fracNode 
+ *
+ * the node representing the fraction of the left subtree over the right subtree
+ */
 class fracNode : public binOpNode
 {
 	public:
 	virtual eqnNode* copy() const 
 		{ return new fracNode(getL(), getR()); } 
 
-	virtual int type() const { return types.frac; } 
+	virtual int type() const { return nodeTypes::frac; } 
 
 	virtual std::string str() const
 	{

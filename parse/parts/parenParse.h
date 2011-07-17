@@ -19,6 +19,13 @@
 #include "../nodes/eqnNode.h"
 #include "expParse.h"
 
+/*
+ * class parenParse
+ *
+ * the CFG rule Expr -> "(" Expr ")"
+ * Parse parenthesis
+ */
+
 class parenParse : public parsePart
 {
 	public:

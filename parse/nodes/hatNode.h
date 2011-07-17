@@ -18,13 +18,19 @@
 
 #include "binOpNode.h"
 
+/*
+ * class hatNode
+ *
+ * The parse tree node representing the left subtree to the power of the 
+ *	right subtree
+ */
 class hatNode : public binOpNode
 {
 	public:
 	virtual eqnNode* copy() const 
 		{ return new hatNode(getL(), getR()); } 
 
-	virtual int type() const { return types.hat; } 
+	virtual int type() const { return nodeTypes::hat; } 
 
 	virtual std::string str() const
 	{

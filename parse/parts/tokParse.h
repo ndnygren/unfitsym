@@ -19,6 +19,12 @@
 #include "parsePart.h"
 #include <string>
 
+/*
+ * class token
+ *
+ * The primative parsePart used by all others, identifies and 
+ *	comsumes characters.
+ */
 class token : public parsePart
 {
 	protected:
@@ -30,8 +36,11 @@ class token : public parsePart
 		deleteAll();
 		if (offset < (int)data.length() - cap)
 		{
+			//success whenever the string exists
 			if (data.substr(offset, str.length()) == str)
 			{
+				// returns a meaningfull new offset,
+				// 	but a null pointer for parse tree
 				succ.push_back(std::pair<int,eqnNode*>
 						(offset + str.length(), 0));
 			}

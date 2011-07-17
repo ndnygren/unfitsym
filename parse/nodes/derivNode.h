@@ -18,6 +18,14 @@
 
 #include "binOpNode.h"
 
+/*
+ * class derivNode 
+ * 
+ * Parse tree node representing the derivative of the left subtree,
+ * 	with respect to the variable in the right subtree.
+ * 
+ */
+
 class derivNode : public binOpNode
 {
 	public:
@@ -26,11 +34,27 @@ class derivNode : public binOpNode
 
 	virtual int type() const { return nodeTypes::deriv; } 
 
+	/*
+	 * virtual std::string str() const
+	 *
+	 * The standard LaTeX syntax for a derivative. A alternative
+	 * 	will be added later to handle larger left subtrees
+	 */
 	virtual std::string str() const
 	{
-		return "\\frac{d" + left->str() + "}{d" + right->str() + "}";
+		if (left->isLeaf()) // the "small" format
+		{return "\\frac{d" + left->str() + "}{d" + right->str() + "}";}
+		else // the "large" format
+		{return "\\frac{d}{d" + right->str() + "}(" + left->str()+")";}
 	}
 
+	/*
+	 * virtual int size() const
+	 * 
+	 * The size here is distorted to guide the search in a 
+	 *	favorable direction. This will be corrected later
+	 * 	when a better metric is constructed.
+	 */
 	virtual int size() const
 	{
 		return (getL()->size()) * (getL()->size());

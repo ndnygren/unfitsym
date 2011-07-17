@@ -18,13 +18,19 @@
 
 #include "binOpNode.h"
 
+/*
+ * class sumNode
+ *
+ * The parse tree node representing the addition of the left and right subtrees
+ */
+
 class sumNode : public binOpNode
 {
 	public:
 	virtual eqnNode* copy() const 
 		{ return new sumNode(getL(), getR()); } 
 
-	virtual int type() const { return types.sum; } 
+	virtual int type() const { return nodeTypes::sum; } 
 
 	virtual std::string str() const
 	{

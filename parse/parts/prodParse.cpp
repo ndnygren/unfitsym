@@ -31,6 +31,8 @@ void prodParse::loadString(int offset, const std::string& data, int cap)
 	seq.add(&cr);
 	seq.loadString(offset,data,cap);
 
+	deleteAll();
+
 	for (i = 0; i< seq.pieces.size(); i++)
 	{
 		succ.push_back(std::pair<int,eqnNode*>( seq.pieces[i].first, new prodNode(seq.pieces[i].second[0], seq.pieces[i].second[2])));
