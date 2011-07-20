@@ -72,6 +72,7 @@ int main(int argc, char** argv)
 		QApplication app(argc, argv);
 		window = new MainUFSearchWindow();
 		window->show();
+		app.exec();
 		delete window;
 	}
 

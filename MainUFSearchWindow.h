@@ -19,7 +19,7 @@
 
 #include <QtGui>
 
-class MainUFSearchWindow : public QMainWindow
+class MainUFSearchWindow : public QWidget
 {
 	Q_OBJECT
 
@@ -30,9 +30,13 @@ class MainUFSearchWindow : public QMainWindow
 	QGridLayout *cols;
 	
 	QTextEdit *proofBox;
+	QLineEdit *entry1;
+	QLineEdit *entry2;
+	QListView *list;
 
 	QPushButton *searchdeepbutton;
 	QPushButton *closebutton;
+	QPushButton *gobutton;
 };
 
 

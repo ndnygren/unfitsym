@@ -21,15 +21,25 @@ MainUFSearchWindow::MainUFSearchWindow()
 {
 	cols = new QGridLayout();
 
+	entry1 = new QLineEdit();
+	entry2 = new QLineEdit();
 	proofBox = new QTextEdit();
+
+	list = new QListView();
 
 	searchdeepbutton = new QPushButton("Search Deeper");
 	closebutton = new QPushButton("Close");
-	
-	cols->addWidget(searchdeepbutton,2,0);
-	cols->addWidget(proofBox,1,1);
+	closebutton->setMaximumWidth(50);
+	gobutton = new QPushButton("Go");
+	gobutton->setMaximumWidth(40);
 
-	cols->addWidget(closebutton,2,1);
+	cols->addWidget(entry1,0,0);
+	cols->addWidget(entry2,0,1);
+	cols->addWidget(gobutton,0,2);
+	cols->addWidget(list,1,0,1,3);
+	cols->addWidget(searchdeepbutton,2,2);
+	cols->addWidget(proofBox,1,3,1,2);
+	cols->addWidget(closebutton,2,4);
 
 	setLayout(cols);
 }
