@@ -24,11 +24,12 @@ void generateProof::breakDown(const vector<pair<string, string> > &pairs, map<st
 
 	for (i = 0; i < pairs.size(); i++)
 	{
+		// initialize a vector if this is the first discovery
 		if (edges.count(pairs[i].first) == 0)
 		{
 			edges[pairs[i].first] = vector<string>();
-			edges[pairs[i].first];
 		}
+		// add the "to" expression to the list of the associated "from" expression
 		edges[pairs[i].first].push_back(pairs[i].second);
 	} 
 }
@@ -36,14 +37,15 @@ void generateProof::breakDown(const vector<pair<string, string> > &pairs, map<st
 vector<string> generateProof::genVector(map<string, vector<string> > &edges, const string &start, const string &target) 
 {
 	unsigned int i;
-	bool foundit=false;
-	vector<string> path;
+	bool foundit=false; // flag for early exit in the case that the target is found
+	vector<string> path; // the return value
 	vector<string> list;
-	map<string,crumb> found;
-	queue<string> nextstr;
+	map<string,crumb> found; // the crumb lookup map, for path finding
+	queue<string> nextstr; // queue for breadth first search
 	string current = start;
 	crumb cr1(current);
 	
+	//initialize both the queue and crumb map
 	nextstr.push(start);
 	found[current] = cr1;
 
@@ -55,11 +57,12 @@ vector<string> generateProof::genVector(map<string, vector<string> > &edges, con
 		if (current == target) { foundit = true; }
 		else if (edges.count(current) > 0)
 		{
-			cr1 = found[current]; 
+			//store the temporary list, to cutdown on search time
 			list = edges[current];
 
 			for (i = 0; i < list.size(); i++)
 			{
+				//store only the first(shortest) reverse path found
 				if (found.count(list[i])==0)
 				{
 					found[list[i]] = crumb(current, list[i]);
@@ -69,11 +72,14 @@ vector<string> generateProof::genVector(map<string, vector<string> > &edges, con
 		}
 	} while (!nextstr.empty() && !foundit);
 
+	// if the target exists in the original pair list, it should have a proof
 	if (found.count(target) > 0)
 	{
+		// start at the target and work back
 		cr1 = found[target];
 		while (found.count(cr1.back) > 0)
 		{
+			// trace the crumbs backward, building a list
 			path.push_back(cr1.eqn);
 			cr1 = found[cr1.back];
 		}

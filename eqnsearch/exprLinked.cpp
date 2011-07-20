@@ -40,19 +40,12 @@ exprLinked::exprLinked(eqnNode* input)
 	expr = input->copy();
 }
 
-exprLinked::exprLinked(eqnNode* input, int inid)
-{
-	expr = input->copy(); 
-	id = inid;
-}
-
 exprLinked::exprLinked(const exprLinked& old)
 {
 	if (old.expr != 0)
 		{ expr = old.expr->copy(); }
 	else
 		{ expr = 0; }
-	id = old.id;
 }
 
 
@@ -64,15 +57,4 @@ exprLinked::~exprLinked()
 	}
 	freeCand(changes);
 	changes.clear();
-}
-
-bool exprLinked::operator< (const exprLinked& rhs) const
-{
-	exprMetric a;
-	return a.score(expr) < a.score(rhs.expr);
-}
-
-bool exprLinked::operator> (const exprLinked& rhs) const
-{
-	return rhs < *this;
 }
