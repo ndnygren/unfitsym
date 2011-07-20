@@ -31,7 +31,6 @@ int main(int argc, char** argv)
 	eqnMetric *rate;
 	searchMaxMin *a;
 	vector<eqnNode*> list;
-	MainUFSearchWindow *window;
 
 	rate = new isoSimpMetric("x");
 
@@ -70,10 +69,9 @@ int main(int argc, char** argv)
 	else
 	{
 		QApplication app(argc, argv);
-		window = new MainUFSearchWindow();
-		window->show();
+		MainUFSearchWindow window;
+		window.show();
 		app.exec();
-		delete window;
 	}
 
 	delete rate;

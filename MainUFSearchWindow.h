@@ -18,13 +18,32 @@
 #define NN_MAINUFSEARCHWINDOW_H
 
 #include <QtGui>
+#include "parse/parserFull.h"
+#include "eqnsearch/searchMaxMin.h"
+#include "eqnsearch/generateProof.h"
+#include "eqnsearch/isoSimpMetric.h"
 
 class MainUFSearchWindow : public QWidget
 {
 	Q_OBJECT
 
+	protected:
+	bool searchinit;
+	searchMaxMin *engine;
+	eqnMetric *rate;
+	int proofwidth;
+	int proofheight;
+	vector<eqnNode*> bList;
+
 	public:
 	MainUFSearchWindow();
+
+	private slots:
+	void fillBest();
+	void loadeqn();
+	void loadProof(const QModelIndex &i);
+	void deeper();
+	void quit();
 
 	private:
 	QGridLayout *cols;
@@ -32,7 +51,9 @@ class MainUFSearchWindow : public QWidget
 	QTextEdit *proofBox;
 	QLineEdit *entry1;
 	QLineEdit *entry2;
+
 	QListView *list;
+	QStandardItemModel *bestmodel;
 
 	QPushButton *searchdeepbutton;
 	QPushButton *closebutton;
