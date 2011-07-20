@@ -14,25 +14,26 @@
 * You should have received a copy of the GNU General Public License
 * along with this program. If not, see <http://www.gnu.org/licenses/>. */
 
-#include <iostream>
-#include <gtkmm.h>
-#include "ufForm.cpp"
-#include "eqnsearch/generateProof.h"
+#ifndef NN_MAINUFSEARCHWINDOW_H
+#define NN_MAINUFSEARCHWINDOW_H
 
-using namespace std;
+#include <QtGui>
 
-int main(int argc, char** argv)
+class MainUFSearchWindow : public QMainWindow
 {
-	unsigned int i;
-	parserFull parser;
-	eqnNode *output;
-	eqnMetric *rate;
-	searchMaxMin *a;
-	vector<eqnNode*> list;
+	Q_OBJECT
 
-	Gtk::Main kit(argc, argv);
+	public:
+	MainUFSearchWindow();
 
-	ufForm one;
+	private:
+	QGridLayout *cols;
+	
+	QTextEdit *proofBox;
 
-	return 0;
-}
+	QPushButton *searchdeepbutton;
+	QPushButton *closebutton;
+};
+
+
+#endif
