@@ -50,6 +50,20 @@ std::vector<std::pair <int, eqnNode*> > cassetteMachine::copySucc(const std::vec
 	return outlist;
 }
 
+
+void cassetteMachine::popAndFree()
+{
+	std::vector<std::pair <int, eqnNode*> > toplist = cassette.back().second; 
+
+	int i;
+	for (i = 0; i < (int)toplist.size(); i++)
+		if (toplist[i].second != 0)
+			{ delete toplist[i].second; }
+	toplist.clear();
+
+	cassette.pop_back();
+}
+
 void cassetteMachine::collectSuccess() 
 {
 	unsigned int i;
@@ -117,7 +131,7 @@ void cassetteMachine:: loadString(int offset, const string& data, int cap)
 		{
 			// when all successes have been considered, retreat one 
 			//	layer and move to the next success at that layer
-			cassette.pop_back();
+			popAndFree();
 			if (cassette.size() > 0)
 				{ cassette.back().first++; }
 		}
@@ -135,5 +149,22 @@ void cassetteMachine:: loadString(int offset, const string& data, int cap)
 			collectSuccess();
 			cassette.back().first++; 
 		}
+	}
+}
+
+cassetteMachine::~cassetteMachine()
+{
+	unsigned int i,j;
+
+	for (i = 0; i < pieces.size(); i++)
+	{
+		for (j = 0; j < pieces[i].second.size(); j++)
+		{
+			if (pieces[i].second[j] != 0)
+			{
+				delete pieces[i].second[j];
+			}
+		}
+		pieces[i].second.clear();
 	}
 }

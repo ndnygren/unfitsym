@@ -68,6 +68,16 @@ class cassetteMachine
 	void collectSuccess(); 
 
 	/*
+	 * void popAndFree()
+	 *
+	 * frees all memory contained in the whichever succ list is at the 
+	 * 	top of the cassette(stack), then pops it.  If this data is 
+	 *	needed, it must be copied prior to freeing the parse part 
+	 *	containing it.
+	 */
+	void popAndFree();
+
+	/*
 	 * bool endOfSucc()
 	 *
 	 * Checks the list off successes at the top of the stack, if the index 
@@ -122,6 +132,8 @@ class cassetteMachine
 	 *	partlist, modified as needed as the partlist is traversed.
 	 */
 	void loadString(int offset, const std::string& data, int cap);
+
+	~cassetteMachine();
 };
 
 
