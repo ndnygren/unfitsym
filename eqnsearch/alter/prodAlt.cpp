@@ -131,6 +131,7 @@ vector<eqnNode*> prodCand(prodNode* input)
 		otherspare = new prodNode(input->getL(), sumspare->getL());
 		changes.push_back(new sumNode(spare, otherspare));
 		delete otherspare;
+		delete spare;
 	}
 	
 	//distribute over subtraction
@@ -141,6 +142,7 @@ vector<eqnNode*> prodCand(prodNode* input)
 		otherspare = new prodNode(input->getL(), subspare->getR());
 		changes.push_back(new subNode(spare, otherspare));
 		delete otherspare;
+		delete spare;
 	}
 
 	//handle same exp bases
