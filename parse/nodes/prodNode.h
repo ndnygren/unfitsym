@@ -34,7 +34,7 @@ class prodNode : public binOpNode
 
 	virtual std::string str() const
 	{
-		return "(" + left->str() + "*" + right->str() + ")";
+		return "(" + left->str() + "\\cdot" + right->str() + ")";
 	}
 
 	prodNode(eqnNode* lin, eqnNode* rin)

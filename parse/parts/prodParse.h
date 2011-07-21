@@ -19,12 +19,15 @@
 #include "../nodes/eqnNode.h"
 #include "../nodes/prodNode.h"
 #include "expParse.h"
+#include "altParse.h"
 
 /*
  * class prodParse
  *
  * the CFG rule Expr -> Expr "*" Expr
- * Parses mulitiplication
+ * 		OR
+ * the CFG rule Expr -> Expr "\cdot" Expr
+ * Parses mulitiplication, output is always with the \cdot notation
  */
 class prodParse : public parsePart
 {

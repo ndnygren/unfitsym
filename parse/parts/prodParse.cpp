@@ -20,7 +20,9 @@
 void prodParse::loadString(int offset, const std::string& data, int cap)
 {
 	unsigned int i;
-	token op("*");
+	token op1("*");
+	token op2("\\cdot");
+	altParse op(&op1, &op2);
 	expParse cl;
 	expParse cr;
 	cassetteMachine seq;
