@@ -13,38 +13,23 @@
 *
 * You should have received a copy of the GNU General Public License
 * along with this program. If not, see <http://www.gnu.org/licenses/>. */
-#ifndef NN_PRODNODE_H
-#define NN_PRODNODE_H
+#ifndef NN_INTPARSE_H
+#define NN_INTPARSE_H
 
-#include "binOpNode.h"
+#include "../nodes/intNode.h"
+#include "expParse.h"
 
 /*
- * class prodNode
+ * class intParse
  *
- * The parse tree node representing the product of the left subtree 
- * 	with the right subtree.
+ * The CFG rule Expr -> "\int" Expr "d{" Expr "}"
+ * Parses integrals
  */
-class prodNode : public binOpNode
+class intParse : public parsePart
 {
 	public:
-	virtual eqnNode* copy() const 
-		{ return new prodNode(getL(), getR()); } 
-
-	virtual int type() const { return nodeTypes::prod; } 
-
-	virtual std::string str() const
-	{
-		return "(" + left->str() + "\\cdot " + right->str() + ")";
-	}
-
-	prodNode(eqnNode* lin, eqnNode* rin)
-	{
-		left = lin->copy();
-		right = rin->copy();
-	}
-	
-	virtual ~prodNode() { deleteAll(); }
+	virtual void loadString(int offset, const std::string& data, int cap);
+	virtual ~intParse() { deleteAll(); }
 };
-
 
 #endif

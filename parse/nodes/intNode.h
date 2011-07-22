@@ -13,37 +13,58 @@
 *
 * You should have received a copy of the GNU General Public License
 * along with this program. If not, see <http://www.gnu.org/licenses/>. */
-#ifndef NN_PRODNODE_H
-#define NN_PRODNODE_H
+#ifndef NN_INTNODE_H
+#define NN_INTNODE_H
 
 #include "binOpNode.h"
 
 /*
- * class prodNode
- *
- * The parse tree node representing the product of the left subtree 
- * 	with the right subtree.
+ * class intNode 
+ * 
+ * Parse tree node representing the integral of the left subtree,
+ * 	with respect to the variable in the right subtree (without boundaries).
+ * 
  */
-class prodNode : public binOpNode
+
+class intNode : public binOpNode
 {
 	public:
 	virtual eqnNode* copy() const 
-		{ return new prodNode(getL(), getR()); } 
+		{ return new intNode(getL(), getR()); } 
 
-	virtual int type() const { return nodeTypes::prod; } 
+	virtual int type() const { return nodeTypes::integral; } 
 
+	/*
+	 * virtual std::string str() const
+	 *
+	 * The standard LaTeX syntax for a integral.
+	 */
 	virtual std::string str() const
 	{
-		return "(" + left->str() + "\\cdot " + right->str() + ")";
+		return "\\int " + left->str() + " d{" + right->str()+ "}";
 	}
 
-	prodNode(eqnNode* lin, eqnNode* rin)
+	/*
+	 * virtual int size() const
+	 * 
+	 * The size here is distorted to guide the search in a 
+	 *	favorable direction (same as derivatives)
+	 *
+	 * This will be corrected later
+	 * 	when a better metric is constructed.
+	 */
+	virtual int size() const
+	{
+		return (getL()->size()) * (getL()->size());
+	}
+
+	intNode(eqnNode* lin, eqnNode* rin)
 	{
 		left = lin->copy();
 		right = rin->copy();
 	}
 	
-	virtual ~prodNode() { deleteAll(); }
+	virtual ~intNode() { deleteAll(); }
 };
 
 

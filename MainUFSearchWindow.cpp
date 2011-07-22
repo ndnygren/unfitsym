@@ -89,10 +89,14 @@ MainUFSearchWindow::MainUFSearchWindow()
 	cols = new QGridLayout();
 
 	entry1 = new QLineEdit();
+	entry1->setMinimumWidth(150);
 	entry2 = new QLineEdit();
+	entry2->setMaximumWidth(40);
 	proofBox = new QTextEdit();
+	proofBox->setMinimumWidth(450);
 
 	list = new QListView();
+	list->setMaximumWidth(300);
 	bestmodel = new QStandardItemModel();
 	list->setModel(bestmodel);
 

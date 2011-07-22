@@ -50,6 +50,8 @@ vector<eqnNode*> getCand(eqnNode* input)
 		{ sumChanges = hatCand((hatNode*)input); }
 	else if (input->type() == nodeTypes::deriv)
 		{ sumChanges = derivCand((derivNode*)input); }
+	else if (input->type() == nodeTypes::integral)
+		{ sumChanges = intCand((intNode*)input); }
 	copyCand(sumChanges, changes);
 	sumChanges.clear();
 

@@ -13,38 +13,11 @@
 *
 * You should have received a copy of the GNU General Public License
 * along with this program. If not, see <http://www.gnu.org/licenses/>. */
-#ifndef NN_PRODNODE_H
-#define NN_PRODNODE_H
+#ifndef NN_INTALT_H
+#define NN_INTALT_H
 
-#include "binOpNode.h"
+#include "genAlt.h"
 
-/*
- * class prodNode
- *
- * The parse tree node representing the product of the left subtree 
- * 	with the right subtree.
- */
-class prodNode : public binOpNode
-{
-	public:
-	virtual eqnNode* copy() const 
-		{ return new prodNode(getL(), getR()); } 
-
-	virtual int type() const { return nodeTypes::prod; } 
-
-	virtual std::string str() const
-	{
-		return "(" + left->str() + "\\cdot " + right->str() + ")";
-	}
-
-	prodNode(eqnNode* lin, eqnNode* rin)
-	{
-		left = lin->copy();
-		right = rin->copy();
-	}
-	
-	virtual ~prodNode() { deleteAll(); }
-};
-
+std::vector<eqnNode*> intCand(intNode* input);
 
 #endif

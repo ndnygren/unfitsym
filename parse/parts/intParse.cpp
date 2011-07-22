@@ -13,38 +13,32 @@
 *
 * You should have received a copy of the GNU General Public License
 * along with this program. If not, see <http://www.gnu.org/licenses/>. */
-#ifndef NN_PRODNODE_H
-#define NN_PRODNODE_H
 
-#include "binOpNode.h"
+#include "intParse.h"
+#include <string>
 
-/*
- * class prodNode
- *
- * The parse tree node representing the product of the left subtree 
- * 	with the right subtree.
- */
-class prodNode : public binOpNode
+void intParse::loadString(int offset, const std::string& data, int cap)
 {
-	public:
-	virtual eqnNode* copy() const 
-		{ return new prodNode(getL(), getR()); } 
+	unsigned int i;
+	token leftt("\\int");
+	token centert("d");
+	expParse cl;
+	curlyParse cr;
+	cassetteMachine seq;
 
-	virtual int type() const { return nodeTypes::prod; } 
+	deleteAll();
 
-	virtual std::string str() const
+	seq.setMap(fails);
+	seq.add(&leftt);
+	seq.add(&cl);
+	seq.add(&centert);
+	seq.add(&cr);
+	seq.loadString(offset,data,cap);
+
+
+	for (i = 0; i< seq.pieces.size(); i++)
 	{
-		return "(" + left->str() + "\\cdot " + right->str() + ")";
+		succ.push_back(std::pair<int,eqnNode*>( seq.pieces[i].first, new intNode(seq.pieces[i].second[1], seq.pieces[i].second[3])));
 	}
 
-	prodNode(eqnNode* lin, eqnNode* rin)
-	{
-		left = lin->copy();
-		right = rin->copy();
-	}
-	
-	virtual ~prodNode() { deleteAll(); }
-};
-
-
-#endif
+}

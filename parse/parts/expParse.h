@@ -29,6 +29,7 @@
 #include "negParse.h"
 #include "hatParse.h"
 #include "derivParse.h"
+#include "intParse.h"
 
 class expParse : public parsePart
 {

@@ -32,6 +32,7 @@ void expParse::loadString(int offset, const std::string& data, int cap)
 	negParse neg;
 	hatParse hat;
 	derivParse deriv;
+	intParse integral;
 
 	std::vector<parsePart*> exprs;
 	
@@ -46,6 +47,7 @@ void expParse::loadString(int offset, const std::string& data, int cap)
 	exprs.push_back(&neg);
 	exprs.push_back(&hat);
 	exprs.push_back(&deriv);
+	exprs.push_back(&integral);
 
 	deleteAll();
 	
