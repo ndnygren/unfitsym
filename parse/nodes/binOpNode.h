@@ -97,6 +97,25 @@ class binOpNode : public eqnNode
 	eqnNode* getL() const { return left; }
 	// getR() returns the right subtree
 	eqnNode* getR() const { return right; }
+
+	/*
+	 * bool isConst()
+	 *
+	 * returns true iff the expression contains no variables
+	 * 
+	 */
+	virtual bool isConst() const
+		{ return getL()->isConst() && getR()->isConst(); }
+
+	/*
+	 * bool isConst(std::string name)
+	 *
+	 * returns true iff the expression does not contain the 
+	 *	specified variable
+	 * 
+	 */
+	virtual bool isConst(const std::string& name) const
+		{ return getL()->isConst(name) && getR()->isConst(name); }
 };
 
 

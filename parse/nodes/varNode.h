@@ -48,6 +48,25 @@ class varNode : public leafNode
 	virtual std::string str() const { return name; }
 
 	varNode(std::string input) { name = input; }
+
+	/*
+	 * bool isConst()
+	 *
+	 * returns false since this expression does contain a variable
+	 * 
+	 */
+	virtual bool isConst() const
+		{ return false; }
+
+	/*
+	 * bool isConst(std::string name)
+	 *
+	 * returns true iff the expression does not contain the 
+	 *	specified variable
+	 * 
+	 */
+	virtual bool isConst(const std::string& name) const
+		{ return !(get() == name); }
 };
 
 

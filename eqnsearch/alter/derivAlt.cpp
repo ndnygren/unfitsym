@@ -27,14 +27,16 @@ vector<eqnNode*> derivCand(derivNode* input)
 	derivNode *spare, *otherspare;
 	sumNode *sumspare;
 	subNode *subspare;
-	fracNode *fracspare;
+	fracNode *fracspare, *frac1spare;
 	prodNode *prodspare, *prod1spare, *prod2spare;
 	numNode *num1spare, *num2spare;
 	hatNode *hatspare, *hat2spare;
+	numNode one(1);
 	numNode two(2);
+	negNode *negspare;
 
-	//check for int 
-	if (input->getL()->type() == nodeTypes::num) 
+	//check for constants
+	if (input->getL()->isConst()) 
 	{
 		changes.push_back(new numNode(0));
 	}
@@ -82,6 +84,18 @@ vector<eqnNode*> derivCand(derivNode* input)
 		delete prod2spare;
 	}
 
+	//product rule (half const)
+	if (input->getL()->type() == nodeTypes::prod) 
+	{
+		prodspare = (prodNode*)(input->getL());
+		if (prodspare->getL()->isConst())
+		{
+			spare = new derivNode(prodspare->getR(), input->getR());
+			changes.push_back(new prodNode(prodspare->getL(),spare));
+			delete spare;
+		}
+	}
+
 	//quotient rule
 	if (input->getL()->type() == nodeTypes::frac)
 	{
@@ -101,6 +115,42 @@ vector<eqnNode*> derivCand(derivNode* input)
 		delete prod2spare;
 		delete subspare;
 		delete hatspare;
+	}
+
+	//quotient rule(numerator const)
+	if (input->getL()->type() == nodeTypes::frac)
+	{
+		fracspare = (fracNode*)(input->getL());
+		if (fracspare->getL()->isConst())
+		{
+			spare = new derivNode(fracspare->getR(), input->getR());
+			prod1spare = new prodNode(spare, fracspare->getL());
+			negspare = new negNode(prod1spare);
+			hatspare = new hatNode(fracspare->getR(),&two);
+
+			changes.push_back(new fracNode(negspare,hatspare));
+
+			delete spare;
+			delete prod1spare;
+			delete negspare;
+			delete hatspare;
+		}
+	}
+
+	//quotient rule(denominiator const)
+	if (input->getL()->type() == nodeTypes::frac)
+	{
+		fracspare = (fracNode*)(input->getL());
+		if (fracspare->getR()->isConst())
+		{
+			spare = new derivNode(fracspare->getL(), input->getR());
+			frac1spare = new fracNode(&one, fracspare->getR());
+
+			changes.push_back(new prodNode(spare, frac1spare));
+
+			delete spare;
+			delete frac1spare;
+		}
 	}
 
 	//power rule

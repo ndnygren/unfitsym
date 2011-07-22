@@ -81,6 +81,25 @@ class negNode : public eqnNode
 	}
 
 	eqnNode* getR() const { return right; }
+
+	/*
+	 * bool isConst()
+	 *
+	 * returns true iff the expression contains no variables
+	 * 
+	 */
+	virtual bool isConst() const
+		{ return getR()->isConst(); }
+
+	/*
+	 * bool isConst(std::string name)
+	 *
+	 * returns true iff the expression does not contain the 
+	 *	specified variable
+	 * 
+	 */
+	virtual bool isConst(const std::string& name) const
+		{ return getR()->isConst(name); }
 };
 
 

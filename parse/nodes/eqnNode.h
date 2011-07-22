@@ -82,6 +82,26 @@ class eqnNode
 	 */
 	virtual std::string str() const = 0;
 
+
+	/*
+	 * bool isConst()
+	 *
+	 * returns true iff the expression contains no variables
+	 * 
+	 */
+	virtual bool isConst() const
+		{ return true; }
+
+	/*
+	 * bool isConst(std::string name)
+	 *
+	 * returns true iff the expression does not contain the 
+	 *	specified variable
+	 * 
+	 */
+	virtual bool isConst(const std::string& name) const
+		{ return true; }
+
 	virtual ~eqnNode() { }
 };
 
