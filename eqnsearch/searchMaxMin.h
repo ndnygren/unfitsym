@@ -15,6 +15,9 @@
 * You should have received a copy of the GNU General Public License
 * along with this program. If not, see <http://www.gnu.org/licenses/>. */
 
+#ifndef NN_SEARCHMAXMIN_H
+#define NN_SEARCHMAXMIN_H
+
 #include "../parse/nodes/eqnNode.h"
 #include "exprLinked.h"
 #include "eqnMetric.h"
@@ -222,3 +225,5 @@ class searchMaxMin
 		delete start;
 	}
 };
+
+#endif

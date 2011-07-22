@@ -16,9 +16,10 @@
 
 #include <iostream>
 #include "parse/parserFull.h"
-#include "eqnsearch/searchMaxMin.cpp"
+#include "eqnsearch/searchMaxMin.h"
 #include "eqnsearch/isoSimpMetric.h"
 #include "eqnsearch/generateProof.h"
+#include "MainUFSearchWindow.h"
 
 using namespace std;
 
@@ -64,6 +65,13 @@ int main(int argc, char** argv)
 
 			delete a;
 		}
+	}
+	else
+	{
+		QApplication app(argc, argv);
+		MainUFSearchWindow window;
+		window.show();
+		app.exec();
 	}
 
 	delete rate;
