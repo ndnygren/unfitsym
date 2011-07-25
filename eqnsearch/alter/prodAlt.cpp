@@ -21,7 +21,6 @@ using namespace std;
 vector<eqnNode*> prodCand(prodNode* input)
 {
 	unsigned int i;
-	nodeTypes types;
 	vector<eqnNode*> changes;
 	vector<eqnNode*> subchanges;
 	numNode one(1);
@@ -38,7 +37,7 @@ vector<eqnNode*> prodCand(prodNode* input)
 
 
 	//associate one way
-	if (input->getL()->type() == types.prod) 
+	if (input->getL()->type() == nodeTypes::prod) 
 	{
 		spare = (prodNode*)(input->getL());
 		otherspare = new prodNode(spare->getR() ,input->getR());
@@ -47,7 +46,7 @@ vector<eqnNode*> prodCand(prodNode* input)
 	}
 
 	//associate the other way
-	if (input->getR()->type() == types.prod) 
+	if (input->getR()->type() == nodeTypes::prod) 
 	{
 		spare = (prodNode*)(input->getR());
 		otherspare = new prodNode(input->getL(), spare->getL());
@@ -56,8 +55,8 @@ vector<eqnNode*> prodCand(prodNode* input)
 	}
 
 	// attempt to evaluate
-	if ((input->getL()->type() == types.num) 
-		&& (input->getR()->type() == types.num))
+	if ((input->getL()->type() == nodeTypes::num) 
+		&& (input->getR()->type() == nodeTypes::num))
 	{
 		changes.push_back(new numNode(
 			((numNode*)(input->getL()))->get()
@@ -87,35 +86,35 @@ vector<eqnNode*> prodCand(prodNode* input)
 	subchanges.clear();
 
 	//check left identity
-	if ((input->getL()->type() == types.num) 
+	if ((input->getL()->type() == nodeTypes::num) 
 		&& ((numNode*)(input->getL()))->get() == 1)
 	{
 		changes.push_back(input->getR()->copy());
 	}
 
 	//check right identity
-	if ((input->getR()->type() == types.num) 
+	if ((input->getR()->type() == nodeTypes::num) 
 		&& ((numNode*)(input->getR()))->get() == 1)
 	{
 		changes.push_back(input->getL()->copy());
 	}
 
 	//create neg
-	if ((input->getL()->type() == types.num) 
+	if ((input->getL()->type() == nodeTypes::num) 
 		&& ((numNode*)(input->getL()))->get() == -1)
 	{
 		changes.push_back(new negNode(input->getR()));
 	}
 
 	//handle zero
-	if ((input->getR()->type() == types.num) 
+	if ((input->getR()->type() == nodeTypes::num) 
 		&& ((numNode*)(input->getR()))->get() == 0)
 	{
 		changes.push_back(new numNode(0));
 	}
 
 	//handle frac
-	if (input->getR()->type() == types.frac) 
+	if (input->getR()->type() == nodeTypes::frac) 
 	{
 		fracspare = (fracNode*)(input->getR());
 		otherspare = new prodNode(input->getL(),fracspare->getL());
@@ -124,7 +123,7 @@ vector<eqnNode*> prodCand(prodNode* input)
 	}
 
 	//distribute over addition
-	if (input->getR()->type() == types.sum) 
+	if (input->getR()->type() == nodeTypes::sum) 
 	{
 		sumspare = (sumNode*)(input->getR());
 		spare = new prodNode(input->getL(), sumspare->getR());
@@ -135,7 +134,7 @@ vector<eqnNode*> prodCand(prodNode* input)
 	}
 	
 	//distribute over subtraction
-	if (input->getR()->type() == types.sub)
+	if (input->getR()->type() == nodeTypes::sub)
 	{
 		subspare = (subNode*)(input->getR());
 		spare = new prodNode(input->getL(), subspare->getL());

@@ -21,7 +21,6 @@ using namespace std;
 vector<eqnNode*> sumCand(sumNode* input)
 {
 	unsigned int i;
-	nodeTypes types;
 	vector<eqnNode*> changes;
 	vector<eqnNode*> subchanges;
 	numNode one(1);
@@ -37,7 +36,7 @@ vector<eqnNode*> sumCand(sumNode* input)
 
 
 	//associate one way
-	if (input->getL()->type() == types.sum) 
+	if (input->getL()->type() == nodeTypes::sum) 
 	{
 		spare = (sumNode*)(input->getL());
 		otherspare = new sumNode(spare->getR() ,input->getR());
@@ -46,7 +45,7 @@ vector<eqnNode*> sumCand(sumNode* input)
 	}
 
 	//associate the other way
-	if (input->getR()->type() == types.sum) 
+	if (input->getR()->type() == nodeTypes::sum) 
 	{
 		spare = (sumNode*)(input->getR());
 		otherspare = new sumNode(input->getL(), spare->getL());
@@ -55,8 +54,8 @@ vector<eqnNode*> sumCand(sumNode* input)
 	}
 
 	// attempt to evaluate
-	if ((input->getL()->type() == types.num) 
-		&& (input->getR()->type() == types.num))
+	if ((input->getL()->type() == nodeTypes::num) 
+		&& (input->getR()->type() == nodeTypes::num))
 	{
 		changes.push_back(new numNode(
 			((numNode*)(input->getL()))->get()
@@ -66,14 +65,14 @@ vector<eqnNode*> sumCand(sumNode* input)
 
 
 	//check left identity
-	if ((input->getL()->type() == types.num) 
+	if ((input->getL()->type() == nodeTypes::num) 
 		&& ((numNode*)(input->getL()))->get() == 0)
 	{
 		changes.push_back(input->getR()->copy());
 	}
 
 	//check right identity
-	if ((input->getR()->type() == types.num) 
+	if ((input->getR()->type() == nodeTypes::num) 
 		&& ((numNode*)(input->getR()))->get() == 0)
 	{
 		changes.push_back(input->getL()->copy());
@@ -101,7 +100,7 @@ vector<eqnNode*> sumCand(sumNode* input)
 
 
 	//handle frac
-	if (input->getR()->type() == types.frac) 
+	if (input->getR()->type() == nodeTypes::frac) 
 	{
 		fracspare = (fracNode*)(input->getR());
 		prodspare = new prodNode(fracspare->getR(), input->getL());
@@ -112,8 +111,8 @@ vector<eqnNode*> sumCand(sumNode* input)
 	}
 
 	// reverse distribute
-	if (input->getL()->type() == types.prod
-		&& input->getR()->type() == types.prod)
+	if (input->getL()->type() == nodeTypes::prod
+		&& input->getR()->type() == nodeTypes::prod)
 	{
 		prodspare = (prodNode*)(input->getL());
 		otherprodspare = (prodNode*)(input->getR());
@@ -126,7 +125,7 @@ vector<eqnNode*> sumCand(sumNode* input)
 	}
 
 	//commute with right subtraction
-	if (input->getR()->type() == types.sub)
+	if (input->getR()->type() == nodeTypes::sub)
 	{
 		subspare = new subNode(input->getL(), ((subNode*)(input->getR()))->getR());
 		changes.push_back(new sumNode( ((subNode*)(input->getR()))->getL(), subspare));
@@ -134,10 +133,10 @@ vector<eqnNode*> sumCand(sumNode* input)
 	}
 
 	//create right subtraction
-	if (input->getR()->type() == types.prod)
+	if (input->getR()->type() == nodeTypes::prod)
 	{
 		prodspare = (prodNode*)(input->getR());
-		if (prodspare->getL()->type() == types.num && 
+		if (prodspare->getL()->type() == nodeTypes::num && 
 			((numNode*)(prodspare->getL()))->get() == -1)
 		{
 			subspare = new subNode(input->getL(), prodspare->getR());
@@ -146,7 +145,7 @@ vector<eqnNode*> sumCand(sumNode* input)
 	}
 
 	//handle neg
-	if (input->getR()->type() == types.neg)
+	if (input->getR()->type() == nodeTypes::neg)
 	{
 		negspare = (negNode*)(input->getR());
 		changes.push_back(new subNode(input->getL(),negspare->getR()));

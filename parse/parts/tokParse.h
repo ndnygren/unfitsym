@@ -42,7 +42,7 @@ class token : public parsePart
 				// returns a meaningfull new offset,
 				// 	but a null pointer for parse tree
 				succ.push_back(std::pair<int,eqnNode*>
-						(offset + str.length(), 0));
+						(offset + str.length(), (eqnNode*)0));
 			}
 		}
 	}

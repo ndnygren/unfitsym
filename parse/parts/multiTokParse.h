@@ -42,7 +42,7 @@ class multiTokParse : public parsePart
 				if (data.substr(offset, str[i].length()) == str[i])
 				{
 					succ.push_back(std::pair<int,eqnNode*>
-							(offset + str[i].length(), 0));
+							(offset + str[i].length(), (eqnNode*)0));
 				}
 			}
 		}
