@@ -13,48 +13,40 @@
 *
 * You should have received a copy of the GNU General Public License
 * along with this program. If not, see <http://www.gnu.org/licenses/>. */
-#ifndef NN_NEGNODE_H
-#define NN_NEGNODE_H
+#ifndef NN_LNNODE_H
+#define NN_LNNODE_H
 
 #include "monoOpNode.h"
 
 /*
- * class negNode
+ * class lnNode
  *
- * Monic operator, representing the negative of the subtree it contains
+ * Monic operator, representing the natural log node
  */
-class negNode : public monoOpNode
+class lnNode : public monoOpNode
 {
 	public:
-	//this nodes size is ignored as long as it does not occur twice in a row. This will be modified in the future, when a proper metric will make this distinction.
-	virtual int size() const
-	{
-		if (getR()->type()==nodeTypes::neg) 
-		{ return getR()->size() + 2; }
-		return getR()->size();
-	}
-
 	virtual std::string str() const
 	{
-		return "-" + right->str();
+		return "\\ln(" + right->str() + ")";
 	}
 
 	virtual eqnNode* copy() const
 	{
-		return new negNode(right);
+		return new lnNode(right);
 	}
 
 	virtual int type() const
 	{
-		return nodeTypes::neg;
+		return nodeTypes::ln;
 	}
 
-	negNode(eqnNode* input)
+	lnNode(eqnNode* input)
 	{
 		right = input->copy();
 	}
 
-	virtual ~negNode()
+	virtual ~lnNode()
 	{
 		deleteAll();
 	}

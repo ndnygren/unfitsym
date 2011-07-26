@@ -13,48 +13,40 @@
 *
 * You should have received a copy of the GNU General Public License
 * along with this program. If not, see <http://www.gnu.org/licenses/>. */
-#ifndef NN_NEGNODE_H
-#define NN_NEGNODE_H
+#ifndef NN_COSINENODE_H
+#define NN_COSINENODE_H
 
 #include "monoOpNode.h"
 
 /*
- * class negNode
+ * class cosineNode
  *
- * Monic operator, representing the negative of the subtree it contains
+ * Monic operator, representing the cosine function
  */
-class negNode : public monoOpNode
+class cosineNode : public monoOpNode
 {
 	public:
-	//this nodes size is ignored as long as it does not occur twice in a row. This will be modified in the future, when a proper metric will make this distinction.
-	virtual int size() const
-	{
-		if (getR()->type()==nodeTypes::neg) 
-		{ return getR()->size() + 2; }
-		return getR()->size();
-	}
-
 	virtual std::string str() const
 	{
-		return "-" + right->str();
+		return "\\cos(" + right->str() + ")";
 	}
 
 	virtual eqnNode* copy() const
 	{
-		return new negNode(right);
+		return new cosineNode(right);
 	}
 
 	virtual int type() const
 	{
-		return nodeTypes::neg;
+		return nodeTypes::cos;
 	}
 
-	negNode(eqnNode* input)
+	cosineNode(eqnNode* input)
 	{
 		right = input->copy();
 	}
 
-	virtual ~negNode()
+	virtual ~cosineNode()
 	{
 		deleteAll();
 	}

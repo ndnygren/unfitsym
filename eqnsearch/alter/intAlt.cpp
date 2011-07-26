@@ -21,20 +21,16 @@ using namespace std;
 vector<eqnNode*> intCand(intNode* input)
 {
 	unsigned int i;
-	int intspare;
 	vector<eqnNode*> changes;
 	vector<eqnNode*> subchanges;
 	intNode *spare, *otherspare;
-	derivNode *derivspare;
 	sumNode *sumspare;
 	subNode *subspare;
 	fracNode *fracspare, *frac1spare;
-	prodNode *prodspare, *prod1spare, *prod2spare;
-	numNode *num1spare, *num2spare;
-	hatNode *hatspare, *hat2spare;
+	prodNode *prodspare;
+	hatNode *hatspare;
 	numNode one(1);
 	numNode two(2);
-	negNode *negspare;
 
 	//check for constants
 	if (input->getL()->isConst()) 
