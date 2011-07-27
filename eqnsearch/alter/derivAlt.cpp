@@ -33,6 +33,8 @@ vector<eqnNode*> derivCand(derivNode* input)
 	hatNode *hatspare, *hat2spare;
 	numNode one(1);
 	numNode two(2);
+	cosineNode *cosspare;
+	sineNode *sinspare;
 	negNode *negspare;
 
 	//check for constants
@@ -189,6 +191,29 @@ vector<eqnNode*> derivCand(derivNode* input)
 	freeCand(subchanges);
 	subchanges.clear();
 
+	// cosine derivative
+	if (input->getL()->type() == nodeTypes::cos)
+	{
+		cosspare = (cosineNode*)(input->getL());
+		sinspare = new sineNode(cosspare->getR());
+		spare = new derivNode(cosspare->getR(), input->getR());
+		prodspare = new prodNode(sinspare, spare);
+		changes.push_back(new negNode(prodspare));
+		delete sinspare;
+		delete prodspare;
+		delete spare;
+	}
+
+	// sine derivative
+	if (input->getL()->type() == nodeTypes::sin)
+	{
+		sinspare = (sineNode*)(input->getL());
+		cosspare = new cosineNode(sinspare->getR());
+		spare = new derivNode(sinspare->getR(), input->getR());
+		changes.push_back(new prodNode(cosspare,spare));
+		delete cosspare;
+		delete spare;
+	}
 
 	return changes;
 }

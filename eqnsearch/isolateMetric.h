@@ -36,7 +36,12 @@ class isolateMetric : public eqnMetric
 	virtual int score(const eqnNode* input) const
 	{
 		if (input->type() == nodeTypes::num)
-			{ return 0; }
+		{ 
+				if (((numNode*)input)->get() > 1)
+					{ return 1; }
+				else	
+					{ return 0; }
+		}
 		else if (input->type() == nodeTypes::var)
 		{
 			if (((varNode*)input)->get() == target )
