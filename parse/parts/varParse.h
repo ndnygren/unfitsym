@@ -24,8 +24,7 @@
 /*
  * class varParse
  *
- * Parses single letter variables. As needed new variables can simply be 
- * 	added to this list ("\pi", "\phi",  etc.)
+ * Parses single letter variables. 
  */
 
 class varParse : public parsePart
@@ -47,6 +46,8 @@ class varParse : public parsePart
 		digits.add("t"); digits.add("u"); digits.add("v");
 		digits.add("w"); digits.add("x"); digits.add("y");
 		digits.add("z"); 
+
+		digits.add("\\pi"); digits.add("\\phi"); 
 
 		deleteAll();
 		if (offset < (int)data.length() - cap)

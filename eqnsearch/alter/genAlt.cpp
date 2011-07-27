@@ -52,6 +52,12 @@ vector<eqnNode*> getCand(eqnNode* input)
 		{ sumChanges = derivCand((derivNode*)input); }
 	else if (input->type() == nodeTypes::integral)
 		{ sumChanges = intCand((intNode*)input); }
+	else if (input->type() == nodeTypes::cos)
+		{ sumChanges = cosineCand((cosineNode*)input); }
+	else if (input->type() == nodeTypes::sin)
+		{ sumChanges = sineCand((sineNode*)input); }
+	else if (input->type() == nodeTypes::ln)
+		{ sumChanges = lnCand((lnNode*)input); }
 	copyCand(sumChanges, changes);
 	sumChanges.clear();
 

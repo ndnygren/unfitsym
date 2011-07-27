@@ -18,6 +18,7 @@
 
 #include "../parse/nodes/eqnNode.h"
 #include "../parse/nodes/nodeTypes.h"
+#include "eqnMetric.h"
 #include <string>
 
 class isolateMetric : public eqnMetric
@@ -52,9 +53,12 @@ class isolateMetric : public eqnMetric
 				+score(((binOpNode*)input)->getR()));
 			
 		}
-		else if (input->type() == nodeTypes::neg)
+		else if (input->type() == nodeTypes::neg
+			|| input->type() == nodeTypes::sin
+			|| input->type() == nodeTypes::cos
+			|| input->type() == nodeTypes::ln)
 		{
-			return bump(score(((negNode*)input)->getR())); 
+			return bump(score(((monoOpNode*)input)->getR())); 
 		}
 		else if (input->type() == nodeTypes::deriv)
 		{

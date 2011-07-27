@@ -13,26 +13,11 @@
 *
 * You should have received a copy of the GNU General Public License
 * along with this program. If not, see <http://www.gnu.org/licenses/>. */
+#ifndef NN_SINEALT_H
+#define NN_SINEALT_H
 
-#include "cosineParse.h"
-#include <string>
+#include "genAlt.h"
 
-void cosineParse::loadString(int offset, const std::string& data, int cap)
-{
-	unsigned int i;
-	token fn("\\cos");
-	parenParse righte;
-	cassetteMachine seq;
+std::vector<eqnNode*> sineCand(sineNode* input);
 
-	deleteAll();
-
-	seq.setMap(fails);
-	seq.add(&fn);
-	seq.add(&righte);
-	seq.loadString(offset,data,cap);
-
-	for (i = 0; i< seq.pieces.size(); i++)
-	{
-		succ.push_back(std::pair<int,eqnNode*>( seq.pieces[i].first, new cosineNode(seq.pieces[i].second[1])));
-	}
-}
+#endif

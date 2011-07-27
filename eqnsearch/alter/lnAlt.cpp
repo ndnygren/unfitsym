@@ -14,25 +14,24 @@
 * You should have received a copy of the GNU General Public License
 * along with this program. If not, see <http://www.gnu.org/licenses/>. */
 
-#include "cosineParse.h"
-#include <string>
+#include "lnAlt.h"
 
-void cosineParse::loadString(int offset, const std::string& data, int cap)
+using namespace std;
+
+vector<eqnNode*> lnCand(lnNode* input)
 {
 	unsigned int i;
-	token fn("\\cos");
-	parenParse righte;
-	cassetteMachine seq;
+	vector<eqnNode*> changes;
+	vector<eqnNode*> subchanges;
 
-	deleteAll();
-
-	seq.setMap(fails);
-	seq.add(&fn);
-	seq.add(&righte);
-	seq.loadString(offset,data,cap);
-
-	for (i = 0; i< seq.pieces.size(); i++)
+	//recurse 
+	copyCand(getCand(input->getR()), subchanges);
+	for (i = 0; i< subchanges.size(); i++)
 	{
-		succ.push_back(std::pair<int,eqnNode*>( seq.pieces[i].first, new cosineNode(seq.pieces[i].second[1])));
+		changes.push_back(new lnNode(subchanges[i]));
 	}
+	freeCand(subchanges);
+	subchanges.clear();
+
+	return changes;
 }

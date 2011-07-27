@@ -19,7 +19,7 @@
 
 void sineParse::loadString(int offset, const std::string& data, int cap)
 {
-	int i;
+	unsigned int i;
 	token fn("\\sin");
 	parenParse righte;
 	cassetteMachine seq;

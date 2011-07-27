@@ -100,7 +100,24 @@ class eqnNode
 	 * 
 	 */
 	virtual bool isConst(const std::string& name) const
-		{ return true; }
+	{
+		if (name.length() > 0)
+			{ return true; }
+		return false;
+	}
+
+	/*
+	 * bool isVar(std::string name)
+	 *
+	 * returns true iff the expression is the specified variable
+	 * 
+	 */
+	virtual bool isVar(const std::string& name) const 
+	{
+		if (name.length() > 0)
+			{ return false; }
+		return false;
+	}
 
 	virtual ~eqnNode() { }
 };
