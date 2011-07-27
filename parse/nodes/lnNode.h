@@ -26,31 +26,21 @@
 class lnNode : public monoOpNode
 {
 	public:
-	virtual std::string str() const
-	{
-		return "\\ln(" + right->str() + ")";
+	virtual std::string str() const { return "\\ln(" + right->str() + ")"; }
+	virtual eqnNode* copy() const { return new lnNode(right); }
+	virtual int type() const { return nodeTypes::ln; }
+	lnNode(eqnNode* input) { right = input->copy(); }
+
+	virtual double value() const 
+	{ 
+		double arg = getR()->value();
+		if (arg > 0)
+			{ return log(getR()->value()); }
+		else
+			{ return 0; }
 	}
 
-	virtual eqnNode* copy() const
-	{
-		return new lnNode(right);
-	}
-
-	virtual int type() const
-	{
-		return nodeTypes::ln;
-	}
-
-	lnNode(eqnNode* input)
-	{
-		right = input->copy();
-	}
-
-	virtual ~lnNode()
-	{
-		deleteAll();
-	}
-
+	virtual ~lnNode() { deleteAll(); }
 };
 
 

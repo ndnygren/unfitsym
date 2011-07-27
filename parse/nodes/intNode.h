@@ -63,7 +63,7 @@ class intNode : public binOpNode
 		left = lin->copy();
 		right = rin->copy();
 	}
-	
+	virtual double value() const { return getL()->value(); }
 	virtual ~intNode() { deleteAll(); }
 };
 

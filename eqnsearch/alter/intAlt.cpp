@@ -28,9 +28,12 @@ vector<eqnNode*> intCand(intNode* input)
 	subNode *subspare;
 	fracNode *fracspare, *frac1spare;
 	prodNode *prodspare;
-	hatNode *hatspare;
+	hatNode *hatspare, *hat1spare;
 	numNode one(1);
+	numNode negone(-1);
 	numNode two(2);
+	numNode zero(0);
+	varNode *varspare;
 
 	//check for constants
 	if (input->getL()->isConst()) 
@@ -109,6 +112,28 @@ vector<eqnNode*> intCand(intNode* input)
 
 			delete spare;
 			delete frac1spare;
+		}
+	}
+
+	//polynomial types
+	if (input->getL()->type() == nodeTypes::hat
+		&& input->getR()->type() == nodeTypes::var)
+	{
+		hatspare = (hatNode*)(input->getL());
+		varspare = (varNode*)(input->getR());
+		if (hatspare->getR()->isConst(varspare->get())
+			&& hatspare->getL()->eq(varspare))
+		{
+			if (!(hatspare->getR()->eqVal(&negone)))
+			{
+				sumspare = new sumNode(hatspare->getR(), &one);
+				hat1spare = new hatNode(hatspare->getL(), sumspare);
+				changes.push_back(new fracNode(hat1spare,sumspare));
+				delete hat1spare;
+				delete sumspare;
+			}
+			else
+				{ changes.push_back(new lnNode(hatspare->getL())); }
 		}
 	}
 

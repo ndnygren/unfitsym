@@ -18,6 +18,7 @@
 
 #include "../parse/parts/expParse.h"
 #include "../parse/nodes/eqnNode.h"
+#include "break-words.h"
 #include <vector>
 #include <map>
 #include <utility>

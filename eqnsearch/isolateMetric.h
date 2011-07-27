@@ -37,10 +37,13 @@ class isolateMetric : public eqnMetric
 	{
 		if (input->type() == nodeTypes::num)
 		{ 
+			return 0;
+			/*
 				if (((numNode*)input)->get() > 1)
 					{ return 1; }
 				else	
 					{ return 0; }
+					*/
 		}
 		else if (input->type() == nodeTypes::var)
 		{

@@ -44,20 +44,10 @@ class negNode : public monoOpNode
 		return new negNode(right);
 	}
 
-	virtual int type() const
-	{
-		return nodeTypes::neg;
-	}
-
-	negNode(eqnNode* input)
-	{
-		right = input->copy();
-	}
-
-	virtual ~negNode()
-	{
-		deleteAll();
-	}
+	virtual int type() const { return nodeTypes::neg; }
+	negNode(eqnNode* input) { right = input->copy(); }
+	virtual double value() const { return -(getR()->value()); }
+	virtual ~negNode() { deleteAll(); }
 
 };
 

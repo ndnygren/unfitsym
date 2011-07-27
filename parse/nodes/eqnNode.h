@@ -53,6 +53,27 @@ class eqnNode
 	virtual bool eq(eqnNode* input) const = 0;
 
 	/*
+	 * virtual bool eqVal(eqnNode* input)
+	 *
+	 * Comparison operator. Attempts to reduce this expression to a single 
+	 *	integer, and the same for input. True is returned iff the values match.
+	 */
+	virtual bool eqVal(eqnNode* input) const
+	{
+		if (isConst() && input->isConst())
+			{ return value() == input->value(); }
+		else
+			{ return false; }
+	}
+
+	/*
+	 * virtual double value()
+	 *
+	 * Attempts to reduce this expression to a single numeric value
+	 */
+	virtual double value() const = 0;
+
+	/*
 	 * virtual int size()
 	 * 
 	 * Returns the number of nodes in the parse tree

@@ -41,16 +41,9 @@ class cosineNode : public monoOpNode
 		return nodeTypes::cos;
 	}
 
-	cosineNode(eqnNode* input)
-	{
-		right = input->copy();
-	}
-
-	virtual ~cosineNode()
-	{
-		deleteAll();
-	}
-
+	cosineNode(eqnNode* input) { right = input->copy(); }
+	virtual double value() const { return cos(getR()->value()); }
+	virtual ~cosineNode() { deleteAll(); }
 };
 
 

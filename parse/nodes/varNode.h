@@ -72,6 +72,9 @@ class varNode : public leafNode
 	{
 			return get() == name;
 	}
+
+	virtual double value() const
+		{ return 0.0; }
 };
 
 
