@@ -13,25 +13,20 @@
 *
 * You should have received a copy of the GNU General Public License
 * along with this program. If not, see <http://www.gnu.org/licenses/>. */
-#ifndef NN_VARNODE_H
-#define NN_VARNODE_H
+#ifndef NN_MONOOPNODE_H
+#define NN_MONOOPNODE_H
 
-#include "leafNode.h"
-#include <string>
+#include "eqnNode.h"
 
 /*
- * class varNode
+ * class MonoOpNode
  *
- * Terminal parse tree node represting a variable in the equation. The parser
- *	will only accept single lower case letters for variable, this is by
- *	choice. The structure allows for strings of arbitrary length and will
- *	also be used for LaTeX syntax greek ("\pi","\phi",...)
+ * Pure virutal base for Monic operators
  */
-
-class varNode : public leafNode
+class monoOpNode : public eqnNode
 {
 	protected:
-	std::string name;
+	eqnNode* right; //only one subtree
 
 	public:
 	virtual bool eq(eqnNode* input) const
@@ -39,24 +34,36 @@ class varNode : public leafNode
 		if (type() != input->type())
 			{ return false; }
 
-		return (get() == (((varNode*)input)->get()));
+		return getR()->eq(((monoOpNode*)input)->getR());
 	}
 
-	virtual eqnNode* copy() const { return new varNode(get()); }
-	virtual int type() const { return nodeTypes::var; }
-	std::string get() const { return name; }
-	virtual std::string str() const { return name; }
 
-	varNode(std::string input) { name = input; }
+	//this nodes size is ignored as long as it does not occur twice in a row. This will be modified in the future, when a proper metric will make this distinction.
+	virtual int size() const
+	{
+		return getR()->size() + 1;
+	}
+
+	virtual void deleteAll() 
+	{
+		if (right != 0)
+		{
+			right->deleteAll();
+			delete right;
+			right = 0;
+		}
+	}
+
+	eqnNode* getR() const { return right; }
 
 	/*
 	 * bool isConst()
 	 *
-	 * returns false since this expression does contain a variable
+	 * returns true iff the expression contains no variables
 	 * 
 	 */
 	virtual bool isConst() const
-		{ return false; }
+		{ return getR()->isConst(); }
 
 	/*
 	 * bool isConst(std::string name)
@@ -66,15 +73,7 @@ class varNode : public leafNode
 	 * 
 	 */
 	virtual bool isConst(const std::string& name) const
-		{ return !(get() == name); }
-
-	virtual bool isVar(const std::string& name) const 
-	{
-			return get() == name;
-	}
-
-	virtual double value() const
-		{ return 0.0; }
+		{ return getR()->isConst(name); }
 };
 
 

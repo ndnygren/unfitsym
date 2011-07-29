@@ -13,26 +13,41 @@
 *
 * You should have received a copy of the GNU General Public License
 * along with this program. If not, see <http://www.gnu.org/licenses/>. */
-#ifndef NN_NODETYPES_H
-#define NN_NODETYPES_H
+#ifndef NN_SINENODE_H
+#define NN_SINENODE_H
 
-class nodeTypes
+#include "monoOpNode.h"
+
+/*
+ * class sineNode
+ *
+ * Monic operator, representing the sine function
+ */
+class sineNode : public monoOpNode
 {
 	public:
-	static const int num = 1;
-	static const int sum = 2;
-	static const int sub = 3;
-	static const int prod = 4;
-	static const int var = 5;
-	static const int frac = 6;
-	static const int neg = 7;
-	static const int hat = 8;
-	static const int deriv = 9;
-	static const int integral = 10;
-	static const int sin = 11;
-	static const int cos = 12;
-	static const int ln = 13;
-	static const int integralb = 14;
+	virtual std::string str() const
+	{
+		return "\\sin(" + right->str() + ")";
+	}
+
+	virtual eqnNode* copy() const
+	{
+		return new sineNode(right);
+	}
+
+	virtual int type() const
+	{
+		return nodeTypes::sin;
+	}
+
+	sineNode(eqnNode* input)
+	{
+		right = input->copy();
+	}
+
+	virtual double value() const { return sin(getR()->value()); }
+	virtual ~sineNode() { deleteAll(); }
 };
 
 

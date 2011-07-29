@@ -17,6 +17,7 @@
 #define NN_EQNNODE_H
 
 #include "nodeTypes.h"
+#include <cmath>
 #include <string>
 
 /*
@@ -51,6 +52,27 @@ class eqnNode
 	 * 	node, and recursively compares each subtree to inputs subtrees
 	 */
 	virtual bool eq(eqnNode* input) const = 0;
+
+	/*
+	 * virtual bool eqVal(eqnNode* input)
+	 *
+	 * Comparison operator. Attempts to reduce this expression to a single 
+	 *	integer, and the same for input. True is returned iff the values match.
+	 */
+	virtual bool eqVal(eqnNode* input) const
+	{
+		if (isConst() && input->isConst())
+			{ return value() == input->value(); }
+		else
+			{ return false; }
+	}
+
+	/*
+	 * virtual double value()
+	 *
+	 * Attempts to reduce this expression to a single numeric value
+	 */
+	virtual double value() const = 0;
 
 	/*
 	 * virtual int size()
@@ -100,7 +122,24 @@ class eqnNode
 	 * 
 	 */
 	virtual bool isConst(const std::string& name) const
-		{ return true; }
+	{
+		if (name.length() > 0)
+			{ return true; }
+		return false;
+	}
+
+	/*
+	 * bool isVar(std::string name)
+	 *
+	 * returns true iff the expression is the specified variable
+	 * 
+	 */
+	virtual bool isVar(const std::string& name) const 
+	{
+		if (name.length() > 0)
+			{ return false; }
+		return false;
+	}
 
 	virtual ~eqnNode() { }
 };

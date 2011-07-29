@@ -33,6 +33,9 @@ void expParse::loadString(int offset, const std::string& data, int cap)
 	hatParse hat;
 	derivParse deriv;
 	intParse integral;
+	lnParse ln;
+	sineParse sine;
+	cosineParse cosine;
 
 	std::vector<parsePart*> exprs;
 	
@@ -48,6 +51,9 @@ void expParse::loadString(int offset, const std::string& data, int cap)
 	exprs.push_back(&hat);
 	exprs.push_back(&deriv);
 	exprs.push_back(&integral);
+	exprs.push_back(&ln);
+	exprs.push_back(&sine);
+	exprs.push_back(&cosine);
 
 	deleteAll();
 	

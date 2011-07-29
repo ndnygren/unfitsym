@@ -16,43 +16,22 @@
 #ifndef NN_NEGNODE_H
 #define NN_NEGNODE_H
 
-#include "eqnNode.h"
+#include "monoOpNode.h"
 
 /*
  * class negNode
  *
  * Monic operator, representing the negative of the subtree it contains
  */
-class negNode : public eqnNode
+class negNode : public monoOpNode
 {
-	protected:
-	eqnNode* right; //only one subtree
-
 	public:
-	virtual bool eq(eqnNode* input) const
-	{
-		if (type() != input->type())
-			{ return false; }
-
-		return getR()->eq(((negNode*)input)->getR());
-	}
-
 	//this nodes size is ignored as long as it does not occur twice in a row. This will be modified in the future, when a proper metric will make this distinction.
 	virtual int size() const
 	{
 		if (getR()->type()==nodeTypes::neg) 
 		{ return getR()->size() + 2; }
 		return getR()->size();
-	}
-
-	virtual void deleteAll() 
-	{
-		if (right != 0)
-		{
-			right->deleteAll();
-			delete right;
-			right = 0;
-		}
 	}
 
 	virtual std::string str() const
@@ -65,41 +44,11 @@ class negNode : public eqnNode
 		return new negNode(right);
 	}
 
-	virtual int type() const
-	{
-		return nodeTypes::neg;
-	}
+	virtual int type() const { return nodeTypes::neg; }
+	negNode(eqnNode* input) { right = input->copy(); }
+	virtual double value() const { return -(getR()->value()); }
+	virtual ~negNode() { deleteAll(); }
 
-	negNode(eqnNode* input)
-	{
-		right = input->copy();
-	}
-
-	virtual ~negNode()
-	{
-		deleteAll();
-	}
-
-	eqnNode* getR() const { return right; }
-
-	/*
-	 * bool isConst()
-	 *
-	 * returns true iff the expression contains no variables
-	 * 
-	 */
-	virtual bool isConst() const
-		{ return getR()->isConst(); }
-
-	/*
-	 * bool isConst(std::string name)
-	 *
-	 * returns true iff the expression does not contain the 
-	 *	specified variable
-	 * 
-	 */
-	virtual bool isConst(const std::string& name) const
-		{ return getR()->isConst(name); }
 };
 
 

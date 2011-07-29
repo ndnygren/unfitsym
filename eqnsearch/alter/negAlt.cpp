@@ -26,11 +26,21 @@ vector<eqnNode*> negCand(negNode* input)
 	numNode one(1);
 	negNode *spare, *otherspare;
 	sumNode *sumspare;
+	prodNode *prodspare;
 
 	// attempt to evaluate (exact integers only)
 	if (input->getR()->type() == nodeTypes::num) 
 	{
 		changes.push_back(new numNode( -1 * ((numNode*)(input->getR()))->get()));
+	}
+
+	//handle multiplcation
+	if (input->getR()->type() == nodeTypes::prod)
+	{
+		prodspare =  (prodNode*)(input->getR());
+		spare = new negNode(prodspare->getL());
+		changes.push_back(new prodNode(spare, prodspare->getR()));
+		delete spare;
 	}
 
 	//recurse 

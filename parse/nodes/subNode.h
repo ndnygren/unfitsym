@@ -40,6 +40,7 @@ class subNode : public binOpNode
 		right = rin->copy();
 	}
 
+	virtual double value() const { return getL()->value() - getR()->value(); }
 	virtual ~subNode() { deleteAll(); }
 };
 

@@ -16,7 +16,7 @@
 
 #include "sumParse.h"
 #include <string>
-#include <iostream>
+#include <utility>
 
 void sumParse::loadString(int offset, const std::string& data, int cap)
 {

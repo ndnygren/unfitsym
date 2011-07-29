@@ -13,26 +13,34 @@
 *
 * You should have received a copy of the GNU General Public License
 * along with this program. If not, see <http://www.gnu.org/licenses/>. */
-#ifndef NN_NODETYPES_H
-#define NN_NODETYPES_H
+#ifndef NN_LNNODE_H
+#define NN_LNNODE_H
 
-class nodeTypes
+#include "monoOpNode.h"
+
+/*
+ * class lnNode
+ *
+ * Monic operator, representing the natural log node
+ */
+class lnNode : public monoOpNode
 {
 	public:
-	static const int num = 1;
-	static const int sum = 2;
-	static const int sub = 3;
-	static const int prod = 4;
-	static const int var = 5;
-	static const int frac = 6;
-	static const int neg = 7;
-	static const int hat = 8;
-	static const int deriv = 9;
-	static const int integral = 10;
-	static const int sin = 11;
-	static const int cos = 12;
-	static const int ln = 13;
-	static const int integralb = 14;
+	virtual std::string str() const { return "\\ln(" + right->str() + ")"; }
+	virtual eqnNode* copy() const { return new lnNode(right); }
+	virtual int type() const { return nodeTypes::ln; }
+	lnNode(eqnNode* input) { right = input->copy(); }
+
+	virtual double value() const 
+	{ 
+		double arg = getR()->value();
+		if (arg > 0)
+			{ return log(getR()->value()); }
+		else
+			{ return 0; }
+	}
+
+	virtual ~lnNode() { deleteAll(); }
 };
 
 

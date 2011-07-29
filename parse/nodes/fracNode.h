@@ -41,7 +41,8 @@ class fracNode : public binOpNode
 		left = lin->copy();
 		right = rin->copy();
 	}
-	
+
+	virtual double value() const { return getL()->value() / getR()->value(); }
 	virtual ~fracNode() { deleteAll(); }
 };
 

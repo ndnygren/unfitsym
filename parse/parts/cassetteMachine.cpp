@@ -39,7 +39,7 @@ std::vector<std::pair <int, eqnNode*> > cassetteMachine::copySucc(const std::vec
 		// do not try to copy null pointers
 		if (list[i].second == 0)
 		{
-			outlist.push_back(std::pair<int,eqnNode*>(list[i].first,0)); 
+			outlist.push_back(std::pair<int,eqnNode*>(list[i].first,(eqnNode*)0)); 
 		}
 		// create of copy of any real parse tree
 		else

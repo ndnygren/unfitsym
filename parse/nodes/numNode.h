@@ -57,7 +57,7 @@ class numNode : public leafNode
 	virtual int type() const { return nodeTypes::num; }
 	int get() const { return num; }
 	virtual std::string str() const { return toString(num); }
-
+	virtual double value() const { return (double)get(); }
 	numNode(int input) { num = input; }
 };
 

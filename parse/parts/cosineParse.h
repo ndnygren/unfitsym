@@ -13,27 +13,24 @@
 *
 * You should have received a copy of the GNU General Public License
 * along with this program. If not, see <http://www.gnu.org/licenses/>. */
-#ifndef NN_NODETYPES_H
-#define NN_NODETYPES_H
+#ifndef NN_COSINEPARSE_H
+#define NN_COSINEPARSE_H
 
-class nodeTypes
+#include "../nodes/cosineNode.h"
+#include "expParse.h"
+#include "tokParse.h"
+
+/*
+ * class cosineParse
+ *
+ * the CFG rule Expr -> "\cos(" Expr ")"
+ * Parses the cosine function
+ */
+class cosineParse : public parsePart
 {
 	public:
-	static const int num = 1;
-	static const int sum = 2;
-	static const int sub = 3;
-	static const int prod = 4;
-	static const int var = 5;
-	static const int frac = 6;
-	static const int neg = 7;
-	static const int hat = 8;
-	static const int deriv = 9;
-	static const int integral = 10;
-	static const int sin = 11;
-	static const int cos = 12;
-	static const int ln = 13;
-	static const int integralb = 14;
+	virtual void loadString(int offset, const std::string& data, int cap);
+	virtual ~cosineParse() { deleteAll(); }
 };
-
 
 #endif

@@ -30,6 +30,9 @@
 #include "hatParse.h"
 #include "derivParse.h"
 #include "intParse.h"
+#include "sineParse.h"
+#include "cosineParse.h"
+#include "lnParse.h"
 
 class expParse : public parsePart
 {
