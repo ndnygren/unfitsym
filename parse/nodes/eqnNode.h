@@ -17,6 +17,7 @@
 #define NN_EQNNODE_H
 
 #include "nodeTypes.h"
+#include <cmath>
 #include <string>
 
 /*
