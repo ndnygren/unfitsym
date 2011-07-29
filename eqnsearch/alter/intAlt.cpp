@@ -15,12 +15,14 @@
 * along with this program. If not, see <http://www.gnu.org/licenses/>. */
 
 #include "intAlt.h"
+#include "intStrip.h"
 
 using namespace std;
 
 vector<eqnNode*> intCand(intNode* input)
 {
 	unsigned int i;
+	eqnNode *stripped;
 	vector<eqnNode*> changes;
 	vector<eqnNode*> subchanges;
 	intNode *spare, *otherspare;
@@ -28,26 +30,11 @@ vector<eqnNode*> intCand(intNode* input)
 	subNode *subspare;
 	fracNode *fracspare, *frac1spare;
 	prodNode *prodspare;
-	hatNode *hatspare, *hat1spare;
 	numNode one(1);
 	numNode negone(-1);
 	numNode two(2);
 	numNode zero(0);
-	varNode *varspare;
 
-	//check for constants
-	if (input->getL()->isConst()) 
-	{
-		changes.push_back(new prodNode(input->getL(),input->getR()));
-	}
-
-	//check equality
-	if (input->getL()->eq(input->getR()))
-	{
-		hatspare = new hatNode(input->getL(),&two);
-		changes.push_back(new fracNode(hatspare,&two));
-		delete hatspare;
-	}
 
 	// sums
 	if (input->getL()->type() == nodeTypes::sum) 
@@ -115,27 +102,13 @@ vector<eqnNode*> intCand(intNode* input)
 		}
 	}
 
-	//polynomial types
-	if (input->getL()->type() == nodeTypes::hat
-		&& input->getR()->type() == nodeTypes::var)
+
+	//attempt to solve
+	stripped = attemptStrip(input);
+	if (stripped != 0)
 	{
-		hatspare = (hatNode*)(input->getL());
-		varspare = (varNode*)(input->getR());
-		if (hatspare->getR()->isConst(varspare->get())
-			&& hatspare->getL()->eq(varspare))
-		{
-			if (!(hatspare->getR()->eqVal(&negone)))
-			{
-				sumspare = new sumNode(hatspare->getR(), &one);
-				hat1spare = new hatNode(hatspare->getL(), sumspare);
-				changes.push_back(new fracNode(hat1spare,sumspare));
-				delete hat1spare;
-				delete sumspare;
-			}
-			else
-				{ changes.push_back(new lnNode(hatspare->getL())); }
-		}
-	}
+		changes.push_back(stripped);
+	}	
 
 	//recursing
 	copyCand(getCand(input->getL()), subchanges);
