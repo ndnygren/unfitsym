@@ -21,7 +21,6 @@ using namespace std;
 vector<eqnNode*> subCand(subNode* input)
 {
 	unsigned int i;
-	nodeTypes types;
 	numNode one(1);
 	numNode negone(-1);
 	vector<eqnNode*> changes;
@@ -32,8 +31,8 @@ vector<eqnNode*> subCand(subNode* input)
 	negNode *negspare;
 
 	// attempt to evaluate
-	if ((input->getL()->type() == types.num) 
-		&& (input->getR()->type() == types.num))
+	if ((input->getL()->type() == nodeTypes::num) 
+		&& (input->getR()->type() == nodeTypes::num))
 	{
 		changes.push_back(new numNode(
 			((numNode*)(input->getL()))->get()

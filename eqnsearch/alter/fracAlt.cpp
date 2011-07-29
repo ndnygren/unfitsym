@@ -21,7 +21,6 @@ using namespace std;
 vector<eqnNode*> fracCand(fracNode* input)
 {
 	unsigned int i;
-	nodeTypes types;
 	vector<eqnNode*> changes;
 	vector<eqnNode*> subchanges;
 	numNode one(1);
@@ -36,7 +35,7 @@ vector<eqnNode*> fracCand(fracNode* input)
 	delete otherspare;
 
 	//flip denominator up
-	if (input->getR()->type() == types.frac) 
+	if (input->getR()->type() == nodeTypes::frac) 
 	{
 		spare = (fracNode*)(input->getR());
 		otherspare = new fracNode(spare->getR() ,spare->getL());
@@ -45,7 +44,7 @@ vector<eqnNode*> fracCand(fracNode* input)
 	}
 
 	//numerator fraction down
-	if (input->getL()->type() == types.frac) 
+	if (input->getL()->type() == nodeTypes::frac) 
 	{
 		spare = (fracNode*)(input->getL());
 		prodspare = new prodNode(spare->getR(), input->getR());
@@ -54,8 +53,8 @@ vector<eqnNode*> fracCand(fracNode* input)
 	}
 
 	// attempt to evaluate (exact integers only)
-	if ((input->getL()->type() == types.num) 
-		&& (input->getR()->type() == types.num)
+	if ((input->getL()->type() == nodeTypes::num) 
+		&& (input->getR()->type() == nodeTypes::num)
 		&& ( ((numNode*)(input->getL()))->get()
 			% ((numNode*)(input->getR()))->get() == 0))
 	{
@@ -86,14 +85,14 @@ vector<eqnNode*> fracCand(fracNode* input)
 	subchanges.clear();
 
 	//check right identity
-	if ((input->getR()->type() == types.num) 
+	if ((input->getR()->type() == nodeTypes::num) 
 		&& ((numNode*)(input->getR()))->get() == 1)
 	{
 		changes.push_back(input->getL()->copy());
 	}
 
 	//handle zero
-	if ((input->getL()->type() == types.num) 
+	if ((input->getL()->type() == nodeTypes::num) 
 		&& ((numNode*)(input->getL()))->get() == 0)
 	{
 		changes.push_back(new numNode(0));
@@ -133,7 +132,7 @@ vector<eqnNode*> fracCand(fracNode* input)
 	}
 
 	//numerator extraction 
-	if (input->getL()->type() == types.prod) 
+	if (input->getL()->type() == nodeTypes::prod) 
 	{
 		prodspare = (prodNode*)(input->getL());
 		spare = new fracNode(prodspare->getR(), input->getR());

@@ -29,6 +29,7 @@ class nodeTypes
 	static const int hat = 8;
 	static const int deriv = 9;
 	static const int integral = 10;
+	static const int integralb = 11;
 };
 
 
