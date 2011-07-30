@@ -28,7 +28,6 @@
 #include <queue>
 #include <iostream>
 
-using namespace std;
 
 /*
  * class eqnComp
@@ -77,13 +76,7 @@ class searchMaxMin
 	 * 
 	 * iterates over the map and frees all memory used by the eqnNode*s
 	 */
-	void freeMap(std::map<std::string, eqnNode*> &inmap)
-	{
-		std::map<std::string, eqnNode*>::iterator it;
-
-		for (it=inmap.begin(); it!=inmap.end(); it++)
-			{ delete (*it).second; }
-	}
+	void freeMap(std::map<std::string, eqnNode*> &inmap);
 
 	public:
 	//TODO: consider getter functions for these
@@ -108,18 +101,15 @@ class searchMaxMin
 	 *
 	 * initializes the search and performs a shallow first look.
 	 */
-	searchMaxMin(eqnNode* input, eqnMetric* inrate)
-	{
-		rate = inrate; 
-		comp = eqnComp(rate);
-		// the proiority_queue is initialized with the supplied metric here
-		stack = std::priority_queue<eqnNode*, std::vector<eqnNode*>, eqnComp>(comp);
-		// a first value is entered into the search
-		start = input->copy();
-		stack.push(input->copy());
-	
-		next();
-	}
+	searchMaxMin(eqnNode* input, eqnMetric* inrate);
+
+	/*
+	 * void addToMap(std::string from, eqnNode *newnode)
+	 *
+	 * Checks if the new expression has been previously discovered,
+	 * 	adds the pair to the adjPair list.
+	 */
+	void addToMap(std::string from, eqnNode *newnode);
 
 	/*
 	 * void next(int limit = 100)
@@ -128,49 +118,7 @@ class searchMaxMin
 	 * 	of new expressions have been evaluated, and their subsequent 
 	 * 	expressions added to the queue.
 	 */
-	void next(int limit = 100)
-	{
-		unsigned int i;
-		int count = 0;
-
-		// exprLinked interacts with the expression manipulators 
-		//	(stored in eqnsearch/alter/)
-		// 	and returns a list of expressions to add to the adjacent
-		//	pairs list
-		exprLinked* current;
-
-		// the stack should never empty itself, but this is left in
-		// 	in case the rules about identity (+0, *1) are removed.
-		while (stack.size() > 0 && count < limit)
-		{
-			current = new exprLinked(stack.top());
-			delete stack.top();
-			stack.pop();
-//			cout << current[0].str() << "\n";
-
-			// load() generates fresh candidates from the current 
-			// expression
-			current[0].load();
-
-			for(i = 0; i < current[0].changes.size(); i++)
-			{
-				// if it already exists, we only add the new path
-				if (exprMap.count(current[0].changes[i]->str()) > 0)
-				{
-					adjPairs.push_back( std::pair<std::string,std::string> (current[0].str(), current[0].changes[i]->str()));
-				}
-				else // otherwise it is new discovery
-				{
-					exprMap[current[0].changes[i]->str()] = current[0].changes[i]->copy();
-					adjPairs.push_back( std::pair<std::string,std::string> (current[0].str(), current[0].changes[i]->str()));
-					//it is added to the stack to be evaluated itself
-					stack.push(current[0].changes[i]->copy());
-					count++;
-				}
-			}
-			delete current;
-		}
-	}
+	void next(int limit = 1000);
 
 	/*
 	 * vector<eqnNode*> best(unsigned int limit = 10)
@@ -179,51 +127,9 @@ class searchMaxMin
 	 *	are returned, the calling function may decide that one of them
 	 *	is the proof goal.
 	 */
-	std::vector<eqnNode*> best(unsigned int limit = 10)
-	{
-		unsigned int i;
-		std::vector<eqnNode*> list;
-		eqnNode *toinsert, *spare;
-		std::map<std::string, eqnNode*>::iterator it;
+	std::vector<eqnNode*> best(unsigned int limit = 10);
 
-		for (it=exprMap.begin(); it!=exprMap.end(); it++)
-		{
-			//iterate over the map in a single pass
-			toinsert = (*it).second;
-			for (i = 0; i < limit; i++)
-			{
-				if (i >= list.size())//begin by filling the list
-				{
-					list.push_back(toinsert);
-					i = limit;
-				}
-				else if (rate->score(toinsert) < rate->score(list[i]))
-				//if the current candidate is better than
-				//	what is already in the list, swap
-				{
-					spare = list[i];
-					list[i] = toinsert;
-					toinsert = spare;
-				}
-			}
-		}
-
-		return list;
-		
-	}
-
-	~searchMaxMin()
-	{
-		freeMap(exprMap);
-
-		//this is brutal, needs to be replaced with a iterator
-		while (!stack.empty())
-		{
-			delete stack.top();
-			stack.pop();
-		}
-		delete start;
-	}
+	~searchMaxMin();
 };
 
 #endif

@@ -33,7 +33,7 @@ class MainUFSearchWindow : public QWidget
 	eqnMetric *rate;
 	int proofwidth;
 	int proofheight;
-	vector<eqnNode*> bList;
+	std::vector<eqnNode*> bList;
 
 	public:
 	MainUFSearchWindow();

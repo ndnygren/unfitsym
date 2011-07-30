@@ -15,7 +15,9 @@
 * along with this program. If not, see <http://www.gnu.org/licenses/>. */
 
 #include "MainUFSearchWindow.h"
+#include <sstream>
 
+using namespace std;
 
 void MainUFSearchWindow::fillBest()
 {
@@ -71,10 +73,19 @@ void MainUFSearchWindow::loadProof(const QModelIndex &i)
 
 void MainUFSearchWindow::deeper()
 {
+	std::stringstream sstemp;
+	proofBox->clear();
+		
+
 	if (searchinit)
 	{
-		engine->next(500);
+		engine->next(engine->exprMap.size());
+		sstemp << "Stack size: "; 
+		sstemp << (int)(engine->stack.size());
+		sstemp << "\nMap size: ";
+		sstemp << (int)(engine->exprMap.size());
 		fillBest();
+		proofBox->setPlainText(QString(sstemp.str().c_str()));
 	}
 }
  
