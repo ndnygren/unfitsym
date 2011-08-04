@@ -22,6 +22,7 @@
 #include "eqnsearch/searchMaxMin.h"
 #include "eqnsearch/generateProof.h"
 #include "eqnsearch/isoSimpMetric.h"
+#include "eqnsearch/unchainMetric.h"
 
 class MainUFSearchWindow : public QWidget
 {
@@ -31,6 +32,8 @@ class MainUFSearchWindow : public QWidget
 	bool searchinit;
 	searchMaxMin *engine;
 	eqnMetric *rate;
+	eqnMetric simp;
+	unchainMetric unchain;
 	int proofwidth;
 	int proofheight;
 	std::vector<eqnNode*> bList;

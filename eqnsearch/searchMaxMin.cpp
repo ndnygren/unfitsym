@@ -28,17 +28,32 @@ void searchMaxMin::freeMap(std::map<std::string, eqnNode*> &inmap)
 		{ delete (*it).second; }
 }
 
+void searchMaxMin::allPush(eqnNode* input)
+{
+	unsigned int i;
+
+	for (i = 0; i < stacks.size(); i++)
+	{
+		stacks[i].push(input->copy());
+	}
+}
+
 searchMaxMin::searchMaxMin(eqnNode* input, eqnMetric* inrate)
 {
 	rate = inrate; 
 	comp = eqnComp(rate);
 	// the proiority_queue is initialized with the supplied metric here
-	stack = std::priority_queue<eqnNode*, std::vector<eqnNode*>, eqnComp>(comp);
+	stacks.push_back( std::priority_queue<eqnNode*, std::vector<eqnNode*>, eqnComp>(comp));
 	// a first value is entered into the search
 	start = input->copy();
-	stack.push(input->copy());
+	allPush(input);
 
 	next();
+}
+
+void searchMaxMin::addNewDirection(eqnMetric* inrate)
+{
+	stacks.push_back( std::priority_queue<eqnNode*, std::vector<eqnNode*>, eqnComp>(eqnComp(inrate)));
 }
 
 void searchMaxMin::addToMap(std::string from, eqnNode *newnode)
@@ -53,7 +68,7 @@ void searchMaxMin::addToMap(std::string from, eqnNode *newnode)
 		exprMap[newnode->str()] = newnode->copy();
 		adjPairs.push_back( std::pair<std::string,std::string> (from, newnode->str()));
 		//it is added to the stack to be evaluated itself
-		stack.push(newnode->copy());
+		allPush(newnode);
 	}
 }
 
@@ -61,6 +76,8 @@ void searchMaxMin::next(int limit)
 {
 	unsigned int i;
 	int count = 0;
+	unsigned int cs = 0;
+
 
 	// exprLinked interacts with the expression manipulators 
 	//	(stored in eqnsearch/alter/)
@@ -70,12 +87,14 @@ void searchMaxMin::next(int limit)
 
 	// the stack should never empty itself, but this is left in
 	// 	in case the rules about identity (+0, *1) are removed.
-	while (stack.size() > 0 && count < limit)
+	while (stacks[0].size() > 0 && count < limit)
 	{
-		current = new exprLinked(stack.top());
-		delete stack.top();
-		stack.pop();
-//			cout << current[0].str() << "\n";
+		//chooses a particular direction and selects an expresion
+		if (cs >= stacks.size()) { cs = 0; }
+		current = new exprLinked(stacks[cs].top());
+		delete stacks[cs].top();
+		stacks[cs].pop();
+		cs++;	
 
 		// load() generates fresh candidates from the current 
 		// expression
@@ -125,13 +144,17 @@ std::vector<eqnNode*> searchMaxMin::best(unsigned int limit)
 
 searchMaxMin::~searchMaxMin()
 {
+	unsigned int i;
 	freeMap(exprMap);
 
 	//this is brutal, needs to be replaced with a iterator
-	while (!stack.empty())
-	{
-		delete stack.top();
-		stack.pop();
+	for (i = 0; i < stacks.size(); i++)
+	{	
+		while (!stacks[i].empty())
+		{
+			delete stacks[i].top();
+			stacks[i].pop();
+		}
 	}
 	delete start;
 }

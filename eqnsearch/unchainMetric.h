@@ -13,19 +13,16 @@
 *
 * You should have received a copy of the GNU General Public License
 * along with this program. If not, see <http://www.gnu.org/licenses/>. */
-#ifndef NN_ISOLATEMETRIC_H
-#define NN_ISOLATEMETRIC_H
+#ifndef NN_UNCHAINMETRIC_H
+#define NN_UNCHAINMETRIC_H
 
 #include "../parse/nodes/eqnNode.h"
 #include "../parse/nodes/nodeTypes.h"
 #include "eqnMetric.h"
 #include <string>
 
-class isolateMetric : public eqnMetric
+class unchainMetric : public eqnMetric
 {
-	protected:
-	std::string target;
-
 	public:
 	int bump(int input) const
 	{
@@ -35,27 +32,17 @@ class isolateMetric : public eqnMetric
 
 	virtual int score(const eqnNode* input) const
 	{
-		if (input->type() == nodeTypes::num)
+		if (input->type() == nodeTypes::num
+			&& input->type() == nodeTypes::var)
 		{ 
-			return 0;
-			/*
-				if (((numNode*)input)->get() > 1)
-					{ return 1; }
-				else	
-					{ return 0; }
-					*/
-		}
-		else if (input->type() == nodeTypes::var)
-		{
-			if (((varNode*)input)->get() == target )
-				{ return 1; }
-			else { return 0; }
+			return 1;
 		}
 		else if (input->type() == nodeTypes::sum
 			|| input->type() == nodeTypes::sub
 			|| input->type() == nodeTypes::prod
 			|| input->type() == nodeTypes::frac
-			|| input->type() == nodeTypes::hat)
+			|| input->type() == nodeTypes::hat
+			|| input->type() == nodeTypes::integral)
 		{
 			return bump(score(((binOpNode*)input)->getL()) 
 				+score(((binOpNode*)input)->getR()));
@@ -68,20 +55,18 @@ class isolateMetric : public eqnMetric
 		{
 			return bump(score(((monoOpNode*)input)->getR())); 
 		}
-		else if (input->type() == nodeTypes::deriv
-			&& input->type() == nodeTypes::integral)
+		else if (input->type() == nodeTypes::deriv)
 		{
-			return score(((binOpNode*)input)->getL())*
-				score(((binOpNode*)input)->getL());
+			if (((derivNode*)(input->type()))->getL()->type() == nodeTypes::integral)
+				{ return -5; }
+			else
+				{ return score(((derivNode*)input)->getL()); }
 		}
 		
 		return (input->str()).length();
 	}
 
-	isolateMetric(std::string intarget)
-		{ target = intarget; }
-
-	virtual ~isolateMetric() {}
+	virtual ~unchainMetric() {}
 };
 
 

@@ -53,6 +53,8 @@ void MainUFSearchWindow::loadeqn()
 	{
 		rate = new isoSimpMetric(entry2->text().toStdString());
 		engine = new searchMaxMin(output,rate);
+		engine->addNewDirection(&simp);
+		engine->addNewDirection(&unchain);
 		delete output;
 		searchinit = true;
 		fillBest();
@@ -80,8 +82,6 @@ void MainUFSearchWindow::deeper()
 	if (searchinit)
 	{
 		engine->next(engine->exprMap.size());
-		sstemp << "Stack size: "; 
-		sstemp << (int)(engine->stack.size());
 		sstemp << "\nMap size: ";
 		sstemp << (int)(engine->exprMap.size());
 		fillBest();

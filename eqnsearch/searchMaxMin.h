@@ -69,7 +69,6 @@ class searchMaxMin
 	eqnComp comp;
 	// this rate should always be the same as above
 	eqnMetric *rate;
-	
 
 	/*
 	 * void freeMap(std::map<std::string, eqnNode*> &inmap)
@@ -92,9 +91,17 @@ class searchMaxMin
 	//	a second time.
 	std::map<std::string, eqnNode*> exprMap;
 
-	// the original stack was replaced with a priority queue, converting
+	// the original stack was replaced with many priority queues, converting
 	// 	the depth-first search into a best-first search
-	std::priority_queue<eqnNode*, std::vector<eqnNode*>, eqnComp> stack;
+	std::vector<std::priority_queue<eqnNode*, std::vector<eqnNode*>, eqnComp> > stacks;
+
+	/*
+	 * void allPush(eqnNode*)
+	 *
+	 * pushes the supplied expression to all priority queues
+	 */
+	void allPush(eqnNode* input);
+	
 
 	/*
 	 * searchMaxMin(eqnNode* input, eqnMetric* inrate)
@@ -102,6 +109,13 @@ class searchMaxMin
 	 * initializes the search and performs a shallow first look.
 	 */
 	searchMaxMin(eqnNode* input, eqnMetric* inrate);
+
+	/*
+	 * void addNewDirection(eqnMetric* inrate);
+	 *
+	 * adds an additional direction for a multi-directional search
+	 */
+	void addNewDirection(eqnMetric* inrate);
 
 	/*
 	 * void addToMap(std::string from, eqnNode *newnode)
