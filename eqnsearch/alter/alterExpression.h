@@ -52,6 +52,7 @@ class alterExpression
 	public:
 	static void copyCand(const std::vector<eqnNode*>& from, std::vector<eqnNode*>& to); 
 	static void freeCand(std::vector<eqnNode*>& list);
+	static eqnNode* derivative(eqnNode* expression, std::string var);
 
 	static std::vector<eqnNode*> getCand(eqnNode* input);
 };

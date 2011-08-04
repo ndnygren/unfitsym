@@ -33,6 +33,7 @@ vector<eqnNode*> alterExpression::derivCand(derivNode* input)
 	hatNode *hatspare, *hat2spare;
 	numNode one(1);
 	numNode two(2);
+	varNode *varspare;
 	cosineNode *cosspare;
 	sineNode *sinspare;
 	negNode *negspare;
@@ -41,6 +42,14 @@ vector<eqnNode*> alterExpression::derivCand(derivNode* input)
 	if (input->getL()->isConst()) 
 	{
 		changes.push_back(new numNode(0));
+	}
+	if (input->getR()->type() == nodeTypes::var) 
+	{
+		varspare = (varNode*)(input->getR());
+		if (input->getL()->isConst(varspare->get()))
+		{
+			changes.push_back(new numNode(0));
+		}
 	}
 
 	//check equality
@@ -87,10 +96,12 @@ vector<eqnNode*> alterExpression::derivCand(derivNode* input)
 	}
 
 	//product rule (half const)
-	if (input->getL()->type() == nodeTypes::prod) 
+	if (input->getL()->type() == nodeTypes::prod
+		&& input->getR()->type() == nodeTypes::var) 
 	{
 		prodspare = (prodNode*)(input->getL());
-		if (prodspare->getL()->isConst())
+		varspare = (varNode*)(input->getR());
+		if (prodspare->getL()->isConst(varspare->get()))
 		{
 			spare = new derivNode(prodspare->getR(), input->getR());
 			changes.push_back(new prodNode(prodspare->getL(),spare));
@@ -120,10 +131,12 @@ vector<eqnNode*> alterExpression::derivCand(derivNode* input)
 	}
 
 	//quotient rule(numerator const)
-	if (input->getL()->type() == nodeTypes::frac)
+	if (input->getL()->type() == nodeTypes::frac
+		&& input->getR()->type() == nodeTypes::var) 
 	{
 		fracspare = (fracNode*)(input->getL());
-		if (fracspare->getL()->isConst())
+		varspare = (varNode*)(input->getR());
+		if (fracspare->getL()->isConst(varspare->get()))
 		{
 			spare = new derivNode(fracspare->getR(), input->getR());
 			prod1spare = new prodNode(spare, fracspare->getL());
@@ -140,10 +153,12 @@ vector<eqnNode*> alterExpression::derivCand(derivNode* input)
 	}
 
 	//quotient rule(denominiator const)
-	if (input->getL()->type() == nodeTypes::frac)
+	if (input->getL()->type() == nodeTypes::frac
+		&& input->getR()->type() == nodeTypes::var) 
 	{
 		fracspare = (fracNode*)(input->getL());
-		if (fracspare->getR()->isConst())
+		varspare = (varNode*)(input->getR());
+		if (fracspare->getR()->isConst(varspare->get()))
 		{
 			spare = new derivNode(fracspare->getL(), input->getR());
 			frac1spare = new fracNode(&one, fracspare->getR());

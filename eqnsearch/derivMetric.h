@@ -13,60 +13,63 @@
 *
 * You should have received a copy of the GNU General Public License
 * along with this program. If not, see <http://www.gnu.org/licenses/>. */
-#ifndef NN_ISOLATEMETRIC_H
-#define NN_ISOLATEMETRIC_H
+#ifndef NN_DERIVMETRIC_H
+#define NN_DERIVMETRIC_H
 
 #include "../parse/nodes/eqnNode.h"
 #include "../parse/nodes/nodeTypes.h"
 #include "eqnMetric.h"
 #include <string>
 
-class isolateMetric : public eqnMetric
+class derivMetric : public eqnMetric
 {
-	protected:
-	std::string target;
-
 	public:
-	int bump(int input) const
+	int countd(const eqnNode* input) const
 	{
-		if (input > 0) { return input + 1; }
-		else { return 0; }
-	}
-
-	virtual int score(const eqnNode* input) const
-	{
-		if (input->type() == nodeTypes::num)
-		{ 
-			return 0;
-			/*
-				if (((numNode*)input)->get() > 1)
-					{ return 1; }
-				else	
-					{ return 0; }
-					*/
-		}
-		else if (input->type() == nodeTypes::var)
-		{
-			if (((varNode*)input)->get() == target )
-				{ return 1; }
-			else { return 0; }
-		}
-		else if (input->type() == nodeTypes::sum
+		if (input->type() == nodeTypes::sum
 			|| input->type() == nodeTypes::sub
 			|| input->type() == nodeTypes::prod
 			|| input->type() == nodeTypes::frac
-			|| input->type() == nodeTypes::hat)
+			|| input->type() == nodeTypes::hat
+			|| input->type() == nodeTypes::integral)
 		{
-			return bump(score(((binOpNode*)input)->getL()) 
-				+score(((binOpNode*)input)->getR()));
-			
+			return countd(((binOpNode*)input)->getL()) 
+				+ countd(((binOpNode*)input)->getR());
 		}
 		else if (input->type() == nodeTypes::neg
 			|| input->type() == nodeTypes::sin
 			|| input->type() == nodeTypes::cos
 			|| input->type() == nodeTypes::ln)
 		{
-			return bump(score(((monoOpNode*)input)->getR())); 
+			return countd(((monoOpNode*)input)->getR()); 
+		}
+		else if (input->type() == nodeTypes::deriv)
+		{
+			return countd(((binOpNode*)input)->getL())*
+				countd(((binOpNode*)input)->getL()) + 1;
+		}
+		
+		return 0;
+		
+	}
+
+	virtual int score(const eqnNode* input) const
+	{
+		if (input->type() == nodeTypes::sum
+			|| input->type() == nodeTypes::sub
+			|| input->type() == nodeTypes::prod
+			|| input->type() == nodeTypes::frac
+			|| input->type() == nodeTypes::hat)
+		{
+			return score(((binOpNode*)input)->getL()) 
+				+score(((binOpNode*)input)->getR()) + 1;
+		}
+		else if (input->type() == nodeTypes::neg
+			|| input->type() == nodeTypes::sin
+			|| input->type() == nodeTypes::cos
+			|| input->type() == nodeTypes::ln)
+		{
+			return score(((monoOpNode*)input)->getR()) + 1; 
 		}
 		else if (input->type() == nodeTypes::deriv
 			|| input->type() == nodeTypes::integral)
@@ -78,10 +81,7 @@ class isolateMetric : public eqnMetric
 		return 1;
 	}
 
-	isolateMetric(std::string intarget)
-		{ target = intarget; }
-
-	virtual ~isolateMetric() {}
+	virtual ~derivMetric() {}
 };
 
 

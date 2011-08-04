@@ -19,6 +19,7 @@
 #include "eqnsearch/searchMaxMin.h"
 #include "eqnsearch/isoSimpMetric.h"
 #include "eqnsearch/generateProof.h"
+#include "eqnsearch/alter/alterExpression.h"
 #include "MainUFSearchWindow.h"
 
 using namespace std;
@@ -27,7 +28,7 @@ int main(int argc, char** argv)
 {
 	unsigned int i;
 	parserFull parser;
-	eqnNode *output;
+	eqnNode *output, *temp;
 	eqnMetric *rate;
 	searchMaxMin *a;
 	vector<eqnNode*> list;
@@ -41,9 +42,12 @@ int main(int argc, char** argv)
 		if (output != 0)
 		{
 			cout << "parsed: " << output->str() << "\n";
+			temp = alterExpression::derivative(output,"x");
+			cout << "derivative: " << temp->str() << "\n";
+			delete temp;
+			
 			a = new searchMaxMin(output, rate);
-			a->next(10000);
-			a->next(10000);
+			a->next(1000);
 			cout << "best: ";
 			list = a->best();
 
