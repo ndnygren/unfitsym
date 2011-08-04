@@ -14,11 +14,11 @@
 * You should have received a copy of the GNU General Public License
 * along with this program. If not, see <http://www.gnu.org/licenses/>. */
 
-#include "intStrip.h"
+#include "alterExpression.h"
 
 using namespace std;
 
-eqnNode* attemptStrip(intNode* input)
+eqnNode* alterExpression::attemptStrip(intNode* input)
 {
 	eqnNode* outexpr;
 	sumNode *sumspare;

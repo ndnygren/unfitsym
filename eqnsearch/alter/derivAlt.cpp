@@ -14,11 +14,11 @@
 * You should have received a copy of the GNU General Public License
 * along with this program. If not, see <http://www.gnu.org/licenses/>. */
 
-#include "derivAlt.h"
+#include "alterExpression.h"
 
 using namespace std;
 
-vector<eqnNode*> derivCand(derivNode* input)
+vector<eqnNode*> alterExpression::derivCand(derivNode* input)
 {
 	unsigned int i;
 	int intspare;

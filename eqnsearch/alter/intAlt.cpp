@@ -14,12 +14,11 @@
 * You should have received a copy of the GNU General Public License
 * along with this program. If not, see <http://www.gnu.org/licenses/>. */
 
-#include "intAlt.h"
-#include "intStrip.h"
+#include "alterExpression.h"
 
 using namespace std;
 
-vector<eqnNode*> intCand(intNode* input)
+vector<eqnNode*> alterExpression::intCand(intNode* input)
 {
 	unsigned int i;
 	eqnNode *stripped;

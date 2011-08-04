@@ -57,13 +57,13 @@ class unchainMetric : public eqnMetric
 		}
 		else if (input->type() == nodeTypes::deriv)
 		{
-			if (((derivNode*)(input->type()))->getL()->type() == nodeTypes::integral)
+			if (((derivNode*)input)->getL()->type() == nodeTypes::integral)
 				{ return -5; }
 			else
 				{ return score(((derivNode*)input)->getL()); }
 		}
 		
-		return (input->str()).length();
+		return 1;
 	}
 
 	virtual ~unchainMetric() {}

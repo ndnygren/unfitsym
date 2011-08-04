@@ -32,21 +32,27 @@
 #include "../../parse/nodes/sineNode.h"
 #include "../../parse/nodes/cosineNode.h"
 #include "../../parse/nodes/nodeTypes.h"
-#include "sumAlt.h"
-#include "subAlt.h"
-#include "prodAlt.h"
-#include "fracAlt.h"
-#include "negAlt.h"
-#include "hatAlt.h"
-#include "derivAlt.h"
-#include "intAlt.h"
-#include "cosineAlt.h"
-#include "sineAlt.h"
-#include "lnAlt.h"
 
+class alterExpression
+{
+	protected:
+	static std::vector<eqnNode*> sumCand(sumNode* input);
+	static std::vector<eqnNode*> subCand(subNode* input);
+	static std::vector<eqnNode*> prodCand(prodNode* input);
+	static std::vector<eqnNode*> fracCand(fracNode* input);
+	static std::vector<eqnNode*> intCand(intNode* input);
+	static std::vector<eqnNode*> lnCand(lnNode* input);
+	static std::vector<eqnNode*> cosineCand(cosineNode* input);
+	static std::vector<eqnNode*> sineCand(sineNode* input);
+	static std::vector<eqnNode*> derivCand(derivNode* input);
+	static std::vector<eqnNode*> negCand(negNode* input);
+	static std::vector<eqnNode*> hatCand(hatNode* input);
+	static eqnNode* attemptStrip(intNode* input);
 
-std::vector<eqnNode*> getCand(eqnNode* input);
-void copyCand(const std::vector<eqnNode*>& from, std::vector<eqnNode*>& to); 
-void freeCand(std::vector<eqnNode*>& list);
+	public:
+	static void copyCand(const std::vector<eqnNode*>& from, std::vector<eqnNode*>& to); 
+	static void freeCand(std::vector<eqnNode*>& list);
 
+	static std::vector<eqnNode*> getCand(eqnNode* input);
+};
 #endif

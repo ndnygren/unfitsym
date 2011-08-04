@@ -42,7 +42,8 @@ int main(int argc, char** argv)
 		{
 			cout << "parsed: " << output->str() << "\n";
 			a = new searchMaxMin(output, rate);
-			a->next(1000);
+			a->next(10000);
+			a->next(10000);
 			cout << "best: ";
 			list = a->best();
 

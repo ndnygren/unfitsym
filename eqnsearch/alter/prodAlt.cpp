@@ -14,11 +14,11 @@
 * You should have received a copy of the GNU General Public License
 * along with this program. If not, see <http://www.gnu.org/licenses/>. */
 
-#include "prodAlt.h"
+#include "alterExpression.h"
 
 using namespace std;
 
-vector<eqnNode*> prodCand(prodNode* input)
+vector<eqnNode*> alterExpression::prodCand(prodNode* input)
 {
 	unsigned int i;
 	vector<eqnNode*> changes;

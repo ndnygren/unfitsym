@@ -14,10 +14,10 @@
 * You should have received a copy of the GNU General Public License
 * along with this program. If not, see <http://www.gnu.org/licenses/>. */
 
-#include "genAlt.h"
+#include "alterExpression.h"
 using namespace std;
 
-vector<eqnNode*> getCand(eqnNode* input)
+vector<eqnNode*> alterExpression::getCand(eqnNode* input)
 {
 	numNode one(1);
 	numNode negone(-1);
@@ -64,7 +64,7 @@ vector<eqnNode*> getCand(eqnNode* input)
 	return changes;
 }
 
-void copyCand(const vector<eqnNode*>& from, vector<eqnNode*>& to)
+void alterExpression::copyCand(const vector<eqnNode*>& from, vector<eqnNode*>& to)
 {
 	unsigned int i;
 	for (i = 0; i < from.size(); i++)
@@ -73,7 +73,7 @@ void copyCand(const vector<eqnNode*>& from, vector<eqnNode*>& to)
 	}
 }
 
-void freeCand(vector<eqnNode*>& list)
+void alterExpression::freeCand(vector<eqnNode*>& list)
 {
 	unsigned int i;
 	for (i = 0; i < list.size(); i++)

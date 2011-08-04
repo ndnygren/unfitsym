@@ -75,7 +75,7 @@ class isolateMetric : public eqnMetric
 				score(((binOpNode*)input)->getL());
 		}
 		
-		return (input->str()).length();
+		return 1;
 	}
 
 	isolateMetric(std::string intarget)

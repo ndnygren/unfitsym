@@ -14,11 +14,11 @@
 * You should have received a copy of the GNU General Public License
 * along with this program. If not, see <http://www.gnu.org/licenses/>. */
 
-#include "hatAlt.h"
+#include "alterExpression.h"
 
 using namespace std;
 
-vector<eqnNode*> hatCand(hatNode* input)
+vector<eqnNode*> alterExpression::hatCand(hatNode* input)
 {
 	unsigned int i;
 	int intspare;

@@ -14,11 +14,11 @@
 * You should have received a copy of the GNU General Public License
 * along with this program. If not, see <http://www.gnu.org/licenses/>. */
 
-#include "subAlt.h"
+#include "alterExpression.h"
 
 using namespace std;
 
-vector<eqnNode*> subCand(subNode* input)
+vector<eqnNode*> alterExpression::subCand(subNode* input)
 {
 	unsigned int i;
 	numNode one(1);

@@ -15,7 +15,7 @@
 * along with this program. If not, see <http://www.gnu.org/licenses/>. */
 #include <iostream>
 #include "exprLinked.h"
-#include "alter/genAlt.h"
+#include "alter/alterExpression.h"
 
 using namespace std;
 
@@ -27,7 +27,7 @@ std::string exprLinked::str() const
 
 void exprLinked::load()
 {
-	copyCand(getCand(expr), changes);
+	alterExpression::copyCand(alterExpression::getCand(expr), changes);
 }
 
 exprLinked::exprLinked()
@@ -55,6 +55,6 @@ exprLinked::~exprLinked()
 	{
 		delete expr;
 	}
-	freeCand(changes);
+	alterExpression::freeCand(changes);
 	changes.clear();
 }

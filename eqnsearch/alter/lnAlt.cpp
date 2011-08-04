@@ -14,11 +14,11 @@
 * You should have received a copy of the GNU General Public License
 * along with this program. If not, see <http://www.gnu.org/licenses/>. */
 
-#include "lnAlt.h"
+#include "alterExpression.h"
 
 using namespace std;
 
-vector<eqnNode*> lnCand(lnNode* input)
+vector<eqnNode*> alterExpression::lnCand(lnNode* input)
 {
 	unsigned int i;
 	vector<eqnNode*> changes;

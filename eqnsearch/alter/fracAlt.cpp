@@ -14,11 +14,11 @@
 * You should have received a copy of the GNU General Public License
 * along with this program. If not, see <http://www.gnu.org/licenses/>. */
 
-#include "fracAlt.h"
+#include "alterExpression.h"
 
 using namespace std;
 
-vector<eqnNode*> fracCand(fracNode* input)
+vector<eqnNode*> alterExpression::fracCand(fracNode* input)
 {
 	unsigned int i;
 	vector<eqnNode*> changes;
