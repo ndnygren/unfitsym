@@ -29,7 +29,7 @@ class monoOpNode : public eqnNode
 	eqnNode* right; //only one subtree
 
 	public:
-	virtual bool eq(eqnNode* input) const
+	virtual bool eq(const eqnNode* input) const
 	{
 		if (type() != input->type())
 			{ return false; }

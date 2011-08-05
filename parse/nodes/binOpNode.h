@@ -52,7 +52,7 @@ class binOpNode : public eqnNode
 	 * Comparison function. Recursively comparse this parse
 	 *	tree to the "input" parse tree.
 	 */
-	virtual bool eq(eqnNode* input) const
+	virtual bool eq(const eqnNode* input) const
 	{
 		if (type() != input->type())
 			{ return false; }

@@ -36,6 +36,8 @@
 class alterExpression
 {
 	protected:
+	// expression manipulations specific to the root operator 
+	//	of the expression tree
 	static std::vector<eqnNode*> sumCand(sumNode* input);
 	static std::vector<eqnNode*> subCand(subNode* input);
 	static std::vector<eqnNode*> prodCand(prodNode* input);
@@ -47,13 +49,62 @@ class alterExpression
 	static std::vector<eqnNode*> derivCand(derivNode* input);
 	static std::vector<eqnNode*> negCand(negNode* input);
 	static std::vector<eqnNode*> hatCand(hatNode* input);
+
+	/*
+	 * eqnNode* attemptStrip(intNode* input);
+	 *
+	 * solves the integral in such a way that the result contains to 
+	 *	remaining integrals, but is not specific to either bounded 
+	 *	or unbounded integrals
+	 */
 	static eqnNode* attemptStrip(intNode* input);
 
+	/*
+	 * vector<eqnNode*> getAssocVector(binOpNode* input)
+	 *
+	 * returns the statement in a vector form, representing the general 
+	 *	associative form.
+	 */
+	static std::vector<eqnNode*> getAssocVector(binOpNode* input);
+
+	// combines a list of expressions into a sum of expressions
+	static eqnNode* buildSum(std::vector<eqnNode*>& list);
+
+
+	// sorted/grouped assoc vector construction
+	static void pushToBrk(std::vector<std::pair<eqnNode*, std::vector<eqnNode*> > >& brklist, eqnNode* base, eqnNode* arg);
+
 	public:
+	/*
+	 * eqnNode* sumSimplify(sumNode* input)
+	 *
+	 * rapid simplification of sums, by general associativity and comutivity
+	 */
+	static eqnNode* sumSimplify(sumNode* input);
+
+	// creates a vector copy, allocating new memory
 	static void copyCand(const std::vector<eqnNode*>& from, std::vector<eqnNode*>& to); 
+
+	// frees all memory in the vector
 	static void freeCand(std::vector<eqnNode*>& list);
+
+	// calls searchMaxMin and finds a quick derivative
 	static eqnNode* derivative(eqnNode* expression, std::string var);
 
+	/*
+	 * eqnNode* collapse(eqnNode* input)
+	 *
+	 * Attempts to forcefully simplify an equation by combining all numbers
+	 *	which are joined directly by operators
+	 */
+	static eqnNode* collapse(eqnNode* input);
+
+	/*
+	 * std::vector<eqnNode*> getCand(eqnNode* input);
+	 *
+	 * recursively parses the tree, generating all possible candidates
+	 * 
+	 */
 	static std::vector<eqnNode*> getCand(eqnNode* input);
 };
 #endif

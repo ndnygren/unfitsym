@@ -51,7 +51,7 @@ class eqnNode
 	 * Comparison operator. Compares this root node, to inputs root
 	 * 	node, and recursively compares each subtree to inputs subtrees
 	 */
-	virtual bool eq(eqnNode* input) const = 0;
+	virtual bool eq(const eqnNode* input) const = 0;
 
 	/*
 	 * virtual bool eqVal(eqnNode* input)

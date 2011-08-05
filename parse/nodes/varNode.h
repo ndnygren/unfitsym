@@ -34,7 +34,7 @@ class varNode : public leafNode
 	std::string name;
 
 	public:
-	virtual bool eq(eqnNode* input) const
+	virtual bool eq(const eqnNode* input) const
 	{
 		if (type() != input->type())
 			{ return false; }

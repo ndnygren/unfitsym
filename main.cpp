@@ -45,6 +45,14 @@ int main(int argc, char** argv)
 			temp = alterExpression::derivative(output,"x");
 			cout << "derivative: " << temp->str() << "\n";
 			delete temp;
+
+			temp = alterExpression::collapse(output);
+			cout << "collapse: " << temp->str() << "\n";
+			delete temp;
+
+			temp = alterExpression::sumSimplify((sumNode*)output);
+			cout << "simplify sum: " << temp->str() << "\n";
+			delete temp;
 			
 			a = new searchMaxMin(output, rate);
 			a->next(1000);
