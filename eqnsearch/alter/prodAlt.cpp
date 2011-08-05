@@ -35,6 +35,8 @@ vector<eqnNode*> alterExpression::prodCand(prodNode* input)
 	//commute
 	changes.push_back(new prodNode(input->getR(), input->getL()));
 
+	//rapid simplification
+	changes.push_back(prodSimplify(input));
 
 	//associate one way
 	if (input->getL()->type() == nodeTypes::prod) 

@@ -46,6 +46,25 @@ vector<eqnNode*> alterExpression::getAssocVector(binOpNode* input)
 	return outlist;
 }
 
+eqnNode* alterExpression::buildProduct(vector<eqnNode*>& list)
+{
+	eqnNode *temp = 0;
+	eqnNode *backexpr = 0;
+	unsigned int i;
+
+	for (i = 0; i < list.size(); i++)
+	{
+		if (i == 0) { temp = list[i]->copy(); }
+		else
+		{
+			backexpr = temp;
+			temp = new prodNode(temp, list[i]);
+			delete backexpr;
+		}
+	}
+	return temp;
+}
+
 eqnNode* alterExpression::buildSum(vector<eqnNode*>& list)
 {
 	eqnNode *temp = 0;
@@ -154,7 +173,9 @@ eqnNode* alterExpression::sumSimplify(sumNode* input)
 	vector<eqnNode*> inlist = getAssocVector(input);
 	vector<pair<eqnNode*,vector<eqnNode*> > > brklist;
 	numNode one(1);
+	numNode negone(-1);
 	prodNode *prodspare;
+	negNode *negspare;
 	eqnNode *outexpr, *temp3expr, *temp2expr, *tempexpr;
 
 	for (i = 0; i < inlist.size(); i++)
@@ -172,6 +193,11 @@ eqnNode* alterExpression::sumSimplify(sumNode* input)
 		{
 			prodspare = ((prodNode*)inlist[i]);
 			pushToBrk(brklist, prodspare->getR(), prodspare->getL());
+		}
+		else if (inlist[i]->type() == nodeTypes::neg)
+		{
+			negspare = ((negNode*)inlist[i]);
+			pushToBrk(brklist, negspare->getR(), &negone);
 		}
 		else
 		{
@@ -198,6 +224,70 @@ eqnNode* alterExpression::sumSimplify(sumNode* input)
 		}
 
 		delete prodspare;
+		delete tempexpr;
+	}
+
+	for (i = 0; i < inlist.size(); i++)
+		{ delete inlist[i]; }
+	inlist.clear();
+
+	return outexpr;
+}
+
+
+eqnNode* alterExpression::prodSimplify(prodNode* input)
+{
+	unsigned int i;
+	vector<eqnNode*> inlist = getAssocVector(input);
+	vector<pair<eqnNode*,vector<eqnNode*> > > brklist;
+	numNode one(1);
+	numNode negone(-1);
+	hatNode *hatspare;
+	negNode *negspare;
+	eqnNode *outexpr, *temp3expr, *temp2expr, *tempexpr;
+
+	for (i = 0; i < inlist.size(); i++)
+	{
+		if (inlist[i]->isConst())
+		{
+			pushToBrk(brklist, inlist[i], &one);
+		}
+		else if (inlist[i]->type() == nodeTypes::hat)
+		{
+			hatspare = ((hatNode*)inlist[i]);
+			pushToBrk(brklist, hatspare->getL(), hatspare->getR());
+		}
+		else if (inlist[i]->type() == nodeTypes::neg)
+		{
+			negspare = ((negNode*)inlist[i]);
+			pushToBrk(brklist, negspare->getR(), &one);
+			pushToBrk(brklist, &negone, &one);
+		}
+		else
+		{
+			pushToBrk(brklist, inlist[i], &one);
+		}	
+	}
+
+
+	outexpr = 0;
+	for (i = 0; i < brklist.size(); i++)
+	{
+		tempexpr = buildSum(brklist[i].second);
+		hatspare = new hatNode(brklist[i].first, tempexpr);
+		temp2expr = collapse(hatspare);
+
+		if (outexpr == 0)
+			{ outexpr = temp2expr; }
+		else
+		{
+			temp3expr = new prodNode(outexpr, temp2expr);
+			delete outexpr;
+			delete temp2expr;
+			outexpr = temp3expr;
+		}
+
+		delete hatspare;
 		delete tempexpr;
 	}
 

@@ -34,6 +34,9 @@ vector<eqnNode*> alterExpression::sumCand(sumNode* input)
 	//commute
 	changes.push_back(new sumNode(input->getR(), input->getL()));
 
+	//rapid simplification
+	changes.push_back(sumSimplify(input));
+	
 
 	//associate one way
 	if (input->getL()->type() == nodeTypes::sum) 

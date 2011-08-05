@@ -50,10 +50,6 @@ int main(int argc, char** argv)
 			cout << "collapse: " << temp->str() << "\n";
 			delete temp;
 
-			temp = alterExpression::sumSimplify((sumNode*)output);
-			cout << "simplify sum: " << temp->str() << "\n";
-			delete temp;
-			
 			a = new searchMaxMin(output, rate);
 			a->next(1000);
 			cout << "best: ";

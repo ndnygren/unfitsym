@@ -67,6 +67,9 @@ class alterExpression
 	 */
 	static std::vector<eqnNode*> getAssocVector(binOpNode* input);
 
+	// combines a list of expressions into a product of expressions
+	static eqnNode* buildProduct(std::vector<eqnNode*>& list);
+
 	// combines a list of expressions into a sum of expressions
 	static eqnNode* buildSum(std::vector<eqnNode*>& list);
 
@@ -74,7 +77,6 @@ class alterExpression
 	// sorted/grouped assoc vector construction
 	static void pushToBrk(std::vector<std::pair<eqnNode*, std::vector<eqnNode*> > >& brklist, eqnNode* base, eqnNode* arg);
 
-	public:
 	/*
 	 * eqnNode* sumSimplify(sumNode* input)
 	 *
@@ -82,6 +84,14 @@ class alterExpression
 	 */
 	static eqnNode* sumSimplify(sumNode* input);
 
+	/*
+	 * eqnNode* prodSimplify(sumNode* input)
+	 *
+	 * rapid simplification of products, by general associativity and comutivity
+	 */
+	static eqnNode* prodSimplify(prodNode* input);
+
+	public:
 	// creates a vector copy, allocating new memory
 	static void copyCand(const std::vector<eqnNode*>& from, std::vector<eqnNode*>& to); 
 
