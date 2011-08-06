@@ -77,6 +77,37 @@ class alterExpression
 	// sorted/grouped assoc vector construction
 	static void pushToBrk(std::vector<std::pair<eqnNode*, std::vector<eqnNode*> > >& brklist, eqnNode* base, eqnNode* arg);
 
+
+	/*
+	 * void negList(vector<eqnNode*>& list)
+	 *
+	 * multiplies every list element by -1
+	 */
+	static void negList(std::vector<eqnNode*>& list);
+
+	/*
+	 * void unSub(vector<eqnNode*> input)
+	 *
+	 * attempts to express all differences as sums, -1*
+	 */
+	static void unSub(std::vector<eqnNode*>& input);
+
+
+	/*
+	 * void invertList(vector<eqnNode*>& list)
+	 *
+	 * takes every exponent in the list to exp(-1)
+	 */
+	static void invertList(std::vector<eqnNode*>& list);
+
+	/*
+	 * void unFrac(vector<eqnNode*> input)
+	 *
+	 * attempts to express all fractions as products, using exp(-1)
+	 */
+	static void unFrac(std::vector<eqnNode*>& input);
+	
+
 	/*
 	 * eqnNode* sumSimplify(sumNode* input)
 	 *

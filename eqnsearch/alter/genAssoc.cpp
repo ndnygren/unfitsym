@@ -167,6 +167,162 @@ void alterExpression::pushToBrk(vector<pair<eqnNode*,vector<eqnNode*> > >& brkli
 	brklist.back().second.push_back(arg);
 }
 
+void alterExpression::negList(vector<eqnNode*>& list)
+{
+	eqnNode *temp;
+	prodNode *prodspare;
+	unsigned int i;
+	numNode negone(-1);
+
+	for (i = 0; i < list.size(); i++)
+	{
+		temp = list[i];
+		if (temp->type() == nodeTypes::prod)
+		{
+			prodspare = (prodNode*)temp;
+			if (prodspare->getL()->isConst())
+			{
+				temp = new negNode(prodspare->getL());
+				list[i] = new prodNode(temp, prodspare->getR());
+				delete temp;
+				delete prodspare;
+			}
+			else
+			{
+				temp = new negNode(prodspare->getR());
+				list[i] = new prodNode(temp, prodspare->getL());
+				delete temp;
+				delete prodspare;
+			}
+		}
+		else
+		{
+			list[i] = new prodNode(&negone,temp);
+			delete temp;
+		}
+	}
+}
+
+void alterExpression::unSub(vector<eqnNode*>& list)
+{
+	subNode* temp;
+	numNode negone(-1);
+	vector<eqnNode*> sparelist;
+	unsigned int i;
+	
+	for (i = 0; i < list.size(); i++)
+	{
+		if (list[i]->type() == nodeTypes::sub)
+		{
+			temp = (subNode*)list[i];
+			list.erase(list.begin()+i);
+			i--;
+			if (temp->getL()->type() == nodeTypes::sum)
+			{
+				sparelist = getAssocVector((binOpNode*)(temp->getL()));
+				while(!sparelist.empty())
+				{
+					list.push_back(sparelist.back());
+					sparelist.pop_back();
+				}
+			}
+			else
+			{
+				list.push_back(temp->getL()->copy());
+			}
+			if (temp->getR()->type() == nodeTypes::sum)
+			{
+				sparelist = getAssocVector((binOpNode*)(temp->getR()));
+				negList(sparelist);
+				while(!sparelist.empty())
+				{
+					list.push_back(sparelist.back());
+					sparelist.pop_back();
+				}
+			}
+			else
+			{
+				list.push_back(new prodNode(&negone, temp->getR()));
+			}
+			delete temp;
+		}	
+	}
+}
+
+void alterExpression::invertList(vector<eqnNode*>& list)
+{
+	eqnNode *temp;
+	hatNode *hatspare;
+	unsigned int i;
+	numNode negone(-1);
+
+	for (i = 0; i < list.size(); i++)
+	{
+		temp = list[i];
+		if (temp->type() == nodeTypes::hat)
+		{
+			hatspare = (hatNode*)temp;
+			temp = new negNode(hatspare->getR());
+			list[i] = new hatNode(hatspare->getL(), temp);
+			delete temp;
+			delete hatspare;
+		}
+		else
+		{
+			list[i] = new hatNode(temp, &negone);
+			delete temp;
+		}
+	}
+}
+
+void alterExpression::unFrac(vector<eqnNode*>& list)
+{
+	fracNode* temp;
+	numNode negone(-1);
+	vector<eqnNode*> sparelist;
+	unsigned int i;
+	
+	for (i = 0; i < list.size(); i++)
+	{
+		if (list[i]->type() == nodeTypes::frac)
+		{
+			temp = (fracNode*)list[i];
+			list.erase(list.begin()+i);
+			i--;
+			if (temp->getL()->type() == nodeTypes::prod)
+			{
+				sparelist = getAssocVector((binOpNode*)(temp->getL()));
+				while(!sparelist.empty())
+				{
+					list.push_back(sparelist.back());
+					sparelist.pop_back();
+				}
+			}
+			else
+			{
+				list.push_back(temp->getL()->copy());
+			}
+			if (temp->getR()->type() == nodeTypes::prod)
+			{
+				sparelist = getAssocVector((binOpNode*)(temp->getR()));
+				invertList(sparelist);
+				while(!sparelist.empty())
+				{
+					list.push_back(sparelist.back());
+					sparelist.pop_back();
+				}
+			}
+			else
+			{
+				list.push_back(new hatNode(temp->getR(),&negone));
+			}
+			delete temp;
+		}	
+	}
+}
+
+
+
 eqnNode* alterExpression::sumSimplify(sumNode* input)
 {
 	unsigned int i;
@@ -177,6 +333,8 @@ eqnNode* alterExpression::sumSimplify(sumNode* input)
 	prodNode *prodspare;
 	negNode *negspare;
 	eqnNode *outexpr, *temp3expr, *temp2expr, *tempexpr;
+
+	unSub(inlist);
 
 	for (i = 0; i < inlist.size(); i++)
 	{
@@ -245,6 +403,8 @@ eqnNode* alterExpression::prodSimplify(prodNode* input)
 	hatNode *hatspare;
 	negNode *negspare;
 	eqnNode *outexpr, *temp3expr, *temp2expr, *tempexpr;
+
+	unFrac(inlist);
 
 	for (i = 0; i < inlist.size(); i++)
 	{

@@ -31,6 +31,7 @@ vector<eqnNode*> alterExpression::prodCand(prodNode* input)
 	subNode *subspare; 
 	prodNode *prodspare; 
 	hatNode *hat1spare, *hat2spare; 
+	negNode *negspare;
 
 	//commute
 	changes.push_back(new prodNode(input->getR(), input->getL()));
@@ -195,7 +196,13 @@ vector<eqnNode*> alterExpression::prodCand(prodNode* input)
 		}
 	}
 	
-	
+	if (input->getL()->type() == nodeTypes::neg)
+	{
+		negspare = (negNode*)(input->getL());
+		spare = new prodNode(negspare->getR(),input->getR());
+		changes.push_back(new negNode(spare));
+		delete spare;
+	}
 
 	return changes;
 }
