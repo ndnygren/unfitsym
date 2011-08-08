@@ -96,6 +96,14 @@ void MainUFSearchWindow::quit()
 
 MainUFSearchWindow::MainUFSearchWindow()
 {
+	QLabel *inputlabel = new QLabel("Input:");
+	QLabel *varlabel = new QLabel("Var:");
+	QGroupBox *prooflabel = new QGroupBox("Proof");
+	QGroupBox *sollabel = new QGroupBox("Possible Solutions");
+	QHBoxLayout *inputlayout = new QHBoxLayout();
+	QHBoxLayout *varlayout = new QHBoxLayout();
+	QVBoxLayout *prooflayout = new QVBoxLayout();
+	QVBoxLayout *sollayout = new QVBoxLayout();
 	searchinit = false;
 	cols = new QGridLayout();
 
@@ -107,7 +115,7 @@ MainUFSearchWindow::MainUFSearchWindow()
 	proofBox->setMinimumWidth(450);
 
 	list = new QListView();
-	list->setMaximumWidth(300);
+	list->setMaximumWidth(350);
 	bestmodel = new QStandardItemModel();
 	list->setModel(bestmodel);
 
@@ -122,12 +130,23 @@ MainUFSearchWindow::MainUFSearchWindow()
 	connect(searchdeepbutton, SIGNAL(clicked()), this, SLOT(deeper()));
 	connect(list, SIGNAL(clicked(const QModelIndex &)), this, SLOT(loadProof(const QModelIndex &)));
 
-	cols->addWidget(entry1,0,0);
-	cols->addWidget(entry2,0,1);
-	cols->addWidget(gobutton,0,2);
-	cols->addWidget(list,1,0,1,3);
+	inputlayout->addWidget(inputlabel);
+	inputlayout->addWidget(entry1);
+	varlayout->addWidget(varlabel);
+	varlayout->addWidget(entry2);
+	prooflayout->addWidget(proofBox);
+	prooflabel->setLayout(prooflayout);
+	sollayout->addWidget(list);
+	sollabel->setLayout(sollayout);
+/*	cols->addWidget(varlabel,0,1);
+	cols->addWidget(prooflabel,0,3);*/
+
+	cols->addLayout(inputlayout,0,0);
+	cols->addLayout(varlayout,0,1);
+	cols->addWidget(gobutton,0,2,1,1,Qt::AlignBottom);
+	cols->addWidget(sollabel,1,0,1,3);
 	cols->addWidget(searchdeepbutton,2,2);
-	cols->addWidget(proofBox,1,3,1,2);
+	cols->addWidget(prooflabel,0,3,2,2);
 	cols->addWidget(closebutton,2,4);
 
 	setLayout(cols);
