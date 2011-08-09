@@ -20,10 +20,10 @@
 #include "expParse.h"
 #include "tokParse.h"
 
-/*
- * class sineParse
+/**
+ * @class sineParse
  *
- * the CFG rule Expr -> "\sine(" Expr ")"
+ * @brief the CFG rule Expr -> "\sine(" Expr ")"
  * Parses the sine function
  */
 class sineParse : public parsePart

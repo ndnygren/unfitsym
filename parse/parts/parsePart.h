@@ -21,10 +21,10 @@
 #include <utility>
 #include "../nodes/eqnNode.h"
 
-/*
- * class parsePart 
+/**
+ * @class parsePart 
  *
- * The interface for all types of parser components. There is one for each 
+ * @brief The interface for all types of parser components. There is one for each 
  *	node type, and one node types for each expression type in the CFG.
  */
 class parsePart 

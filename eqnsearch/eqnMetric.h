@@ -18,6 +18,15 @@
 
 #include "../parse/nodes/eqnNode.h"
 
+/**
+ * @class eqnMetric
+ *
+ * @brief Base class for all eqnNode* metrics.
+ *
+ * @details not pure virutal, but only returns the metrics size.
+ */
+
+
 class eqnMetric
 {
 	public:

@@ -16,13 +16,13 @@
 #ifndef NN_SEQPARSE_H
 #define NN_SEQPARSE_H
 
-/*
- * class seqParse
+/**
+ * @class seqParse
  *
- * Applies one or more iterations of another supplied parsePart
+ * @brief Applies one or more iterations of another supplied parsePart
  * Used with natParse.h
  *
- * As an example the seqParse of natParse on the string "31415" would 
+ * @details As an example the seqParse of natParse on the string "31415" would 
  * 	generate the succ list:
  *
  *  succ = [(1, "3"),

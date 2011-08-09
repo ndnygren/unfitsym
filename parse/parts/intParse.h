@@ -19,10 +19,10 @@
 #include "../nodes/intNode.h"
 #include "expParse.h"
 
-/*
- * class intParse
+/**
+ * @class intParse
  *
- * The CFG rule Expr -> "\int" Expr "d{" Expr "}"
+ * @brief The CFG rule Expr -> "\int" Expr "d{" Expr "}"
  * Parses integrals
  */
 class intParse : public parsePart

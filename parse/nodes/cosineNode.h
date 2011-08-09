@@ -18,10 +18,10 @@
 
 #include "monoOpNode.h"
 
-/*
- * class cosineNode
+/**
+ * @class cosineNode
  *
- * Monic operator, representing the cosine function
+ * @brief Monic operator, representing the cosine function
  */
 class cosineNode : public monoOpNode
 {

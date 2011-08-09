@@ -18,10 +18,10 @@
 
 #include "binOpNode.h"
 
-/*
- * class fracNode 
+/**
+ * @class fracNode 
  *
- * the node representing the fraction of the left subtree over the right subtree
+ * @brief the node representing the fraction of the left subtree over the right subtree
  */
 class fracNode : public binOpNode
 {

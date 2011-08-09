@@ -21,6 +21,12 @@
 #include <string>
 #include <vector>
 
+/**
+ * @file break-words.h
+ *
+ * @brief a collection of methods used to remove whitespace
+ */
+
 /*
  * bool n_alpha(char t)
  *

@@ -18,10 +18,10 @@
 
 #include "monoOpNode.h"
 
-/*
- * class negNode
+/**
+ * @class negNode
  *
- * Monic operator, representing the negative of the subtree it contains
+ * @brief Monic operator, representing the negative of the subtree it contains
  */
 class negNode : public monoOpNode
 {

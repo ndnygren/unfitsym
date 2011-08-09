@@ -21,10 +21,10 @@
 #include "../nodes/varNode.h"
 
 
-/*
- * class varParse
+/**
+ * @class varParse
  *
- * Parses single letter variables. 
+ * @brief Parses single letter variables. 
  */
 
 class varParse : public parsePart

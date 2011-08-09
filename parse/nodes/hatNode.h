@@ -18,10 +18,10 @@
 
 #include "binOpNode.h"
 
-/*
- * class hatNode
+/**
+ * @class hatNode
  *
- * The parse tree node representing the left subtree to the power of the 
+ * @brief The parse tree node representing the left subtree to the power of the 
  *	right subtree
  */
 class hatNode : public binOpNode

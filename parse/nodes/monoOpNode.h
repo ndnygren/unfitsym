@@ -18,10 +18,10 @@
 
 #include "eqnNode.h"
 
-/*
- * class MonoOpNode
+/**
+ * @class monoOpNode
  *
- * Pure virutal base for Monic operators
+ * @brief Pure virutal interface for Monic operators such as -(),sin(), ...etc.
  */
 class monoOpNode : public eqnNode
 {

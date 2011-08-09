@@ -29,10 +29,10 @@
 #include <iostream>
 
 
-/*
- * class eqnComp
+/**
+ * @class eqnComp
  *
- * A class which satisfies the STL piority_queue Compare template. eqnComp
+ * @brief A class which satisfies the STL piority_queue Compare template. eqnComp
  *	varies the order base on the metric that it is supplied
  */
 
@@ -56,10 +56,10 @@ class eqnComp
 };
 
 
-/*
- * class searchMaxMin
+/**
+ * @class searchMaxMin
  *
- * the search engine applies a set of standard modifications to each expression,
+ * @brief the search engine applies a set of standard modifications to each expression,
  * 	generating a graph of equivilant expressions. Each path in this graph
  *	represents a proof of the end expression, by the start expression.
  */

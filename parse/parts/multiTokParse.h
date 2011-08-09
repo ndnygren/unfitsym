@@ -19,10 +19,10 @@
 #include "parsePart.h"
 #include <string>
 
-/*
- * class multiTokParse
+/**
+ * @class multiTokParse
  *
- * Very similar to altParse, but rather than pairs, parses an arbitrarily long
+ * @brief Very similar to altParse, but rather than pairs, parses an arbitrarily long
  * 	list of tokens.
  */
 class multiTokParse : public parsePart

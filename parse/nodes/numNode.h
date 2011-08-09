@@ -19,10 +19,10 @@
 #include <sstream>
 #include "leafNode.h"
 
-/*
- * class numNode
+/**
+ * @class numNode
  *
- * A terminal parse tree node, containing an integer value.
+ * @brief A terminal parse tree node, containing an integer value.
  *
  */
 

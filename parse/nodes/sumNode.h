@@ -18,10 +18,10 @@
 
 #include "binOpNode.h"
 
-/*
- * class sumNode
+/**
+ * @class sumNode
  *
- * The parse tree node representing the addition of the left and right subtrees
+ * @brief The parse tree node representing the addition of the left and right subtrees
  */
 
 class sumNode : public binOpNode

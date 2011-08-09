@@ -18,10 +18,10 @@
 
 #include "monoOpNode.h"
 
-/*
- * class lnNode
+/**
+ * @class lnNode
  *
- * Monic operator, representing the natural log node
+ * @brief Monic operator, representing the natural log node
  */
 class lnNode : public monoOpNode
 {

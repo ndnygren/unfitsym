@@ -18,10 +18,10 @@
 
 #include "binOpNode.h"
 
-/*
- * class derivNode 
+/**
+ * @class derivNode 
  * 
- * Parse tree node representing the derivative of the left subtree,
+ * @brief Parse tree node representing the derivative of the left subtree,
  * 	with respect to the variable in the right subtree.
  * 
  */

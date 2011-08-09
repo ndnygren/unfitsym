@@ -20,10 +20,10 @@
 #include "expParse.h"
 #include "tokParse.h"
 
-/*
- * class cosineParse
+/**
+ * @class cosineParse
  *
- * the CFG rule Expr -> "\cos(" Expr ")"
+ * @brief the CFG rule Expr -> "\cos(" Expr ")"
  * Parses the cosine function
  */
 class cosineParse : public parsePart

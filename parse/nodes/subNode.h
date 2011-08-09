@@ -17,10 +17,11 @@
 #define NN_SUBNODE_H
 
 #include "binOpNode.h"
-/*
- * class subNode
+
+/**
+ * @class subNode
  * 
- * the parse tree node representing the subtraction of the right subtree 
+ * @brief The parse tree node representing the subtraction of the right subtree 
  *	from the left subtree.
  */
 class subNode : public binOpNode

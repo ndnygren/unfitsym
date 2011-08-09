@@ -20,10 +20,10 @@
 #include <string>
 #include <iostream>
 
-/*
- * class altParse
+/**
+ * @class altParse
  *
- * A composite parsePart returns parses from one parsePart or another in parallel
+ * @brief A composite parsePart returns parses from one parsePart or another in parallel
  */
 
 class altParse : public parsePart

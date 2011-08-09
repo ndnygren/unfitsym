@@ -19,10 +19,10 @@
 #include "../nodes/derivNode.h"
 #include "expParse.h"
 
-/*
- * class derivParse
+/**
+ * @class derivParse
  *
- * The CFG rule Expr -> "\frac{d" Expr "}{d" Expr "}"
+ * @brief The CFG rule Expr -> "\frac{d" Expr "}{d" Expr "}"
  * Parses deriviatives
  */
 class derivParse : public parsePart

@@ -18,10 +18,10 @@
 
 #include "monoOpNode.h"
 
-/*
- * class sineNode
+/**
+ * @class sineNode
  *
- * Monic operator, representing the sine function
+ * @brief Monic operator, representing the sine function
  */
 class sineNode : public monoOpNode
 {

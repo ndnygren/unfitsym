@@ -23,10 +23,10 @@
 #include <map>
 #include <utility>
 
-/*
- * class parserFull
+/**
+ * @class parserFull
  *
- * The parser's user accessible side works through a single method getExpr(),
+ * @brief The parser's user accessible side works through a single method getExpr(),
  *	which accepts a string as argument and returns a parse tree
  */
 

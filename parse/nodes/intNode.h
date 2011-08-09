@@ -18,10 +18,10 @@
 
 #include "binOpNode.h"
 
-/*
- * class intNode 
+/**
+ * @class intNode 
  * 
- * Parse tree node representing the integral of the left subtree,
+ * @brief Parse tree node representing the integral of the left subtree,
  * 	with respect to the variable in the right subtree (without boundaries).
  * 
  */

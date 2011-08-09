@@ -20,10 +20,12 @@
 #include <vector>
 #include "parsePart.h"
 
-/*
- * class cassetteMachine
+/**
+ * @class cassetteMachine
  *
- * Could be considered a counter-part to the altParse. Calls a list of 
+ * @brief Execute arbirarily many different parseParts, in sequence.
+ *
+ * @details Could be considered a counter-part to the altParse. Calls a list of 
  *	parseParts in sequence rather than parallel. Does not however return a
  * 	succ list in the usual format. It is left to the caller to decide
  *	how each parts' successes should be combined into a succ list

@@ -21,10 +21,10 @@
 #include "expParse.h"
 
 
-/*
- * class subParse
+/**
+ * @class subParse
  *
- * the CFG Expr -> Expr "-" Expr
+ * @brief the CFG Expr -> Expr "-" Expr
  * Parses subtraction
  */
 class subParse : public parsePart

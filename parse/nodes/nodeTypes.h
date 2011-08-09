@@ -16,6 +16,13 @@
 #ifndef NN_NODETYPES_H
 #define NN_NODETYPES_H
 
+/**
+ * @class nodeTypes
+ *
+ * @brief Integer codes representing the non-pure-virtual node types
+ *
+ */
+
 class nodeTypes
 {
 	public:

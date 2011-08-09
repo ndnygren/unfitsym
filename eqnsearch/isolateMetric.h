@@ -21,6 +21,12 @@
 #include "eqnMetric.h"
 #include <string>
 
+/**
+ * @class isolateMetric
+ *
+ * @brief Metric to lower the number of instances of a supplied variable and attempt to 'isolate' it from the rest of the expression
+ */
+
 class isolateMetric : public eqnMetric
 {
 	protected:

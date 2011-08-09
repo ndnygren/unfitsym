@@ -21,10 +21,10 @@
 #include "expParse.h"
 #include "altParse.h"
 
-/*
- * class prodParse
- *
- * the CFG rule Expr -> Expr "*" Expr
+/**
+ * @class prodParse
+ * @brief parses multiplication
+ * @details the CFG rule Expr -> Expr "*" Expr
  * 		OR
  * the CFG rule Expr -> Expr "\cdot" Expr
  * Parses mulitiplication, output is always with the \cdot notation

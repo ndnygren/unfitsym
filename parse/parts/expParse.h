@@ -34,6 +34,18 @@
 #include "cosineParse.h"
 #include "lnParse.h"
 
+/**
+ * @class expParse
+ *
+ * @brief parsePart responsible for recognizing an expression, in the 
+ *	most general sense
+ *
+ * @details Alternately accepts sums, differences, fractions, and all 
+ * other operators, including functions, derivatives, and integrals, recursing 
+ * on all of these. The expParse, also includes numbers and variables, where 
+ * recursion halts.
+ */
+
 class expParse : public parsePart
 {
 	public:

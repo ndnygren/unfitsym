@@ -19,10 +19,10 @@
 #include "leafNode.h"
 #include <string>
 
-/*
- * class varNode
+/**
+ * @class varNode
  *
- * Terminal parse tree node represting a variable in the equation. The parser
+ * @brief Terminal parse tree node represting a variable in the equation. The parser
  *	will only accept single lower case letters for variable, this is by
  *	choice. The structure allows for strings of arbitrary length and will
  *	also be used for LaTeX syntax greek ("\pi","\phi",...)

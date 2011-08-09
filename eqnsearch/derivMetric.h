@@ -21,6 +21,14 @@
 #include "eqnMetric.h"
 #include <string>
 
+/**
+ * @class derivMetric
+ *
+ * @brief Metric to encourage breaking derivatives down into smaller parts 
+ * before solving.
+ */
+
+
 class derivMetric : public eqnMetric
 {
 	public:

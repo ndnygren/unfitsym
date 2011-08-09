@@ -19,10 +19,10 @@
 #include "parsePart.h"
 #include <string>
 
-/*
- * class token
+/**
+ * @class token
  *
- * The primative parsePart used by all others, identifies and 
+ * @brief The primative parsePart used by all others, identifies and 
  *	comsumes characters.
  */
 class token : public parsePart

@@ -23,10 +23,10 @@
 #include "../nodes/numNode.h"
 
 
-/*
- * class natParse
- * 
- * parses a string of digits, {0,...,9} returns numNodes on success
+/**
+ * @class natParse
+ * @brief parses whole numbers
+ * @details parses a string of digits, {0,...,9} returns numNodes on success
  */
 class natParse : public parsePart
 {

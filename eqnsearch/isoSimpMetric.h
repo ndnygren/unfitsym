@@ -20,6 +20,12 @@
 #include "isolateMetric.h"
 #include <string>
 
+/**
+ * @class isoSimpMetric
+ *
+ * @brief Sum of simplification metric and isolation metric.
+ */
+
 class isoSimpMetric : public eqnMetric
 {
 	protected:

@@ -20,10 +20,10 @@
 #include <cmath>
 #include <string>
 
-/*
- * class eqnNode
+/**
+ * @class eqnNode
  *
- * The interface for nodes in the parse tree. This is a linked list tree
+ * @brief The interface for nodes in the parse tree. This is a linked list tree
  *	and almost all operators on this tree work recursively.
  */
 

@@ -19,10 +19,10 @@
 #include "../nodes/eqnNode.h"
 #include "expParse.h"
 
-/*
- * class parenParse
+/**
+ * @class parenParse
  *
- * the CFG rule Expr -> "(" Expr ")"
+ * @brief the CFG rule Expr -> "(" Expr ")"
  * Parse parenthesis
  */
 

@@ -21,6 +21,14 @@
 #include "eqnMetric.h"
 #include <string>
 
+/**
+ * @class unchainMetric
+ *
+ *
+ * @brief Metric to encourage the formation of derivatives from more simple functions
+ *
+ */
+
 class unchainMetric : public eqnMetric
 {
 	public:

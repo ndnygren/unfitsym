@@ -19,10 +19,10 @@
 #include "eqnNode.h"
 
 
-/*
- * class binOpNode 
+/**
+ * @class binOpNode 
  * 
- *  virtual class describing parse tree nodes for binary operators.
+ * @brief virtual class describing parse tree nodes for binary operators.
  * (ex. addition, subtraction). Handles memory allocation details.
  * 
  * 

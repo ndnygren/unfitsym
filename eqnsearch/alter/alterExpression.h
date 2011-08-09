@@ -33,6 +33,23 @@
 #include "../../parse/nodes/cosineNode.h"
 #include "../../parse/nodes/nodeTypes.h"
 
+/**
+ * @class alterExpression
+ *
+ * @brief Static functions, given any expression, a set of different but 
+ * equivalent expressions are generated with a call to getCand()
+ *
+ * @details Specialized depending on the root node of the supplied expression.
+ *
+ * Recursive calls are made to the subtrees, manipulating the expression 
+ *	independent of the rest of the tree
+ *
+ * All memory allocated is returned in the vector<eqnNode*> or is deallocated.
+ * which ever function calls getCand() is responsible for freeing the 
+ * vector's memory
+ */
+
+
 class alterExpression
 {
 	protected:

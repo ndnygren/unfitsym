@@ -20,10 +20,10 @@
 #include "expParse.h"
 #include "tokParse.h"
 
-/*
- * class lnParse
+/**
+ * @class lnParse
  *
- * the CFG rule Expr -> "\ln(" Expr ")"
+ * @brief the CFG rule Expr -> "\ln(" Expr ")"
  * Parses the natural logarithm function
  */
 class lnParse : public parsePart

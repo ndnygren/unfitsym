@@ -23,10 +23,12 @@
 #include <utility>
 
 
-/*
- * class generateProof
+/**
+ * @class generateProof
  *
- * The list of adjacent pairs is analyzed by the generateProof. It is convereted
+ * @brief Static functions, calculate proofs from adjacency matrices.
+ *
+ * @details The list of adjacent pairs is analyzed by the generateProof. It is convereted
  * 	into a forward look-up map. Then through a breadth first search, 
  *	a path(proof) is found from the first expression to the proof goal.
  *
@@ -34,10 +36,10 @@
 class generateProof
 {
 	protected:
-	/*
-	 * class crumb
+	/**
+	 * @class crumb
 	 *
-	 * the trail of bread crumbs, allows backtracking in the 
+	 * @brief the trail of bread crumbs, allows backtracking in the 
 	 * 	shortest possible path.
 	 */
 	class crumb

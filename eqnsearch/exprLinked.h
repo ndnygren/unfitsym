@@ -20,6 +20,13 @@
 #include "eqnMetric.h"
 #include "../parse/nodes/eqnNode.h"
 
+/**
+ * @class exprLinked
+ *
+ * @brief Holder for expressions, generates candidate solutions and handles 
+ * some memory allocation.
+ *
+ */
 
 class exprLinked 
 {

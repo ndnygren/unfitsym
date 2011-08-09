@@ -18,10 +18,10 @@
 
 #include "binOpNode.h"
 
-/*
- * class prodNode
+/**
+ * @class prodNode
  *
- * The parse tree node representing the product of the left subtree 
+ * @brief The parse tree node representing the product of the left subtree 
  * 	with the right subtree.
  */
 class prodNode : public binOpNode
