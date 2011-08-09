@@ -1,0 +1,30 @@
+unfitsym
+
+A time saving program, meant for quick validation and simplification of real calculus results, easily generalizable to other systems such as complex calculus, set theory or logic.
+
+unfitsym uses a reduce set of the LaTeX synatax which should be familiar enough for anyone working in mathematics.  Not all of LaTeX is currently accepted as input, however all LaTeX output should compile on all platforms (ex. \frac{1}{2} must be used instead of {1 \over 2}, but both are displayed the same)
+
+
+Requirements
+
+unfitsym uses Qt v4 for it's GUI. If you wish to compile from source in Linux, the qt4-devel package is required. 
+If this is installed, but compile errors still occur try running `which qmake` to see if the correct version is found 
+('/usr/lib/qt3.3/bin/qmake' is  incorrect).
+
+In Windows, use the precompiled, or if you want to compile yourself, the Qt SDK for Open Source C++ development on Windows, available at http://qt.nokia.com/downloads/sdk-windows-cpp
+This should also compile for MacOS, since Qt4 is portable, and there are no other requirements, but I have not attempted.
+If someone is willing to try this and write build instructions for MacOS, please email me: nnygren@nygren.ca and I will post.
+
+Building
+
+In all cases the build should follow these basic steps:
+
+	qmake -project
+	qmake
+	make
+
+For those who use Visual Studio, run:
+
+	qmake -project -t vcapp
+
+to create a *.vcproj file.
