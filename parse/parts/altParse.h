@@ -29,7 +29,14 @@
 class altParse : public parsePart
 {
 	protected:
+	/**
+	 * @brief the first parsePart to execute
+	 */
 	parsePart* left;
+
+	/**
+	 * @brief the second parsePart to execute
+	 */
 	parsePart* right;	
 
 	public:

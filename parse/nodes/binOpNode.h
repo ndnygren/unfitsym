@@ -31,13 +31,21 @@
 class binOpNode : public eqnNode
 {
 	protected:
+	/**
+	 * @brief the left subtree of the binary operator
+	 */
 	eqnNode* left;
+
+	/**
+	 * @brief the right subtree of the binary operator
+	 */
 	eqnNode* right;
 
-	/*
-	 * int max(int left, int right) const
+	// int max(int left, int right) const
+	/**
+ 	 * @brief usual max function for integers
+	 * @returns the largest of {left,right}
 	 * 
-	 *  returns the largest of {left,right}
 	 */
 	int max(int left, int right) const
 	{
@@ -46,12 +54,6 @@ class binOpNode : public eqnNode
 	}
 
 	public:
-	/*
-	 * virtual bool eq(eqnNode* input) const
-	 *
-	 * Comparison function. Recursively comparse this parse
-	 *	tree to the "input" parse tree.
-	 */
 	virtual bool eq(const eqnNode* input) const
 	{
 		if (type() != input->type())
@@ -93,17 +95,20 @@ class binOpNode : public eqnNode
 		}
 	}
 
-	// getL() returns the left subtree
+	// getL() 
+	/**
+	 * @brief Allows traversal of the left subtree
+	 * @returns the left eqnNode* subtree
+	 */
 	eqnNode* getL() const { return left; }
+
 	// getR() returns the right subtree
+	/**
+	 * @brief Allows traversal of the right subtree
+	 * @returns the right eqnNode* subtree
+	 */
 	eqnNode* getR() const { return right; }
 
-	/*
-	 * bool isConst()
-	 *
-	 * returns true iff the expression contains no variables
-	 * 
-	 */
 	virtual bool isConst() const
 		{ return getL()->isConst() && getR()->isConst(); }
 

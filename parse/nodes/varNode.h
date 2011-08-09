@@ -44,6 +44,11 @@ class varNode : public leafNode
 
 	virtual eqnNode* copy() const { return new varNode(get()); }
 	virtual int type() const { return nodeTypes::var; }
+
+	/**
+	 * @brief allows access the to nodes value
+	 * @returns std::string value of the node
+	 */
 	std::string get() const { return name; }
 	virtual std::string str() const { return name; }
 

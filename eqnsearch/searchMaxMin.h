@@ -29,31 +29,6 @@
 #include <iostream>
 
 
-/**
- * @class eqnComp
- *
- * @brief A class which satisfies the STL piority_queue Compare template. eqnComp
- *	varies the order base on the metric that it is supplied
- */
-
-class eqnComp
-{
-	protected:
-	// a mapping onto the integers that will be used to order expressions
-	eqnMetric *rate;
-
-	public:
-	// STL priority_queue calls this function
-	bool operator() (const eqnNode* lhs, const eqnNode* rhs)
-	{
-		return rate->score(lhs) > rate->score(rhs);
-	}
-
-	eqnComp() { }
-	
-	eqnComp(eqnMetric* input)
-		{ rate = input; }
-};
 
 
 /**
@@ -66,80 +41,143 @@ class eqnComp
 class searchMaxMin
 {
 	protected:
+	/**
+	 * @class eqnComp
+	 *
+	 * @brief A class which satisfies the STL piority_queue Compare template. eqnComp
+	 *	varies the order base on the metric that it is supplied
+	 */
+	class eqnComp
+	{
+		protected:
+		/**
+		 * @brief a mapping onto the integers that will be used to order expressions
+		 */
+		eqnMetric *rate;
+
+		public:
+		/**
+		 * @brief STL priority_queue calls this function for ordering
+		 * @param lhs the left expression to be compared
+		 * @param rhs the left expression to be compared
+		 * @returns true iff lhs is "greater than" rhs according to 
+		 *	some mapping onto the integers
+		 */
+		bool operator() (const eqnNode* lhs, const eqnNode* rhs)
+		{
+			return rate->score(lhs) > rate->score(rhs);
+		}
+
+		eqnComp() { }
+		
+		eqnComp(eqnMetric* input)
+			{ rate = input; }
+	};
+
+	/**
+	 * @brief the comparator class for ordering expressions
+	 */
 	eqnComp comp;
-	// this rate should always be the same as above
+
+	/**
+	 * @brief this rate should always be the same as above(eqnComp comp).
+	 */
 	eqnMetric *rate;
 
-	/*
-	 * void freeMap(std::map<std::string, eqnNode*> &inmap)
+	// void freeMap(std::map<std::string, eqnNode*> &inmap)
+	/**
+	 * @brief iterates over the map and frees all memory used by the eqnNode*s
 	 * 
-	 * iterates over the map and frees all memory used by the eqnNode*s
+	 * @param inmap the cache of found expressions, to be freed 
+	 * 
+	 * 
 	 */
 	void freeMap(std::map<std::string, eqnNode*> &inmap);
 
 	public:
 	//TODO: consider getter functions for these
 
-	// a copy of the original expression
+	/**
+	 * @brief a copy of the original expression
+	 */
 	eqnNode* start;
 
-	// the graph is described here, each edge as a 
-	//	pair=(from string, to string)
+	/**
+	 * @brief the graph is described here, each edge as a 
+	 *	pair=(from string, to string)
+	 */
 	std::vector<std::pair<std::string, std::string> > adjPairs;
 
-	// a reverse map strings -> parse trees, this is faster than parsing
-	//	a second time.
+	/**
+	 * @brief a reverse map strings -> parse trees, this is faster than parsing
+	 *	a second time.
+	 */
 	std::map<std::string, eqnNode*> exprMap;
 
-	// the original stack was replaced with many priority queues, converting
-	// 	the depth-first search into a best-first search
+	/**
+	 * @brief the original stack was replaced with many priority queues, converting
+	 *	the depth-first search into a best-first search
+	 */
 	std::vector<std::priority_queue<eqnNode*, std::vector<eqnNode*>, eqnComp> > stacks;
 
-	/*
-	 * void allPush(eqnNode*)
+	//  void allPush(eqnNode*)
+	/**
+	 * @brief pushes the supplied expression to all priority queues
 	 *
-	 * pushes the supplied expression to all priority queues
+	 * @param input the eqnNode* to be added.
+	 *
 	 */
 	void allPush(eqnNode* input);
 	
 
-	/*
-	 * searchMaxMin(eqnNode* input, eqnMetric* inrate)
+	// searchMaxMin(eqnNode* input, eqnMetric* inrate)
+	/**
+	 * @brief initializes the search and performs a shallow first look.
 	 *
-	 * initializes the search and performs a shallow first look.
+	 * @param input the initial expression, to begin searching from
+	 * @param inrate the main ordering, which will decide which are 'best'
+	 *
 	 */
 	searchMaxMin(eqnNode* input, eqnMetric* inrate);
 
-	/*
-	 * void addNewDirection(eqnMetric* inrate);
+	// void addNewDirection(eqnMetric* inrate);
+	/**
+	 * @brief adds an additional direction for a multi-directional search
 	 *
-	 * adds an additional direction for a multi-directional search
+	 * @param inrate the new order, has no effect on the 'best' list, but directs search
 	 */
 	void addNewDirection(eqnMetric* inrate);
 
-	/*
-	 * void addToMap(std::string from, eqnNode *newnode)
-	 *
-	 * Checks if the new expression has been previously discovered,
+	// void addToMap(std::string from, eqnNode *newnode)
+	/**
+	 * @brief Checks if the new expression has been previously discovered,
 	 * 	adds the pair to the adjPair list.
+	 *
+	 * @param from the expression which candidates are generated from
+	 * @param newnode the new candidate expression
 	 */
 	void addToMap(std::string from, eqnNode *newnode);
 
-	/*
-	 * void next(int limit = 100)
-	 *
-	 * Search proceeds from its previous position until a number(limit)
+	// void next(int limit = 100)
+	/**
+	 * @brief continues from where the search last halted
+	 * @details Search proceeds from its previous position until a number(limit)
 	 * 	of new expressions have been evaluated, and their subsequent 
 	 * 	expressions added to the queue.
+	 *
+	 * @param limit The number of new expressions to add before halting
 	 */
 	void next(int limit = 1000);
 
-	/*
-	 * vector<eqnNode*> best(unsigned int limit = 10)
-	 *
-	 * iterating over the map, the best(least by some metric) expressions
+	// vector<eqnNode*> best(unsigned int limit = 10)
+	/**
+	 * @brief iterating over the map, the best(least by some metric) expressions
 	 *	are returned, the calling function may decide that one of them
 	 *	is the proof goal.
+	 *
+	 * @param limit the size of the list to return
+	 *
+	 * @returns the limit-best list of expressions according to the main ordering.
 	 */
 	std::vector<eqnNode*> best(unsigned int limit = 10);
 

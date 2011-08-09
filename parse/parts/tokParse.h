@@ -28,6 +28,9 @@
 class token : public parsePart
 {
 	protected:
+	/**
+	 * @brief The string value to test against while parsing
+	 */
 	std::string str;
 
 	public:

@@ -29,7 +29,10 @@
 class numNode : public leafNode
 {
 	protected:
-	int num; //the integer value of this node
+	/**
+	 * @brief the integer value of this node
+	 */
+	int num; 
 
 	/*
 	 * std::string toString(int input) const
@@ -55,6 +58,11 @@ class numNode : public leafNode
 
 	virtual eqnNode* copy() const { return new numNode(get()); }
 	virtual int type() const { return nodeTypes::num; }
+
+	/**
+	 * @brief allows access the to nodes value
+	 * @returns integer value of the node
+	 */
 	int get() const { return num; }
 	virtual std::string str() const { return toString(num); }
 	virtual double value() const { return (double)get(); }

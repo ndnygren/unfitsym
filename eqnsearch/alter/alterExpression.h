@@ -53,115 +53,216 @@
 class alterExpression
 {
 	protected:
-	// expression manipulations specific to the root operator 
-	//	of the expression tree
+
+	/**
+	 * @brief manipulates expressions with a root node of type sumNode
+	 * @param input the expression to be manipulated
+	 * @returns a list of equivalent expressions, manipulated slightly
+	 */
 	static std::vector<eqnNode*> sumCand(sumNode* input);
+
+	/**
+	 * @brief manipulates expressions with a root node of type subNode
+	 * @param input the expression to be manipulated
+	 * @returns a list of equivalent expressions, manipulated slightly
+	 */
 	static std::vector<eqnNode*> subCand(subNode* input);
+
+	/**
+	 * @brief manipulates expressions with a root node of type prodNode
+	 * @param input the expression to be manipulated
+	 * @returns a list of equivalent expressions, manipulated slightly
+	 */
 	static std::vector<eqnNode*> prodCand(prodNode* input);
+
+	/**
+	 * @brief manipulates expressions with a root node of type fracNode
+	 * @param input the expression to be manipulated
+	 * @returns a list of equivalent expressions, manipulated slightly
+	 */
 	static std::vector<eqnNode*> fracCand(fracNode* input);
+
+	/**
+	 * @brief manipulates expressions with a root node of type intNode
+	 * @param input the expression to be manipulated
+	 * @returns a list of equivalent expressions, manipulated slightly
+	 */
 	static std::vector<eqnNode*> intCand(intNode* input);
+
+	/**
+	 * @brief manipulates expressions with a root node of type lnNode
+	 * @param input the expression to be manipulated
+	 * @returns a list of equivalent expressions, manipulated slightly
+	 */
 	static std::vector<eqnNode*> lnCand(lnNode* input);
+
+	/**
+	 * @brief manipulates expressions with a root node of type cosineNode
+	 * @param input the expression to be manipulated
+	 * @returns a list of equivalent expressions, manipulated slightly
+	 */
 	static std::vector<eqnNode*> cosineCand(cosineNode* input);
+
+	/**
+	 * @brief manipulates expressions with a root node of type sineNode
+	 * @param input the expression to be manipulated
+	 * @returns a list of equivalent expressions, manipulated slightly
+	 */
 	static std::vector<eqnNode*> sineCand(sineNode* input);
+
+	/**
+	 * @brief manipulates expressions with a root node of type derivNode
+	 * @param input the expression to be manipulated
+	 * @returns a list of equivalent expressions, manipulated slightly
+	 */
 	static std::vector<eqnNode*> derivCand(derivNode* input);
+
+	/**
+	 * @brief manipulates expressions with a root node of type negNode
+	 * @param input the expression to be manipulated
+	 * @returns a list of equivalent expressions, manipulated slightly
+	 */
 	static std::vector<eqnNode*> negCand(negNode* input);
+
+	/**
+	 * @brief manipulates expressions with a root node of type hatNode
+	 * @param input the expression to be manipulated
+	 * @returns a list of equivalent expressions, manipulated slightly
+	 */
 	static std::vector<eqnNode*> hatCand(hatNode* input);
 
-	/*
-	 * eqnNode* attemptStrip(intNode* input);
-	 *
-	 * solves the integral in such a way that the result contains to 
+	// eqnNode* attemptStrip(intNode* input);
+	/**
+	 * @brief solves the integral in such a way that the result contains to 
 	 *	remaining integrals, but is not specific to either bounded 
 	 *	or unbounded integrals
+	 * @param input the integral expression to evaluate
+	 * @returns a evaluated expression, or null if evaluation fails
 	 */
 	static eqnNode* attemptStrip(intNode* input);
 
-	/*
-	 * vector<eqnNode*> getAssocVector(binOpNode* input)
-	 *
-	 * returns the statement in a vector form, representing the general 
-	 *	associative form.
+	// vector<eqnNode*> getAssocVector(binOpNode* input)
+	/**
+	 * @brief Breaks the expression into a list of expressions representing the general associative form.
+	 * @param input the expression to be broken
+	 * @returns the statement in a vector form
 	 */
 	static std::vector<eqnNode*> getAssocVector(binOpNode* input);
 
-	// combines a list of expressions into a product of expressions
+	/**
+	 * @brief combines a list of expressions into a product of expressions
+	 * @param list the list of expressions to be combined
+	 * @returns the product of all expressions in the list
+	 */
 	static eqnNode* buildProduct(std::vector<eqnNode*>& list);
 
-	// combines a list of expressions into a sum of expressions
+	/**
+	 * @brief combines a list of expressions into a sum of expressions
+	 * @param list the list of expressions to be combined
+	 * @returns the sum of all expressions in the list
+	 */
 	static eqnNode* buildSum(std::vector<eqnNode*>& list);
 
-
-	// sorted/grouped assoc vector construction
+	/**
+	 * @brief sorted/grouped assoc vector construction
+	 * @details groups expressions by their "bases", each with a list of their "arguments"
+	 * @param brklist The output list of expression groups
+	 * @param base the group to the argument add to
+	 * @param arg the argument to add to the group
+	 */
 	static void pushToBrk(std::vector<std::pair<eqnNode*, std::vector<eqnNode*> > >& brklist, eqnNode* base, eqnNode* arg);
 
 
-	/*
-	 * void negList(vector<eqnNode*>& list)
+	// void negList(vector<eqnNode*>& list)
+	/**
+	 * @brief multiplies every list element by -1
 	 *
-	 * multiplies every list element by -1
+	 * @param list the list of expressions to be multiplyied by negative one
+	 *
 	 */
 	static void negList(std::vector<eqnNode*>& list);
 
-	/*
-	 * void unSub(vector<eqnNode*> input)
-	 *
-	 * attempts to express all differences as sums, -1*
+	// void unSub(vector<eqnNode*>& input)
+	/**
+	 * @brief attempts to express all differences as sums, -1*
+	 * @param input the list of expressions to be broken
 	 */
 	static void unSub(std::vector<eqnNode*>& input);
 
 
-	/*
-	 * void invertList(vector<eqnNode*>& list)
-	 *
-	 * takes every exponent in the list to exp(-1)
+	// void invertList(vector<eqnNode*>& list)
+	/**
+	 * @brief takes every exponent in the list to exp(-1)
+	 * @param list the list of expressions to be inverted
 	 */
 	static void invertList(std::vector<eqnNode*>& list);
 
-	/*
-	 * void unFrac(vector<eqnNode*> input)
-	 *
-	 * attempts to express all fractions as products, using exp(-1)
+	//void unFrac(vector<eqnNode*> input)
+	/**
+	 * @brief attempts to express all fractions as products, using exp(-1)
+	 * @param input the list of expressions to be broken
 	 */
 	static void unFrac(std::vector<eqnNode*>& input);
 	
 
-	/*
-	 * eqnNode* sumSimplify(sumNode* input)
+	// eqnNode* sumSimplify(sumNode* input)
+	/**
+	 * @brief rapid simplification of sums, by general associativity and comutivity
+	 * @details The sum is broken into terms, sorted grouped, collapsed and merged into another hopefully smaller expression, in a single step.
+	 * @param input the expression to be simplified.
 	 *
-	 * rapid simplification of sums, by general associativity and comutivity
+	 * @returns the simplified expression
+	 *
 	 */
 	static eqnNode* sumSimplify(sumNode* input);
 
-	/*
-	 * eqnNode* prodSimplify(sumNode* input)
+	// eqnNode* prodSimplify(sumNode* input)
+	/**
+	 * @brief rapid simplification of products, by general associativity and comutivity
+	 * @details The product is broken into terms, sorted grouped, collapsed and merged into another hopefully smaller expression, in a single step.
+	 * @param input the expression to be simplified.
 	 *
-	 * rapid simplification of products, by general associativity and comutivity
+	 * @returns the simplified expression
 	 */
 	static eqnNode* prodSimplify(prodNode* input);
 
 	public:
-	// creates a vector copy, allocating new memory
+	/**
+	 * @brief creates a vector copy, allocating new memory
+	 * @param from the source vector
+	 * @param to the destination vector
+	 */
 	static void copyCand(const std::vector<eqnNode*>& from, std::vector<eqnNode*>& to); 
 
-	// frees all memory in the vector
+	/**
+	 * @brief frees all memory in the vector
+	 * @param list the list containing memeory to be freed
+	 */
 	static void freeCand(std::vector<eqnNode*>& list);
 
-	// calls searchMaxMin and finds a quick derivative
+	/**
+	 * @brief calls searchMaxMin and finds a quick derivative
+	 * @param expression The expression to be differentiated
+	 * @param var the variable of differentiation
+	 * @returns a expression representing the derivative of the supplied expression.
+	 */
 	static eqnNode* derivative(eqnNode* expression, std::string var);
 
-	/*
-	 * eqnNode* collapse(eqnNode* input)
-	 *
-	 * Attempts to forcefully simplify an equation by combining all numbers
+	//  eqnNode* collapse(eqnNode* input)
+	/**
+	 * @brief Attempts to forcefully simplify an equation by combining all numbers
 	 *	which are joined directly by operators
+	 * @param input the expression to be collapsed
+	 * @returns the collapsed expression
 	 */
 	static eqnNode* collapse(eqnNode* input);
 
-	/*
-	 * std::vector<eqnNode*> getCand(eqnNode* input);
-	 *
-	 * recursively parses the tree, generating all possible candidates
+	// std::vector<eqnNode*> getCand(eqnNode* input);
+	/**
+	 * @brief recursively traverses the tree, generating equivalent candidate expressions by simple manipulations
+	 * @param input the expression to be manipulated
 	 * 
+	 * @returns a list of expressions, all equivalent to the original input.
 	 */
 	static std::vector<eqnNode*> getCand(eqnNode* input);
 };

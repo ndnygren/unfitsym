@@ -26,7 +26,10 @@
 class negNode : public monoOpNode
 {
 	public:
-	//this nodes size is ignored as long as it does not occur twice in a row. This will be modified in the future, when a proper metric will make this distinction.
+	/**
+	 * @brief the size of the negNode* tree
+	 * @details this nodes size is ignored as long as it does not occur twice in a row. This will be modified in the future, when a proper metric will make this distinction.
+	 */
 	virtual int size() const
 	{
 		if (getR()->type()==nodeTypes::neg) 

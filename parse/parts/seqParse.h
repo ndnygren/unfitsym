@@ -34,6 +34,9 @@
 class seqParse : public parsePart
 {
 	protected:
+	/**
+	 * @brief the internal parsePart, which will be applied iteratively
+	 */
 	parsePart* left;
 
 	public:

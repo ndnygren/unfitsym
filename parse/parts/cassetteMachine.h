@@ -33,105 +33,125 @@
 class cassetteMachine
 {
 	protected:
-	// the sequence of parseParts which will be run through
+	/**
+	 * @brief the sequence of parseParts which will be run through
+	 */
 	std::vector<parsePart*> partlist;
 
-	// a stack of individual parsePart successes, paired with an 
-	//	integer index. This indicates which success was last considered
-	//	when proceeding deeper into partlist
+	/**
+	 * @brief a stack of individual parsePart successes, paired with an 
+	 *	integer index. This indicates which success was last considered
+	 *	when proceeding deeper into partlist
+	 */
 	std::vector<std::pair<int, std::vector<std::pair<int,eqnNode*> > > > cassette;
-
-	// the usual parse cache, which will be passed to all subsequent
-	//	parseParts
+	/**
+	 * @brief the usual parse cache, which will be passed to all subsequent
+	 *	parseParts
+	 */
 	std::map< std::pair<int,int>, std::vector<std::pair<int, eqnNode*> > > *fails;
 
-	/*
-	 * int goodCap()
-	 * 
-	 * Decides, by comparing the stack depth to the number of parseParts,
+	// int goodCap()
+	/**
+	 * @brief Decides, by comparing the stack depth to the number of parseParts,
 	 * whether or not to increase the cap.
+	 * @returns The decided increase to the previous cap(integer)
 	 */
 	int goodCap() const;
 
-	/*
-	 * std::vector<std::pair <int, eqnNode*> > copySucc(const std::vector<std::pair <int, eqnNode*> > &list)
-	 *
-	 * Copies a succ list, same implementation as in parsePart
+	// vector<pair <int, eqnNode*> > copySucc(const vector<pair <int, eqnNode*> > &list)
+	/**
+	 * @brief Copies a succ list, same implementation as in parsePart
+	 * @param list The source list, to be copied
+	 * @returns a indentical copy of list
 	 */
 	std::vector<std::pair <int, eqnNode*> > copySucc(const std::vector<std::pair <int, eqnNode*> > &list) const;
 
-	/*
-	 * void collectSuccess()
-	 *
-	 * Iterates over the stack and collects the "current" eqnNode* from 
+	// void collectSuccess()
+	/**
+	 * @brief Iterates over the stack and collects the "current" eqnNode* from 
 	 *	each parsePart, only in the case that a successful parse has 
 	 *	been made by each parsePart in sequence.
+	 *
 	 */
 	void collectSuccess(); 
 
-	/*
-	 * void popAndFree()
-	 *
-	 * frees all memory contained in the whichever succ list is at the 
+	// void popAndFree()
+	/**
+	 * @brief combines the usual pop operation with memory handling
+	 * @details frees all memory contained in the whichever succ list is at the 
 	 * 	top of the cassette(stack), then pops it.  If this data is 
 	 *	needed, it must be copied prior to freeing the parse part 
 	 *	containing it.
 	 */
 	void popAndFree();
 
-	/*
-	 * bool endOfSucc()
-	 *
-	 * Checks the list off successes at the top of the stack, if the index 
+	//bool endOfSucc()
+	/**
+	 * @brief determines EOF for the current succ list
+	 * @details Checks the list off successes at the top of the stack, if the index 
 	 *	here is greater than the size of the succ list here, 
 	 *	endOfSucc() returns true.
+	 *
+	 * @returns true iff the end of the succ list is reached
 	 */
 	bool endOfSucc() const;
 
-	/*
-	 * int currentOffset()
-	 *
-	 * Finds the offset at the current index of the succ list at the top 
+	// int currentOffset()
+	/**
+	 * @brief Finds the offset at the current index of the succ list at the top 
 	 *	of the stack and returns the "offset" found there.
+	 * @returns the left half of the pair at the top of the stack
 	 */
 	int currentOffset () const;
 
-	/*
-	 * std::pair<int,std::vector<std::pair<int,eqnNode*> > > makeCMP(parsePart* input)
-	 *
-	 * Makes a copy of the succ list of the supplied parsePart and 
+	// std::pair<int,std::vector<std::pair<int,eqnNode*> > > makeCMP(parsePart* input)
+	/**
+	 * @brief creates a CM pair from a parsePart
+	 * @details Makes a copy of the succ list of the supplied parsePart and 
 	 * 	combines it with the integer 0 in a std::pair. This integer 
 	 *	acts as the index of the succ list.
+	 * @param input the parsePart to become a CMP
+	 * @return a CM pair, to be placed on the stack
 	 */
 	std::pair<int,std::vector<std::pair<int,eqnNode*> > > makeCMP(parsePart* input) const;
 	
 	public:
-	// The list of successes, in a different form. The int represents the
-	//	offset as usual, the eqnNode*'s however are left in pieces,
-	//	the caller of the cassetteMachine decides how they will be 
-	//	combined to form a proper succ list.
+	/**
+	 * @brief List of successful parses
+	 * @details The list of successes, in a different form. The int represents the
+	 *	offset as usual, the eqnNode*'s however are left in pieces,
+	 *	the caller of the cassetteMachine decides how they will be 
+	 *	combined to form a proper succ list.
+	 */
 	std::vector<std::pair<int,std::vector<eqnNode*> > > pieces;
 
-	/*
-	 * void setMap( std::map< std::pair<int,int>, std::vector<std::pair<int, eqnNode*> > > *f)
-	 *
-	 * Assigns the parse cache to the supplied pointer.
+	 //void setMap( std::map< std::pair<int,int>, std::vector<std::pair<int, eqnNode*> > > *f)
+	/**
+	 * @brief Assigns the parse cache to the supplied pointer.
+	 * @param f the cache of successful parses, to be shared
 	 */
 	void setMap( std::map< std::pair<int,int>, std::vector<std::pair<int, eqnNode*> > > *f) { fails = f; }
 
-	/*
-	 * void add(parsePart* input)
-	 *
-	 * The supplied parsePart* is added to the partlist
+	// void add(parsePart* input)
+	/**
+	 * @brief The supplied parsePart* is added to the partlist
+	 * @param input the next parsePart
 	 */
 	void add(parsePart* input);
 
-	/*
-	 * void loadString(int offset, const std::string& data, int cap)
-	 * 
-	 * This function initiates the parse. The offset, data, and cap are
+	// void loadString(int offset, const std::string& data, int cap)
+	/**
+	 * @brief  This function initiates the parse. 
+	 * @details The offset, data, and cap are
 	 * 	same values which will be supplied to each element of the 
 	 *	partlist, modified as needed as the partlist is traversed.
+	 * @param offset the number of characters in the string which have been 
+	 *	"consumed" so far
+	 * @param data the string to be parsed
+	 * @param cap an upper bound on the string to be parsed, when recursing
+	 *	into the first parsePart in a sequence, the cap is increased 
+	 *	by 1, reducing the string size. This prevents infinite recursion.
+	 * 
 	 */
 	void loadString(int offset, const std::string& data, int cap);
 

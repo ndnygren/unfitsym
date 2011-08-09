@@ -28,6 +28,9 @@
 class multiTokParse : public parsePart
 {
 	protected:
+	/**
+	 * @brief the vector of tokens to check for
+	 */
 	std::vector<std::string> str;
 
 	public:
@@ -48,10 +51,11 @@ class multiTokParse : public parsePart
 		}
 	}
 
-	/*
-	 * void add(std::string input)
+	// void add(std::string input)
+	/**
+	 * @brief adds the string, input, to the list of tokens that may be accepted.
 	 *
-	 * adds the string, input, to the list of tokens that may be accepted.
+	 * @param input The new token to search for
 	 */
 	void add(std::string input) { str.push_back(input); }
 	multiTokParse(std::string input) { str.push_back(input); }

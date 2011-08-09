@@ -30,6 +30,17 @@
 class eqnMetric
 {
 	public:
+	/**
+	 * @brief a mapping from expressions to integers
+	 *
+	 * @details Depending on the intended use of the metric, eqnNode*'s
+	 * are traversed and a integer value is calculated. In the basic
+	 * case this is simply the number of nodes in the tree
+	 *
+	 * @param input the supplied eqnNode*, to be analyzed
+	 *
+	 * @returns the calculated integer value
+	 */
 	virtual int score(const eqnNode* input) const
 	{
 		return input->size();

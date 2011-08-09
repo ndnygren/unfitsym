@@ -45,10 +45,16 @@ class generateProof
 	class crumb
 	{
 		public:
-		//the "previous" expression, in case of more than one,  
-		//	whichever was discovered first, gives the shortest path
+		/**
+		 * @brief the "previous" expression, in case of more than one,  
+		 *	whichever was discovered first, gives the shortest path
+		 */
 		std::string back; 
-		std::string eqn; // the "current" expression
+
+		/**
+		 * @brief the "current" expression
+		 */
+		std::string eqn;
 
 		crumb(const std::string prev, const std::string &prevstr)
 		{ back = prev; eqn = prevstr; }
@@ -63,37 +69,44 @@ class generateProof
 		{ back = ""; eqn = ""; }
 	};
 
-	/*
-	 * void breakDown(const vector<pair<string, string> > &pairs, map<string, vector<string> > &edges)
-	 *
-	 * Creates the forward look-up map from the list of pairs.
+	 // void breakDown(const vector<pair<string, string> > &pairs, map<string, vector<string> > &edges)
+	/**
+	 * @brief Creates the forward look-up map from the list of pairs.
+	 * @param pairs the input list of adjacent pairs
+	 * @param edges the output forward lookup map
 	 */
 	static void breakDown(const std::vector<std::pair<std::string, std::string> > &pairs, std::map<std::string, std::vector<std::string> > &edges); 
 
 
-	/*
-	 * vector<string> genVector(map<string, vector<string> > &edges, const string &start, const string &target)
-	 *
-	 * Generates the path in vector form from the forward look-up map.
+	 // vector<string> genVector(map<string, vector<string> > &edges, const string &start, const string &target)
+	/**
+	 * @brief Generates the path in vector form from the forward look-up map.
+	 * @param edges the graph represented as a forward look-up map
+	 * @param start the node to begin searching from
+	 * @param target the node to search for
+	 * @returns a vector showing the shortest path from start to target through edges.
 	 */
 	static std::vector<std::string> genVector(std::map<std::string, std::vector<std::string> > &edges, const std::string &start, const std::string &target); 
 
-	/*
-	 * string convertVector(const vector<string> &path)
-	 *
-	 *
-	 * Converts the vector formated proof into a single string.
+	// string convertVector(const vector<string> &path)
+	/**
+	 * @brief Converts the vector formated proof into a single string.
+	 * @param path the list of nodes
+	 * @returns the single string path(proof)
 	 */
 	static std::string convertVector(const std::vector<std::string> &path);
 
 	public:
 
-	/*
-	 * string build(const vector< pair<string, string> > &pairs, const string &start, const string &target);
-	 *
-	 *
-	 * Using the list of pairs, a path(proof) from the start expression 
+	//string build(const vector< pair<string, string> > &pairs, const string &start, const string &target);
+	/**
+	 * @brief Using the list of pairs, a path(proof) from the start expression 
 	 *	to the target expression is found.
+	 * @param pairs the adjacency-list-represented graph
+	 * @param start the initial expression
+	 * @param target the chosen "solution" expression
+	 *
+	 * @returns the proof of the "solution" from the initial expression
 	 */
 	static std::string build(const std::vector<std::pair<std::string, std::string> > &pairs, const std::string &start, const std::string &target);
 };

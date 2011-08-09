@@ -30,34 +30,36 @@
 class eqnNode
 {
 	public:
-	/*
-	 * virtual void deleteAll()
+	// virtual void deleteAll()
+	/**
 	 *
-	 * Recursively frees all the parse tree's memory.
+	 * @brief Recursively frees all the parse tree's memory.
 	 */
 	virtual void deleteAll() { };
 
-	/*
-	 * virtual eqnNode* copy()
-	 *
-	 * Recursively copies all subtrees, allocating memory 
+	//virtual eqnNode* copy()
+	/**
+	 * @brief Recursively copies all subtrees, allocating memory 
 	 * 	for a second copy of this tree.
+	 * @returns a eqnNode* equal to the original, in new memory
 	 */
 	virtual eqnNode* copy() const = 0;
 
-	/*
-	 * virtual bool eq(eqnNode* input)
-	 *
-	 * Comparison operator. Compares this root node, to inputs root
+	// virtual bool eq(eqnNode* input)
+	/**
+	 * @brief Comparison operator. Compares this root node, to inputs root
 	 * 	node, and recursively compares each subtree to inputs subtrees
+	 * @param input a parse tree to be compared to *this
+	 * @returns true iff input and *this have identical structure
 	 */
 	virtual bool eq(const eqnNode* input) const = 0;
 
-	/*
-	 * virtual bool eqVal(eqnNode* input)
-	 *
-	 * Comparison operator. Attempts to reduce this expression to a single 
+	// virtual bool eqVal(eqnNode* input)
+	/**
+	 * @brief Comparison operator. Attempts to reduce this expression to a single 
 	 *	integer, and the same for input. True is returned iff the values match.
+	 * @param input a parse tree to be compared to *this
+	 * @returns true iff input and *this have identical numeric value 
 	 */
 	virtual bool eqVal(eqnNode* input) const
 	{
@@ -67,59 +69,54 @@ class eqnNode
 			{ return false; }
 	}
 
-	/*
-	 * virtual double value()
-	 *
-	 * Attempts to reduce this expression to a single numeric value
+	// virtual double value()
+	/**
+	 * @brief Attempts to reduce this expression to a single numeric value
+	 * @returns the numeric value, if the expression is constant
 	 */
 	virtual double value() const = 0;
 
-	/*
-	 * virtual int size()
-	 * 
-	 * Returns the number of nodes in the parse tree
+	// virtual int size()
+	/**
+	 * @brief Returns the number of nodes in the parse tree
+	 * @returns integer size
 	 */
 	virtual int size() const = 0;
 
-	/*
-	 * virtual int type()
-	 *
-	 * Returns an integer code representing the type. Codes are listed
+	// virtual int type()
+	/**
+	 * @brief Returns an integer code representing the type. Codes are listed
 	 * in parse/nodes/nodeTypes.h
+	 * @returns integer type code
 	 */
 	virtual int type() const = 0;
 
-	/*
-	 * virtual bool isLeaf()
-	 * 
-	 * Returns true only in the case of a "number" or "variable"
+	// virtual bool isLeaf()
+	/**
+	 * @brief Returns true only in the case of a "number" or "variable"
 	 */
 	virtual bool isLeaf() const { return false; }
 
-	/*
-	 * virtual std::string str()
-	 * 
-	 * Recursively forms the LaTeX formated string representing 
+	// virtual std::string str()
+	/**
+	 * @brief Recursively forms the LaTeX formated string representing 
 	 *	the parse tree
+	 * @returns std::string in LaTeX format
 	 */
 	virtual std::string str() const = 0;
 
 
-	/*
-	 * bool isConst()
-	 *
-	 * returns true iff the expression contains no variables
-	 * 
+	// bool isConst()
+	/**
+	 * @returns true iff the expression contains no variables
 	 */
 	virtual bool isConst() const
 		{ return true; }
 
-	/*
-	 * bool isConst(std::string name)
-	 *
-	 * returns true iff the expression does not contain the 
+	// bool isConst(std::string name)
+	/**
+	 * @returns true iff the expression does not contain the 
 	 *	specified variable
-	 * 
 	 */
 	virtual bool isConst(const std::string& name) const
 	{
@@ -128,11 +125,9 @@ class eqnNode
 		return false;
 	}
 
-	/*
-	 * bool isVar(std::string name)
-	 *
-	 * returns true iff the expression is the specified variable
-	 * 
+	// bool isVar(std::string name)
+	/**
+	 * @returns true iff the expression is the specified variable
 	 */
 	virtual bool isVar(const std::string& name) const 
 	{

@@ -29,8 +29,19 @@
 class isoSimpMetric : public eqnMetric
 {
 	protected:
+	/**
+	 * @brief the variable to isolate
+	 */
 	std::string target;
+
+	/**
+	 * @brief Metric instance, to reduce size
+	 */
 	eqnMetric *simpPart;
+
+	/**
+	 * @brief Metric instance, to isolate target
+	 */
 	isolateMetric *isoPart;
 
 	public:

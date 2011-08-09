@@ -31,12 +31,25 @@
 class exprLinked 
 {
 	protected:
+	/**
+	 * @brief the current expression
+	 */
 	eqnNode* expr;
 
 	public:
+	/**
+	 * @brief The new expressions found by single manipulations of the current expression.
+	 */
 	std::vector<eqnNode*> changes;
 
+	/**
+	 * @brief passes the str() call to the current eqnNode*
+	 * @return passes back return value from the inner expression
+	 */
 	virtual std::string str() const;
+	/**
+	 * @brief calls alterExpression::getCand() and loads the changes list
+	 */
 	void load();
 
 	exprLinked();

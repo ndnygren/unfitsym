@@ -32,6 +32,11 @@
 class derivMetric : public eqnMetric
 {
 	public:
+	/**
+	 * @brief the number of derivNode*'s in the parse tree
+	 * @param input the eqnNode* to be analyzed
+	 * @returns number of derivatives
+	 */
 	int countd(const eqnNode* input) const
 	{
 		if (input->type() == nodeTypes::sum

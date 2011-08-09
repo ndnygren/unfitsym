@@ -26,7 +26,12 @@
 class monoOpNode : public eqnNode
 {
 	protected:
-	eqnNode* right; //only one subtree
+	/**
+	 * @brief the subtree of the monic operator
+	 * @details The name 'right' is chosen for consistency with binOpNode.
+	 * There is only one subtree in a monic operator.
+	 */
+	eqnNode* right; 
 
 	public:
 	virtual bool eq(const eqnNode* input) const
@@ -38,7 +43,6 @@ class monoOpNode : public eqnNode
 	}
 
 
-	//this nodes size is ignored as long as it does not occur twice in a row. This will be modified in the future, when a proper metric will make this distinction.
 	virtual int size() const
 	{
 		return getR()->size() + 1;
@@ -54,6 +58,11 @@ class monoOpNode : public eqnNode
 		}
 	}
 
+
+	/**
+	 * @brief Allows access to the subtree
+	 * @returns the subtree in eqnNode* form
+	 */
 	eqnNode* getR() const { return right; }
 
 	/*

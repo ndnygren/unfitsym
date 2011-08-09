@@ -33,32 +33,40 @@
 class parserFull
 {
 	protected:
-	// map fails - caches all successful parses, with this parse runs in 
-	//	quadratic time, rather than exponential.
+	/**
+	 * @brief cache of all successful parses
+	 * @details With this cache, parse runs in 
+	 *	quadratic time, rather than exponential.
+	 */
 	std::map< std::pair<int, int>, std::vector<std::pair<int, eqnNode*> > > fails;
 
-	/*	
-	 * void deleteList(std::vector<std::pair<int, eqnNode*> > list)
-	 *
-	 * Iterates over the provided list, freeing all memory from the 
+	// void deleteList(std::vector<std::pair<int, eqnNode*> > list)
+	/**	
+	 * @brief Iterates over the provided list, freeing all memory from the 
 	 * 	second element in each pair.
+	 * @param list The vector containing memory to be freed
+	 *
 	 */
 	void deleteList(std::vector<std::pair<int, eqnNode*> > list);
 
-	/*
-	 * void freeMap(std::map< std::pair<int, int>, std::vector<std::pair<int, eqnNode*> > > fails)
-	*
-	* Iterates over the provided map, calling deleteList() on each element.
-	*/
+	// void freeMap(std::map< std::pair<int, int>, std::vector<std::pair<int, eqnNode*> > > fails)
+	/**
+	 * @brief Iterates over the provided map, calling deleteList() on each element.
+	 * @param fails The map containing memory to be freed
+	 */
 	void freeMap(std::map< std::pair<int, int>, std::vector<std::pair<int, eqnNode*> > > fails);
 
 	public:
 
-	/*
-	 *eqnNode* getExpr(std::string input);
-	 *
-	 * If the string, input, is syntactically correct, a parse tree 
+	//eqnNode* getExpr(std::string input);
+	/**
+	 * @brief If the string, input, is syntactically correct, a parse tree 
 	 *	is returned, otherwise a null pointer is returned.
+	 * @param input The string to be parsed
+	 * 
+	 * @returns a parse tree representing the string input, 
+	 *	or null if the parse fails
+	 *
 	 */
 	eqnNode* getExpr(std::string input);
 	~parserFull();
