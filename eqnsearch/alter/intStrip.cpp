@@ -18,6 +18,38 @@
 
 using namespace std;
 
+eqnNode* alterExpression::substitute(prodNode* input, string var)
+{
+	eqnNode *outexpr, *temp1, *temp2;
+	sumNode *sumspare;
+	fracNode *fracspare;
+	hatNode *hatspare;
+	numNode one(1);
+
+	//polynomial types
+	if (input->getR()->type() == nodeTypes::hat
+		&& ((hatNode*)input->getR())->getR()->isConst())
+	{
+		temp1 = derivative(((hatNode*)input->getR())->getL(), var);
+		temp2 = scalarCompare(input->getL(),temp1);
+		if (temp2 != 0)
+		{
+			sumspare = new sumNode(((hatNode*)input->getR())->getR(), &one);
+			hatspare = new hatNode(((hatNode*)input->getR())->getL(), sumspare);
+			fracspare = new fracNode(temp2, sumspare);
+			outexpr = new prodNode(fracspare,hatspare);
+			delete fracspare;
+			delete hatspare;
+			delete sumspare;
+			delete temp2;
+			delete temp1;
+			return outexpr;
+		}
+	}
+
+	return 0;
+}
+
 eqnNode* alterExpression::attemptStrip(intNode* input)
 {
 	eqnNode* outexpr;
@@ -139,6 +171,14 @@ eqnNode* alterExpression::attemptStrip(intNode* input)
 		}
 	}
 
+
+	//for products, attempt substitution of variables
+	if (input->getL()->type() == nodeTypes::prod
+		&& input->getR()->type() == nodeTypes::var)
+	{
+		outexpr = substitute((prodNode*)input->getL(), ((varNode*)input->getR())->get());
+		if (outexpr != 0) { return outexpr; }
+	}
 
 	return 0;
 }

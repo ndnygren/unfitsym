@@ -132,6 +132,14 @@ class alterExpression
 	 */
 	static std::vector<eqnNode*> hatCand(hatNode* input);
 
+	/**
+	 * @brief attempts to integrate by substitution
+	 * @param input the expression to be integrated
+	 * @param var the variable of integration
+	 * @returns the result of integration, if successful, otherwise null
+	 */
+	static eqnNode* substitute(prodNode* input, std::string var);
+
 	// eqnNode* attemptStrip(intNode* input);
 	/**
 	 * @brief solves the integral in such a way that the result contains to 
@@ -240,6 +248,14 @@ class alterExpression
 	 * @returns the simplified expression
 	 */
 	static eqnNode* prodSimplify(prodNode* input);
+
+	/**
+	 * @brief Compares 2 expressions to determine if they differ only by scalar multiplication
+	 * @param actual the found expression
+	 * @param expected the desired expression
+	 * @returns the required scalar multiple, if possible, otherwise null
+	 */
+	static eqnNode* scalarCompare(eqnNode* actual, eqnNode* expected);
 
 	public:
 	/**
