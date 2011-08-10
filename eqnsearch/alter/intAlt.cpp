@@ -18,6 +18,47 @@
 
 using namespace std;
 
+int alterExpression::maxIndex(eqnNode* input)
+{
+	varNode c("C");
+
+	if (input->type() == nodeTypes::idx
+		&& ((idxNode*)input)->getL()->eq(&c)
+		&& ((idxNode*)input)->getR()->isConst())
+		{ return (int)(((idxNode*)input)->getR()->isConst()); }
+	else if (input->isBin())
+	{
+		return binOpNode::max(maxIndex(((binOpNode*)input)->getL()) ,maxIndex(((binOpNode*)input)->getR()));
+	}
+	else if (input->isMono())
+	{
+		return maxIndex(((monoOpNode*)input)->getR());
+	}
+
+	return 0;
+}
+
+void alterExpression::setIndex(eqnNode* input, int newindex)
+{
+	varNode c("C");
+	varNode r("replace");
+	idxNode rep(&c,&r);
+
+	if (input->eq(&rep))
+	{
+		((idxNode*)input)->setIdx(newindex);
+	}
+	else if (input->isBin())
+	{
+		setIndex(((binOpNode*)input)->getL(), newindex); 
+		setIndex(((binOpNode*)input)->getR(), newindex);
+	}
+	else if (input->isMono())
+	{
+		setIndex(((monoOpNode*)input)->getR(), newindex);
+	}
+}
+
 vector<eqnNode*> alterExpression::intCand(intNode* input)
 {
 	unsigned int i;
@@ -33,6 +74,10 @@ vector<eqnNode*> alterExpression::intCand(intNode* input)
 	numNode negone(-1);
 	numNode two(2);
 	numNode zero(0);
+	varNode c("C");
+	varNode r("replace");
+	idxNode rep(&c,&r);
+	
 
 
 	// sums
@@ -106,7 +151,8 @@ vector<eqnNode*> alterExpression::intCand(intNode* input)
 	stripped = attemptStrip(input);
 	if (stripped != 0)
 	{
-		changes.push_back(stripped);
+		changes.push_back(new sumNode(stripped, &rep));
+		delete stripped;
 	}	
 
 	//recursing

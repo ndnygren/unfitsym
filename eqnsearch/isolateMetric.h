@@ -49,47 +49,34 @@ class isolateMetric : public eqnMetric
 
 	virtual int score(const eqnNode* input) const
 	{
-		if (input->type() == nodeTypes::num)
-		{ 
-			return 0;
-			/*
-				if (((numNode*)input)->get() > 1)
-					{ return 1; }
-				else	
-					{ return 0; }
-					*/
-		}
-		else if (input->type() == nodeTypes::var)
+		if (input->type() == nodeTypes::var)
 		{
 			if (((varNode*)input)->get() == target )
 				{ return 1; }
 			else { return 0; }
 		}
-		else if (input->type() == nodeTypes::sum
-			|| input->type() == nodeTypes::sub
-			|| input->type() == nodeTypes::prod
-			|| input->type() == nodeTypes::frac
-			|| input->type() == nodeTypes::hat)
+		else if (input->type() == nodeTypes::idx)
+		{
+			return score(((binOpNode*)input)->getR()); 
+		}
+		else if (input->type() == nodeTypes::deriv
+			|| input->type() == nodeTypes::integral)
+		{
+			return (score(((binOpNode*)input)->getL()) + 2)*
+				(score(((binOpNode*)input)->getL()) + 2)+2;
+		}
+		else if (input->isBin())
 		{
 			return bump(score(((binOpNode*)input)->getL()) 
 				+score(((binOpNode*)input)->getR()));
 			
 		}
-		else if (input->type() == nodeTypes::neg
-			|| input->type() == nodeTypes::sin
-			|| input->type() == nodeTypes::cos
-			|| input->type() == nodeTypes::ln)
+		else if (input->isMono())
 		{
 			return bump(score(((monoOpNode*)input)->getR())); 
 		}
-		else if (input->type() == nodeTypes::deriv
-			|| input->type() == nodeTypes::integral)
-		{
-			return score(((binOpNode*)input)->getL())*
-				score(((binOpNode*)input)->getL());
-		}
 		
-		return 1;
+		return 0;
 	}
 
 	isolateMetric(std::string intarget)

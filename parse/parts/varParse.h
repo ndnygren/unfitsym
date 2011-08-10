@@ -45,7 +45,7 @@ class varParse : public parsePart
 		digits.add("q"); digits.add("r"); digits.add("s");
 		digits.add("t"); digits.add("u"); digits.add("v");
 		digits.add("w"); digits.add("x"); digits.add("y");
-		digits.add("z"); 
+		digits.add("z"); digits.add("C"); 
 
 		digits.add("\\pi"); digits.add("\\phi"); 
 

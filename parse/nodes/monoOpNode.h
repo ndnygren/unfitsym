@@ -74,6 +74,8 @@ class monoOpNode : public eqnNode
 	virtual bool isConst() const
 		{ return getR()->isConst(); }
 
+	virtual bool isMono() const { return true; }
+
 	/*
 	 * bool isConst(std::string name)
 	 *

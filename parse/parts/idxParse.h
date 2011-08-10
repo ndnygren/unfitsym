@@ -13,41 +13,25 @@
 *
 * You should have received a copy of the GNU General Public License
 * along with this program. If not, see <http://www.gnu.org/licenses/>. */
+#ifndef NN_IDXPARSE_H
+#define NN_IDXPARSE_H
 
-#include "alterExpression.h"
-#include "../derivMetric.h"
-#include "../searchMaxMin.h"
-#include <iostream>
+#include "../nodes/idxNode.h"
+#include "expParse.h"
+#include "tokParse.h"
 
-using namespace std;
+/**
+ * @class idxParse
+ *
+ * @brief the CFG rule Expr -> Var "_" Curl
+ * @details Parses index variables. note: the index must be in brackets(slightly more strict than true LaTeX).
+ */
 
-eqnNode* alterExpression::derivative(eqnNode* expression, std::string var)
+class idxParse : public parsePart
 {
-	varNode vn(var);
-	derivMetric rate;
-	eqnNode* start = new derivNode(expression, &vn);
-	eqnNode* bestcand = 0;
-	searchMaxMin *engine = new searchMaxMin(start, &rate);
-	
-	while(bestcand == 0)
-	{
-		engine->next(100);
-		bestcand = (engine->best(1))[0]->copy();
+	public:
+	virtual void loadString(int offset, const std::string& data, int cap);
+	virtual ~idxParse() { deleteAll(); }
+};
 
-		if (rate.countd(bestcand) > 0)
-		{
-			cout << bestcand->str() << endl;
-			delete bestcand;
-			bestcand = 0;
-		}
-	}
-
-	delete bestcand;
-	engine->next(200);
-	bestcand = (engine->best(1))[0]->copy();
-
-	delete engine;
-	delete start;
-
-	return bestcand;
-}
+#endif

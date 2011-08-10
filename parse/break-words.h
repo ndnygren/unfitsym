@@ -22,88 +22,91 @@
 #include <vector>
 
 /**
- * @file break-words.h
+ * @class break-words.h
  *
- * @brief a collection of methods used to remove whitespace
+ * @brief Static functions, methods used to remove whitespace
  */
 
-// bool n_alpha(char t)
-/**
- * @param t the character value to be tested
- * @returns true if t is an alphabetic character
- *
- */
-bool n_alpha(char t);
+class breakWords
+{
+	public:
+	// bool n_alpha(char t)
+	/**
+	 * @param t the character value to be tested
+	 * @returns true if t is an alphabetic character
+	 *
+	 */
+	static bool n_alpha(char t);
 
-// bool n_num(char t)
-/**
- *
- * @param t the character value to be tested
- * @returns true if t is an numeric character
- */
-bool n_num(char t);
+	// bool n_num(char t)
+	/**
+	 *
+	 * @param t the character value to be tested
+	 * @returns true if t is an numeric character
+	 */
+	static bool n_num(char t);
 
-// bool n_oper(char t)
-/**
- *
- * @param t the character value to be tested
- * @returns true if t is an operator character
- */
-bool n_oper(char t);
+	// bool n_oper(char t)
+	/**
+	 *
+	 * @param t the character value to be tested
+	 * @returns true if t is an operator character
+	 */
+	static bool n_oper(char t);
 
-// bool nlrsqb(char t)
-/**
- *
- * @param t the character value to be tested
- * @returns true if t is not a square bracket
- */
-bool nlrsqb(char t);
+	// bool nlrsqb(char t)
+	/**
+	 *
+	 * @param t the character value to be tested
+	 * @returns true if t is not a square bracket
+	 */
+	static bool nlrsqb(char t);
 
-// bool lrsqb(char t)
-/**
- *
- * @param t the character value to be tested
- * @returns true if t is a square bracket
- */
-bool lrsqb(char t);
+	// bool lrsqb(char t)
+	/**
+	 *
+	 * @param t the character value to be tested
+	 * @returns true if t is a square bracket
+	 */
+	static bool lrsqb(char t);
 
-// bool w_only(char t)
-/**
- *
- * @param t the character value to be tested
- * @returns true if t is whitespace
- */
-bool w_only(char t);
+	// bool w_only(char t)
+	/**
+	 *
+	 * @param t the character value to be tested
+	 * @returns true if t is whitespace
+	 */
+	static bool w_only(char t);
 
-// bool w_only(char t)
-/**
- *
- * @param t the character value to be tested
- * @returns true if t is whitespace or a comma
- */
-bool w_commas(char t);
+	// bool w_only(char t)
+	/**
+	 *
+	 * @param t the character value to be tested
+	 * @returns true if t is whitespace or a comma
+	 */
+	static bool w_commas(char t);
 
-// string stripwhite(string input, bool (*whitespc)(char))
-/**
- * @brief removes every character that satisfies the supplied function *whitespc
- * @param input The string which will have whitespace removed
- * @param whitespc the pointer to the function which decides what is whitespace
- * @returns a new string, without whitespace
- */
-std::string stripwhite(const std::string& input, bool (*whitespc)(char));
+	// string stripwhite(string input, bool (*whitespc)(char))
+	/**
+	 * @brief removes every character that satisfies the supplied function *whitespc
+	 * @param input The string which will have whitespace removed
+	 * @param whitespc the pointer to the function which decides what is whitespace
+	 * @returns a new string, without whitespace
+	 */
+	static std::string stripwhite(const std::string& input, bool (*whitespc)(char));
 
-// vector<string> breakwords(string input, bool (*whitespc)(char));
-/**
- * @brief breaks the string on all points where the funstion *whitespace is satisfied
- * 
- * @param input The string which will be broken at whitespace 
- * @param whitespc the pointer to the function which decides what is whitespace
- *
- * @returns a vector of strings, all non-whitespace peices of input
- *
- */
-std::vector<std::string> breakwords(const std::string& input, bool (*whitespc)(char));
-
+	// vector<string> breakwords(string input, bool (*whitespc)(char));
+	/**
+	 * @brief breaks the string on all points where the funstion *whitespace is satisfied
+	 * 
+	 * @param input The string which will be broken at whitespace 
+	 * @param whitespc the pointer to the function which decides what is whitespace
+	 *
+	 * @returns a vector of strings, all non-whitespace peices of input
+	 *
+	 */
+	static std::vector<std::string> breakwords(const std::string& input, bool (*whitespc)(char));
+};
 
 #endif
 

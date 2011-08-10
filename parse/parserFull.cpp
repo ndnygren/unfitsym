@@ -44,7 +44,7 @@ eqnNode* parserFull::getExpr(string input1)
 	// expParse represents the main variable in the CFG, 
 	//	any arithmetic expression.
 	expParse d;
-	string input = stripwhite(input1, &w_only);
+	string input = breakWords::stripwhite(input1, &breakWords::w_only);
 
 	// the cache is pasted down when recursing, so the same sub-strings	
 	// 	will not be parsed twice.

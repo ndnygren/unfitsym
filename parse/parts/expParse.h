@@ -33,6 +33,7 @@
 #include "sineParse.h"
 #include "cosineParse.h"
 #include "lnParse.h"
+#include "idxParse.h"
 
 /**
  * @class expParse

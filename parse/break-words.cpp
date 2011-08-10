@@ -18,7 +18,7 @@
 
 using namespace std;
 
-bool n_alpha(char t)
+bool breakWords::n_alpha(char t)
 {
 	switch(t)
 	{
@@ -33,7 +33,7 @@ bool n_alpha(char t)
 	return true;
 }
 
-bool n_num(char t)
+bool breakWords::n_num(char t)
 {
 	switch(t)
 	{
@@ -52,7 +52,7 @@ bool n_num(char t)
 	return true;
 }
 
-bool n_oper(char t)
+bool breakWords::n_oper(char t)
 {
 	switch(t)
 	{
@@ -64,7 +64,7 @@ bool n_oper(char t)
 	return true;
 }
 
-bool nlrsqb(char t)
+bool breakWords::nlrsqb(char t)
 {
 	switch(t)
 	{
@@ -74,7 +74,7 @@ bool nlrsqb(char t)
 	return true;
 }
 
-bool lrsqb(char t)
+bool breakWords::lrsqb(char t)
 {
 	switch(t)
 	{
@@ -84,7 +84,7 @@ bool lrsqb(char t)
 	return false;
 }
 
-bool w_only(char t)
+bool breakWords::w_only(char t)
 {
 	switch(t)
 	{
@@ -96,7 +96,7 @@ bool w_only(char t)
 	return false;
 }
 
-bool w_commas(char t)
+bool breakWords::w_commas(char t)
 {
 	switch(t)
 	{
@@ -109,7 +109,7 @@ bool w_commas(char t)
 	return false;
 }
 
-string stripwhite(const string& input, bool (*whitespc)(char))
+string breakWords::stripwhite(const string& input, bool (*whitespc)(char))
 {
 	unsigned int i = 0;
 	vector<string> v_words = breakwords(input, whitespc);
@@ -123,7 +123,7 @@ string stripwhite(const string& input, bool (*whitespc)(char))
 
 }
 
-vector<string> breakwords(const string& input, bool (*whitespc)(char))
+vector<string> breakWords::breakwords(const string& input, bool (*whitespc)(char))
 {
 	int wordstart = -1;
 	int count = 0;

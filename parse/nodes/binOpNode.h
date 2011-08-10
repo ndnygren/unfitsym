@@ -41,19 +41,19 @@ class binOpNode : public eqnNode
 	 */
 	eqnNode* right;
 
+	public:
 	// int max(int left, int right) const
 	/**
  	 * @brief usual max function for integers
 	 * @returns the largest of {left,right}
 	 * 
 	 */
-	int max(int left, int right) const
+	static int max(int left, int right)
 	{
 		if (left < right) { return right; }
 		return left;
 	}
 
-	public:
 	virtual bool eq(const eqnNode* input) const
 	{
 		if (type() != input->type())
@@ -111,6 +111,8 @@ class binOpNode : public eqnNode
 
 	virtual bool isConst() const
 		{ return getL()->isConst() && getR()->isConst(); }
+
+	virtual bool isBin() const { return true; }
 
 	/*
 	 * bool isConst(std::string name)

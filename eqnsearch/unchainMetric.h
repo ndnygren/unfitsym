@@ -45,35 +45,22 @@ class unchainMetric : public eqnMetric
 
 	virtual int score(const eqnNode* input) const
 	{
-		if (input->type() == nodeTypes::num
-			&& input->type() == nodeTypes::var)
-		{ 
-			return 1;
-		}
-		else if (input->type() == nodeTypes::sum
-			|| input->type() == nodeTypes::sub
-			|| input->type() == nodeTypes::prod
-			|| input->type() == nodeTypes::frac
-			|| input->type() == nodeTypes::hat
-			|| input->type() == nodeTypes::integral)
-		{
-			return bump(score(((binOpNode*)input)->getL()) 
-				+score(((binOpNode*)input)->getR()));
-			
-		}
-		else if (input->type() == nodeTypes::neg
-			|| input->type() == nodeTypes::sin
-			|| input->type() == nodeTypes::cos
-			|| input->type() == nodeTypes::ln)
-		{
-			return bump(score(((monoOpNode*)input)->getR())); 
-		}
-		else if (input->type() == nodeTypes::deriv)
+		if (input->type() == nodeTypes::deriv)
 		{
 			if (((derivNode*)input)->getL()->type() == nodeTypes::integral)
 				{ return -5; }
 			else
 				{ return score(((derivNode*)input)->getL()); }
+		}
+		else if (input->isBin())
+		{
+			return bump(score(((binOpNode*)input)->getL()) 
+				+score(((binOpNode*)input)->getR()));
+			
+		}
+		else if (input->isMono())
+		{
+			return bump(score(((monoOpNode*)input)->getR())); 
 		}
 		
 		return 1;

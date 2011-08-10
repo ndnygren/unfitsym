@@ -97,6 +97,18 @@ class eqnNode
 	 */
 	virtual bool isLeaf() const { return false; }
 
+	// virtual bool isBin()
+	/**
+	 * @brief Returns true only in the case of a binary operator
+	 */
+	virtual bool isBin() const { return false; }
+
+	// virtual bool isMono()
+	/**
+	 * @brief Returns true only in the case of a monic operator
+	 */
+	virtual bool isMono() const { return false; }
+
 	// virtual std::string str()
 	/**
 	 * @brief Recursively forms the LaTeX formated string representing 

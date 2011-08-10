@@ -31,6 +31,7 @@
 #include "../../parse/nodes/lnNode.h"
 #include "../../parse/nodes/sineNode.h"
 #include "../../parse/nodes/cosineNode.h"
+#include "../../parse/nodes/idxNode.h"
 #include "../../parse/nodes/nodeTypes.h"
 
 /**
@@ -141,6 +142,20 @@ class alterExpression
 	 */
 	static eqnNode* attemptStrip(intNode* input);
 
+	/**
+	 * @brief locates the largest x in use in the form C_{x}
+	 * @param input The expression to be searched
+	 * @returns the maximum index, x
+	 */
+	static int maxIndex(eqnNode* input);
+
+	/**
+	 * @brief replaces newly created C_{replace} nodes with proper unique indices
+	 * @param input The expression to be searched
+	 * @param newindex the new index for all 'replace' nodes
+	 */
+	static void setIndex(eqnNode* input, int newindex);
+
 	// vector<eqnNode*> getAssocVector(binOpNode* input)
 	/**
 	 * @brief Breaks the expression into a list of expressions representing the general associative form.
@@ -227,6 +242,15 @@ class alterExpression
 	static eqnNode* prodSimplify(prodNode* input);
 
 	public:
+	/**
+	 * @brief replaces newly created C_{replace} nodes with the next index
+	 * @param input The expression to be searched
+	 */
+	static void replaceIndex(eqnNode* input)
+	{
+		setIndex(input,maxIndex(input)+1);
+	}
+
 	/**
 	 * @brief creates a vector copy, allocating new memory
 	 * @param from the source vector

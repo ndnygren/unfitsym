@@ -37,6 +37,7 @@ vector<eqnNode*> alterExpression::derivCand(derivNode* input)
 	cosineNode *cosspare;
 	sineNode *sinspare;
 	negNode *negspare;
+	intNode *intgspare;
 
 	//check for constants
 	if (input->getL()->isConst()) 
@@ -228,6 +229,20 @@ vector<eqnNode*> alterExpression::derivCand(derivNode* input)
 		changes.push_back(new prodNode(cosspare,spare));
 		delete cosspare;
 		delete spare;
+	}
+
+	//fundamental theorem
+	if (input->getL()->type() == nodeTypes::integral)
+	{
+		intgspare = (intNode*)(input->getL());
+		if (intgspare->getR()->eq(input->getR()))
+		{ changes.push_back(((intNode*)input->getL())->getL()->copy()); }
+		else
+		{
+			spare = new derivNode(intgspare->getL(), input->getR());
+			changes.push_back(new intNode(spare,intgspare->getR()));
+			delete spare;
+		}
 	}
 
 	return changes;

@@ -27,7 +27,13 @@ std::string exprLinked::str() const
 
 void exprLinked::load()
 {
+	unsigned int i;
 	alterExpression::copyCand(alterExpression::getCand(expr), changes);
+
+	for (i = 0; i < changes.size(); i++)
+	{
+		alterExpression::replaceIndex(changes[i]);
+	}
 }
 
 exprLinked::exprLinked()

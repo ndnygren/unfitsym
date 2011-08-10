@@ -40,6 +40,7 @@ class nodeTypes
 	static const int cos = 12;
 	static const int ln = 13;
 	static const int integralb = 14;
+	static const int idx = 15;
 };
 
 

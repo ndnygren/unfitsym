@@ -14,40 +14,25 @@
 * You should have received a copy of the GNU General Public License
 * along with this program. If not, see <http://www.gnu.org/licenses/>. */
 
-#include "alterExpression.h"
-#include "../derivMetric.h"
-#include "../searchMaxMin.h"
-#include <iostream>
+#include "idxParse.h"
+#include <string>
 
-using namespace std;
-
-eqnNode* alterExpression::derivative(eqnNode* expression, std::string var)
+void idxParse::loadString(int offset, const std::string& data, int cap)
 {
-	varNode vn(var);
-	derivMetric rate;
-	eqnNode* start = new derivNode(expression, &vn);
-	eqnNode* bestcand = 0;
-	searchMaxMin *engine = new searchMaxMin(start, &rate);
-	
-	while(bestcand == 0)
+	unsigned int i;
+	token op("_");
+	varParse cl;
+	curlyParse cr;
+	cassetteMachine seq;
+
+	seq.setMap(fails);
+	seq.add(&cl);
+	seq.add(&op);
+	seq.add(&cr);
+	seq.loadString(offset,data,cap);
+
+	for (i = 0; i< seq.pieces.size(); i++)
 	{
-		engine->next(100);
-		bestcand = (engine->best(1))[0]->copy();
-
-		if (rate.countd(bestcand) > 0)
-		{
-			cout << bestcand->str() << endl;
-			delete bestcand;
-			bestcand = 0;
-		}
+		succ.push_back(std::pair<int,eqnNode*>( seq.pieces[i].first, new idxNode(seq.pieces[i].second[0], seq.pieces[i].second[2])));
 	}
-
-	delete bestcand;
-	engine->next(200);
-	bestcand = (engine->best(1))[0]->copy();
-
-	delete engine;
-	delete start;
-
-	return bestcand;
 }

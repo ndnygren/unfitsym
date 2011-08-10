@@ -39,27 +39,19 @@ class derivMetric : public eqnMetric
 	 */
 	int countd(const eqnNode* input) const
 	{
-		if (input->type() == nodeTypes::sum
-			|| input->type() == nodeTypes::sub
-			|| input->type() == nodeTypes::prod
-			|| input->type() == nodeTypes::frac
-			|| input->type() == nodeTypes::hat
-			|| input->type() == nodeTypes::integral)
+		if (input->type() == nodeTypes::deriv)
+		{
+			return countd(((binOpNode*)input)->getL())*
+				countd(((binOpNode*)input)->getL()) + 1;
+		}
+		else if (input->isBin())
 		{
 			return countd(((binOpNode*)input)->getL()) 
 				+ countd(((binOpNode*)input)->getR());
 		}
-		else if (input->type() == nodeTypes::neg
-			|| input->type() == nodeTypes::sin
-			|| input->type() == nodeTypes::cos
-			|| input->type() == nodeTypes::ln)
+		else if (input->isMono())
 		{
 			return countd(((monoOpNode*)input)->getR()); 
-		}
-		else if (input->type() == nodeTypes::deriv)
-		{
-			return countd(((binOpNode*)input)->getL())*
-				countd(((binOpNode*)input)->getL()) + 1;
 		}
 		
 		return 0;
@@ -68,27 +60,20 @@ class derivMetric : public eqnMetric
 
 	virtual int score(const eqnNode* input) const
 	{
-		if (input->type() == nodeTypes::sum
-			|| input->type() == nodeTypes::sub
-			|| input->type() == nodeTypes::prod
-			|| input->type() == nodeTypes::frac
-			|| input->type() == nodeTypes::hat)
+		if (input->type() == nodeTypes::deriv
+			|| input->type() == nodeTypes::integral)
+		{
+			return (score(((binOpNode*)input)->getL())+2)*
+				(score(((binOpNode*)input)->getL())+2) +2;
+		}
+		else if (input->isBin())
 		{
 			return score(((binOpNode*)input)->getL()) 
 				+score(((binOpNode*)input)->getR()) + 1;
 		}
-		else if (input->type() == nodeTypes::neg
-			|| input->type() == nodeTypes::sin
-			|| input->type() == nodeTypes::cos
-			|| input->type() == nodeTypes::ln)
+		else if (input->isMono())
 		{
 			return score(((monoOpNode*)input)->getR()) + 1; 
-		}
-		else if (input->type() == nodeTypes::deriv
-			|| input->type() == nodeTypes::integral)
-		{
-			return score(((binOpNode*)input)->getL())*
-				score(((binOpNode*)input)->getL());
 		}
 		
 		return 1;

@@ -39,6 +39,11 @@ eqnNode* alterExpression::attemptStrip(intNode* input)
 		outexpr = new prodNode(input->getL(),input->getR());
 		return outexpr;
 	}
+	else if (input->getR()->type() == nodeTypes::var
+		&& input->getL()->isConst(((varNode*)input->getR())->get())) 
+	{
+		return new prodNode(input->getL(),input->getR());
+	}
 
 	//check equality
 	if (input->getL()->eq(input->getR()))
