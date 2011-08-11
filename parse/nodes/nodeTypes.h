@@ -16,6 +16,7 @@
 #ifndef NN_NODETYPES_H
 #define NN_NODETYPES_H
 
+
 /**
  * @class nodeTypes
  *

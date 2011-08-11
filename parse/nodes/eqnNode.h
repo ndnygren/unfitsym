@@ -37,6 +37,30 @@ class eqnNode
 	 */
 	virtual void deleteAll() { };
 
+	//int intPow(int base, int arg)
+	/**
+	 * @brief quick integer exponentiation
+	 * @param base the exponent base
+	 * @param arg the exponent argument
+	 * @returns base to the power argument in integer form
+	 *
+	 */
+	static int intPow(int base, int arg)
+	{
+		int x = 0;
+		if (arg == 1) { return base; }
+		else if (arg == 0) { return 1; }
+		else if (arg < 0) { return 0; } 
+		else if (arg%2 == 0)
+		{
+			x = intPow(base, arg/2);
+			return x*x;
+		}
+
+		x = intPow(base, (arg-1)/2);
+		return x*x*base;
+	}
+
 	//virtual eqnNode* copy()
 	/**
 	 * @brief Recursively copies all subtrees, allocating memory 
@@ -147,6 +171,13 @@ class eqnNode
 			{ return false; }
 		return false;
 	}
+
+	//eqnNode* collapse()
+	/**
+	 * @brief attempts to reduce the expression to a single numNode*
+	 * @returns the collapsed expression
+	 */
+	virtual eqnNode* collapse() const = 0;
 
 	virtual ~eqnNode() { }
 };

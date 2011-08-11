@@ -46,7 +46,7 @@ int main(int argc, char** argv)
 			cout << "derivative: " << temp->str() << "\n";
 			delete temp;
 
-			temp = alterExpression::collapse(output);
+			temp = output->collapse();
 			cout << "collapse: " << temp->str() << "\n";
 			delete temp;
 

@@ -84,76 +84,6 @@ eqnNode* alterExpression::buildSum(vector<eqnNode*>& list)
 	return temp;
 }
 
-eqnNode* alterExpression::collapse(eqnNode* input)
-{
-	eqnNode *ltemp, *rtemp;
-	eqnNode *returnvalue = 0;
-
-	if (input->type() == nodeTypes::sum
-		|| input->type() == nodeTypes::sub
-		|| input->type() == nodeTypes::prod
-		|| input->type() == nodeTypes::frac
-		|| input->type() == nodeTypes::hat)
-	{
-		ltemp = collapse(((binOpNode*)input)->getL());
-		rtemp = collapse(((binOpNode*)input)->getR());
-		if (ltemp->type() == nodeTypes::num && rtemp->type() == nodeTypes::num)
-		{
-			if (input->type() == nodeTypes::sum)
-				{returnvalue = new numNode((int)(ltemp->value() + rtemp->value()));}
-			else if (input->type() == nodeTypes::sub)
-				{returnvalue = new numNode((int)(ltemp->value() - rtemp->value()));}
-			else if (input->type() == nodeTypes::prod)
-				{returnvalue = new numNode((int)(ltemp->value() * rtemp->value()));}
-			else if (input->type() == nodeTypes::hat && rtemp->value() >= 0)
-				{returnvalue = new numNode((int)pow(ltemp->value(), rtemp->value()));}
-			else if (input->type() == nodeTypes::hat)
-				{returnvalue = new hatNode(ltemp, rtemp);}
-			else if (input->type() == nodeTypes::frac)
-				{returnvalue = new fracNode(ltemp,rtemp);}
-		}
-		else
-		{
-			if (input->type() == nodeTypes::sum)
-				{returnvalue = new sumNode(ltemp, rtemp);}
-			else if (input->type() == nodeTypes::sub)
-				{returnvalue = new subNode(ltemp, rtemp);}
-			else if (input->type() == nodeTypes::prod)
-				{returnvalue = new prodNode(ltemp, rtemp);}
-			else if (input->type() == nodeTypes::hat 
-					&& ((hatNode*)input)->getR()->isConst()
-					&& ((hatNode*)input)->getR()->value() == 0)
-				{returnvalue = new numNode(1);}
-			else if (input->type() == nodeTypes::hat)
-				{returnvalue = new hatNode(ltemp, rtemp);}
-			else if (input->type() == nodeTypes::frac)
-				{returnvalue = new fracNode(ltemp,rtemp);}
-		}
-
-		delete rtemp;
-		delete ltemp;
-
-		return returnvalue;
-	}
-	else if (input->type() == nodeTypes::neg)
-	{
-		rtemp = collapse(((monoOpNode*)input)->getR());
-		if (rtemp->type() == nodeTypes::num)
-		{
-			returnvalue = new numNode(-1 * (int)(rtemp->value()));
-			delete rtemp;
-			return returnvalue;
-		}
-		else
-		{
-			returnvalue = new negNode(rtemp);
-			delete rtemp;
-			return returnvalue;
-		}
-	}
-
-	return input->copy();
-}
 
 void alterExpression::pushToBrk(vector<pair<eqnNode*,vector<eqnNode*> > >& brklist, eqnNode* base, eqnNode* arg)
 {
@@ -375,7 +305,7 @@ eqnNode* alterExpression::sumSimplify(sumNode* input)
 	{
 		tempexpr = buildSum(brklist[i].second);
 		prodspare = new prodNode(tempexpr,brklist[i].first);
-		temp2expr = collapse(prodspare);
+		temp2expr = prodspare->collapse();
 
 		if (outexpr == 0)
 			{ outexpr = temp2expr; }
@@ -441,7 +371,7 @@ eqnNode* alterExpression::prodSimplify(prodNode* input)
 	{
 		tempexpr = buildSum(brklist[i].second);
 		hatspare = new hatNode(brklist[i].first, tempexpr);
-		temp2expr = collapse(hatspare);
+		temp2expr = hatspare->collapse();
 
 		if (outexpr == 0)
 			{ outexpr = temp2expr; }
@@ -462,7 +392,7 @@ eqnNode* alterExpression::prodSimplify(prodNode* input)
 	inlist.clear();
 
 	tempexpr = outexpr;
-	outexpr = collapse(tempexpr);
+	outexpr = tempexpr->collapse();
 	delete tempexpr;
 	return outexpr;
 }

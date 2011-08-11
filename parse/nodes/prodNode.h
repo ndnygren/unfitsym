@@ -37,6 +37,48 @@ class prodNode : public binOpNode
 		return "(" + left->str() + "\\cdot " + right->str() + ")";
 	}
 
+	virtual eqnNode* collapse() const
+	{
+		eqnNode* ltemp = left->collapse();
+		eqnNode* rtemp = right->collapse();
+		eqnNode* outexpr;
+		
+		if (ltemp->type() == nodeTypes::num && rtemp->type() == nodeTypes::num)
+		{
+			outexpr = new numNode(((numNode*)ltemp)->get() * ((numNode*)rtemp)->get());
+			delete ltemp;
+			delete rtemp;
+		}
+		else if (ltemp->type() == nodeTypes::num && ((numNode*)ltemp)->get() == 1)
+		{
+			outexpr = rtemp;
+			delete ltemp;
+		}
+		else if (rtemp->type() == nodeTypes::num && ((numNode*)rtemp)->get() == 1)
+		{
+			outexpr = ltemp;
+			delete rtemp;
+		}
+		else if (ltemp->type() == nodeTypes::num && ((numNode*)ltemp)->get() == 0)
+		{
+			outexpr = ltemp;
+			delete rtemp;
+		}
+		else if (rtemp->type() == nodeTypes::num && ((numNode*)rtemp)->get() == 0)
+		{
+			outexpr = rtemp;
+			delete ltemp;
+		}
+		else
+		{
+			outexpr = new prodNode(ltemp,rtemp);
+			delete ltemp;
+			delete rtemp;
+		}
+		return outexpr;
+	}
+
+
 	prodNode(eqnNode* lin, eqnNode* rin)
 	{
 		left = lin->copy();

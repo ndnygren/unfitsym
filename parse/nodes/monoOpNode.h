@@ -17,6 +17,7 @@
 #define NN_MONOOPNODE_H
 
 #include "eqnNode.h"
+#include "numNode.h"
 
 /**
  * @class monoOpNode
@@ -75,6 +76,8 @@ class monoOpNode : public eqnNode
 		{ return getR()->isConst(); }
 
 	virtual bool isMono() const { return true; }
+
+	virtual eqnNode* collapse() const { return copy(); }
 
 	/*
 	 * bool isConst(std::string name)

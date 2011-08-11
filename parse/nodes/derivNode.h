@@ -60,6 +60,19 @@ class derivNode : public binOpNode
 		return (getL()->size()) * (getL()->size());
 	}
 
+	virtual eqnNode* collapse() const
+	{
+		eqnNode* ltemp = left->collapse();
+		eqnNode* rtemp = right->collapse();
+		eqnNode* outexpr;
+		
+		outexpr = new derivNode(ltemp,rtemp);
+		delete ltemp;
+		delete rtemp;
+
+		return outexpr;
+	}
+
 	derivNode(eqnNode* lin, eqnNode* rin)
 	{
 		left = lin->copy();

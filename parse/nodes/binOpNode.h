@@ -17,7 +17,7 @@
 #define NN_BINOPNODE_H
 
 #include "eqnNode.h"
-
+#include "numNode.h"
 
 /**
  * @class binOpNode 

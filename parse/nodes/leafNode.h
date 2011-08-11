@@ -28,6 +28,7 @@ class leafNode : public eqnNode
 	public:
 	virtual int size() const { return 1; }
 	virtual bool isLeaf() const { return true; }
+	virtual eqnNode* collapse() const { return copy(); }
 	virtual ~leafNode() { }
 };
 

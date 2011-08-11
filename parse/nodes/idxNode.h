@@ -56,6 +56,19 @@ class idxNode : public binOpNode
 
 	virtual int size() const { return getR()->size(); }
 
+	virtual eqnNode* collapse() const
+	{
+		eqnNode* ltemp = left->copy();
+		eqnNode* rtemp = right->collapse();
+		eqnNode* outexpr;
+		
+		outexpr = new idxNode(ltemp,rtemp);
+		delete ltemp;
+		delete rtemp;
+
+		return outexpr;
+	}
+
 	idxNode(eqnNode* lin, eqnNode* rin)
 	{
 		left = lin->copy();

@@ -288,15 +288,6 @@ class alterExpression
 	 */
 	static eqnNode* derivative(eqnNode* expression, std::string var);
 
-	//  eqnNode* collapse(eqnNode* input)
-	/**
-	 * @brief Attempts to forcefully simplify an equation by combining all numbers
-	 *	which are joined directly by operators
-	 * @param input the expression to be collapsed
-	 * @returns the collapsed expression
-	 */
-	static eqnNode* collapse(eqnNode* input);
-
 	// std::vector<eqnNode*> getCand(eqnNode* input);
 	/**
 	 * @brief recursively traverses the tree, generating equivalent candidate expressions by simple manipulations

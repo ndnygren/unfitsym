@@ -35,6 +35,33 @@ class subNode : public binOpNode
 	virtual std::string str() const 
 		{ return "(" + left->str() + "-" + right->str() + ")"; }
 
+	virtual eqnNode* collapse() const
+	{
+		eqnNode* ltemp = left->collapse();
+		eqnNode* rtemp = right->collapse();
+		eqnNode* outexpr;
+		
+		if (ltemp->type() == nodeTypes::num && rtemp->type() == nodeTypes::num)
+		{
+			outexpr = new numNode(((numNode*)ltemp)->get()
+						- ((numNode*)rtemp)->get());
+			delete ltemp;
+			delete rtemp;
+		}
+		else if (rtemp->type() == nodeTypes::num && ((numNode*)rtemp)->get() == 0)
+		{
+			outexpr = ltemp;
+			delete rtemp;
+		}
+		else
+		{
+			outexpr = new subNode(ltemp,rtemp);
+			delete ltemp;
+			delete rtemp;
+		}
+		return outexpr;
+	}
+
 	subNode(eqnNode* lin, eqnNode* rin)
 	{
 		left = lin->copy();

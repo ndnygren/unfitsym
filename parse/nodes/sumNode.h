@@ -43,6 +43,38 @@ class sumNode : public binOpNode
 		right = rin->copy();
 	}
 
+	virtual eqnNode* collapse() const
+	{
+		eqnNode* ltemp = left->collapse();
+		eqnNode* rtemp = right->collapse();
+		eqnNode* outexpr;
+		
+		if (ltemp->type() == nodeTypes::num && rtemp->type() == nodeTypes::num)
+		{
+			outexpr = new numNode(((numNode*)ltemp)->get()
+						+ ((numNode*)rtemp)->get());
+			delete ltemp;
+			delete rtemp;
+		}
+		else if (ltemp->type() == nodeTypes::num && ((numNode*)ltemp)->get() == 0)
+		{
+			outexpr = rtemp;
+			delete ltemp;
+		}
+		else if (rtemp->type() == nodeTypes::num && ((numNode*)rtemp)->get() == 0)
+		{
+			outexpr = ltemp;
+			delete rtemp;
+		}
+		else
+		{
+			outexpr = new sumNode(ltemp,rtemp);
+			delete ltemp;
+			delete rtemp;
+		}
+		return outexpr;
+	}
+
 	virtual double value() const { return getL()->value() + getR()->value(); }	
 	virtual ~sumNode() { deleteAll(); }
 };

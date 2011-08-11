@@ -44,18 +44,22 @@ class intNode : public binOpNode
 		return "\\int " + left->str() + " d{" + right->str()+ "}";
 	}
 
-	/*
-	 * virtual int size() const
-	 * 
-	 * The size here is distorted to guide the search in a 
-	 *	favorable direction (same as derivatives)
-	 *
-	 * This will be corrected later
-	 * 	when a better metric is constructed.
-	 */
 	virtual int size() const
 	{
-		return (getL()->size()) * (getL()->size());
+		return getL()->size();
+	}
+
+	virtual eqnNode* collapse() const
+	{
+		eqnNode* ltemp = left->collapse();
+		eqnNode* rtemp = right->collapse();
+		eqnNode* outexpr;
+		
+		outexpr = new intNode(ltemp,rtemp);
+		delete ltemp;
+		delete rtemp;
+
+		return outexpr;
 	}
 
 	intNode(eqnNode* lin, eqnNode* rin)
