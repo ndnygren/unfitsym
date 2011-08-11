@@ -24,17 +24,14 @@ vector<eqnNode*> alterExpression::getCand(eqnNode* input)
 	vector<eqnNode*> changes;
 	vector<eqnNode*> sumChanges;
 	subNode *subzero = new subNode(&one,&one);
-	fracNode *fraczero = new fracNode(&one,&one);
 	hatNode *hatspare = new hatNode(input, &negone);
 	
 	changes.push_back(new sumNode(input, subzero));
-	changes.push_back(new prodNode(input, fraczero));
 	changes.push_back(new prodNode(input, &one));
 	changes.push_back(new prodNode(&one,input));
 	changes.push_back(new hatNode(input, &one));
 	changes.push_back(new fracNode(&one,hatspare));
 	delete subzero;
-	delete fraczero;
 	delete hatspare;
 
 

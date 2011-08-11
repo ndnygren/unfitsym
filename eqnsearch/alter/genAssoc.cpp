@@ -120,6 +120,10 @@ eqnNode* alterExpression::collapse(eqnNode* input)
 				{returnvalue = new subNode(ltemp, rtemp);}
 			else if (input->type() == nodeTypes::prod)
 				{returnvalue = new prodNode(ltemp, rtemp);}
+			else if (input->type() == nodeTypes::hat 
+					&& ((hatNode*)input)->getR()->isConst()
+					&& ((hatNode*)input)->getR()->value() == 0)
+				{returnvalue = new numNode(1);}
 			else if (input->type() == nodeTypes::hat)
 				{returnvalue = new hatNode(ltemp, rtemp);}
 			else if (input->type() == nodeTypes::frac)
@@ -292,6 +296,7 @@ void alterExpression::unFrac(vector<eqnNode*>& list)
 			if (temp->getL()->type() == nodeTypes::prod)
 			{
 				sparelist = getAssocVector((binOpNode*)(temp->getL()));
+				unFrac(sparelist);
 				while(!sparelist.empty())
 				{
 					list.push_back(sparelist.back());
@@ -305,6 +310,7 @@ void alterExpression::unFrac(vector<eqnNode*>& list)
 			if (temp->getR()->type() == nodeTypes::prod)
 			{
 				sparelist = getAssocVector((binOpNode*)(temp->getR()));
+				unFrac(sparelist);
 				invertList(sparelist);
 				while(!sparelist.empty())
 				{
@@ -455,5 +461,8 @@ eqnNode* alterExpression::prodSimplify(prodNode* input)
 		{ delete inlist[i]; }
 	inlist.clear();
 
+	tempexpr = outexpr;
+	outexpr = collapse(tempexpr);
+	delete tempexpr;
 	return outexpr;
 }

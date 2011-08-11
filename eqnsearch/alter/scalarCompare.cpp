@@ -19,6 +19,11 @@
 
 eqnNode* alterExpression::scalarCompare(eqnNode* actual, eqnNode* expected)
 {
+	numNode one(1);
+	fracNode ratio(actual,expected);
+	prodNode starone(&one,&ratio);
+	eqnNode *outexpr;	
+
 	if (actual->eq(expected))
 	{
 		return new numNode(1);
@@ -33,6 +38,9 @@ eqnNode* alterExpression::scalarCompare(eqnNode* actual, eqnNode* expected)
 		return 0;
 	}
 	
+	outexpr = prodSimplify(&starone);
+	if (outexpr->isConst()) { return outexpr; }
+	delete outexpr;
 
 	return 0;
 }

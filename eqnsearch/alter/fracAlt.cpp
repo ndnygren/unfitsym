@@ -104,6 +104,18 @@ vector<eqnNode*> alterExpression::fracCand(fracNode* input)
 		changes.push_back(new numNode(1));
 	}
 
+	// handle ^{-1} in the numerator
+	if (input->getL()->type() == nodeTypes::hat)
+	{
+		hat1spare = (hatNode*)input->getL();
+		if (hat1spare->getR()->isConst() && hat1spare->getR()->value() == -1)
+		{
+			prodspare = new prodNode(hat1spare->getL(), input->getR());
+			changes.push_back(new fracNode(&one, prodspare));
+			delete prodspare;
+		}
+	}
+
 	//handle same exp
 	if (input->getL()->type() == nodeTypes::hat
 		&& input->getR()->type() == nodeTypes::hat)

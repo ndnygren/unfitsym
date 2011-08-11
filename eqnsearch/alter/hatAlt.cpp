@@ -88,6 +88,14 @@ vector<eqnNode*> alterExpression::hatCand(hatNode* input)
 		delete spare;
 	}
 
+	//handle hat chains
+	if (input->getL()->type() == nodeTypes::hat)
+	{
+		prodspare = new prodNode(((hatNode*)input->getL())->getR(),input->getR());
+		changes.push_back(new hatNode(((hatNode*)input->getL())->getL(), prodspare));
+		delete prodspare;
+	}
+
 	//recurse left
 	copyCand(getCand(input->getL()), subchanges);
 	for (i = 0; i< subchanges.size(); i++)
