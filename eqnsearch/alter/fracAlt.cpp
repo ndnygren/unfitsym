@@ -55,6 +55,7 @@ vector<eqnNode*> alterExpression::fracCand(fracNode* input)
 	// attempt to evaluate (exact integers only)
 	if ((input->getL()->type() == nodeTypes::num) 
 		&& (input->getR()->type() == nodeTypes::num)
+		&& ((numNode*)input->getR())->get() != 0
 		&& ( ((numNode*)(input->getL()))->get()
 			% ((numNode*)(input->getR()))->get() == 0))
 	{

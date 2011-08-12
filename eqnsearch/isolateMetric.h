@@ -60,6 +60,7 @@ class isolateMetric : public eqnMetric
 			return score(((binOpNode*)input)->getR()); 
 		}
 		else if (input->type() == nodeTypes::deriv
+			|| input->type() == nodeTypes::integralb
 			|| input->type() == nodeTypes::integral)
 		{
 			return (score(((binOpNode*)input)->getL()) + 2)*

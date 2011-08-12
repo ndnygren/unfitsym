@@ -35,7 +35,7 @@ class lnNode : public monoOpNode
 	{ 
 		double arg = getR()->value();
 		if (arg > 0)
-			{ return log(getR()->value()); }
+			{ return log(arg); }
 		else
 			{ return 0; }
 	}

@@ -16,7 +16,6 @@
 
 #include "parenParse.h"
 #include <string>
-#include <iostream>
 
 void parenParse::loadString(int offset, const std::string& data, int cap)
 {

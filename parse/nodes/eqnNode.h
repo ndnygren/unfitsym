@@ -172,6 +172,13 @@ class eqnNode
 		return false;
 	}
 
+	/**
+	 *@brief substitutes an expression for a string
+	 *@param var the variable to be replaced
+	 *@param expr the expression to replace it with
+	 */
+	virtual void replace(const std::string& var, eqnNode* expr) = 0;
+
 	//eqnNode* collapse()
 	/**
 	 * @brief attempts to reduce the expression to a single numNode*

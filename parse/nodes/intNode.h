@@ -46,18 +46,16 @@ class intNode : public binOpNode
 
 	virtual int size() const
 	{
-		return getL()->size();
+		return getL()->size() + 1;
 	}
 
 	virtual eqnNode* collapse() const
 	{
 		eqnNode* ltemp = left->collapse();
-		eqnNode* rtemp = right->collapse();
 		eqnNode* outexpr;
 		
-		outexpr = new intNode(ltemp,rtemp);
+		outexpr = new intNode(ltemp,getR());
 		delete ltemp;
-		delete rtemp;
 
 		return outexpr;
 	}

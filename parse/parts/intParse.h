@@ -16,14 +16,15 @@
 #ifndef NN_INTPARSE_H
 #define NN_INTPARSE_H
 
-#include "../nodes/intNode.h"
+#include "../nodes/intBNode.h"
 #include "expParse.h"
 
 /**
  * @class intParse
  *
  * @brief The CFG rule Expr -> "\int" Expr "d{" Expr "}"
- * Parses integrals
+ * @details Parses integrals
+ * Has been expanded to parse definite and indefinite integrals, the bounds on the integrals may be placed in either order as well.
  */
 class intParse : public parsePart
 {

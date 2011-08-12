@@ -36,11 +36,11 @@ class nodeTypes
 	static const int neg = 7;
 	static const int hat = 8;
 	static const int deriv = 9;
-	static const int integral = 10;
+	static const int integral = 10; // indefinite integrals
 	static const int sin = 11;
 	static const int cos = 12;
 	static const int ln = 13;
-	static const int integralb = 14;
+	static const int integralb = 14; // definite integrals
 	static const int idx = 15;
 };
 

@@ -51,6 +51,8 @@ vector<eqnNode*> alterExpression::getCand(eqnNode* input)
 		{ sumChanges = derivCand((derivNode*)input); }
 	else if (input->type() == nodeTypes::integral)
 		{ sumChanges = intCand((intNode*)input); }
+	else if (input->type() == nodeTypes::integralb)
+		{ sumChanges = intBCand((intBNode*)input); }
 	else if (input->type() == nodeTypes::cos)
 		{ sumChanges = cosineCand((cosineNode*)input); }
 	else if (input->type() == nodeTypes::sin)

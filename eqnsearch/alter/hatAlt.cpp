@@ -33,7 +33,8 @@ vector<eqnNode*> alterExpression::hatCand(hatNode* input)
 	numNode *numspare;
 
 	//pull one out
-	if (input->getR()->type() == nodeTypes::num)
+	if (input->getR()->type() == nodeTypes::num
+		&& !input->getR()->isConst())
 	{
 		intspare = ((numNode*)(input->getR()))->get();
 		numspare = new numNode(intspare-1);
@@ -94,6 +95,14 @@ vector<eqnNode*> alterExpression::hatCand(hatNode* input)
 		prodspare = new prodNode(((hatNode*)input->getL())->getR(),input->getR());
 		changes.push_back(new hatNode(((hatNode*)input->getL())->getL(), prodspare));
 		delete prodspare;
+	}
+
+	// attempt to evaluate
+	if (input->getL()->type() == nodeTypes::num
+		&& input->getR()->type() == nodeTypes::num
+		&& input->getR()->value() >= 0)
+	{
+		changes.push_back(new numNode(eqnNode::intPow( ((numNode*)input->getL())->get(), ((numNode*)input->getR())->get())));
 	}
 
 	//recurse left

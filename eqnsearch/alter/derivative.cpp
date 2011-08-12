@@ -17,7 +17,6 @@
 #include "alterExpression.h"
 #include "../derivMetric.h"
 #include "../searchMaxMin.h"
-#include <iostream>
 
 using namespace std;
 
@@ -36,7 +35,6 @@ eqnNode* alterExpression::derivative(eqnNode* expression, std::string var)
 
 		if (rate.countd(bestcand) > 0)
 		{
-			cout << bestcand->str() << endl;
 			delete bestcand;
 			bestcand = 0;
 		}

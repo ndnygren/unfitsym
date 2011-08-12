@@ -42,7 +42,9 @@ class fracNode : public binOpNode
 		eqnNode* rtemp = right->collapse();
 		eqnNode* outexpr;
 		
-		if (ltemp->type() == nodeTypes::num && rtemp->type() == nodeTypes::num && ((numNode*)ltemp)->get() % ((numNode*)rtemp)->get()==0)
+		if (ltemp->type() == nodeTypes::num && rtemp->type() == nodeTypes::num 
+			&& ((numNode*)rtemp)->get()!=0
+			&& ((numNode*)ltemp)->get() % ((numNode*)rtemp)->get()==0)
 		{
 			outexpr = new numNode(((numNode*)ltemp)->get()
 						 / ((numNode*)rtemp)->get());
@@ -74,7 +76,12 @@ class fracNode : public binOpNode
 		right = rin->copy();
 	}
 
-	virtual double value() const { return getL()->value() / getR()->value(); }
+	virtual double value() const 
+	{
+		if (getR()->value() != 0)
+			{ return getL()->value() / getR()->value(); }
+		else { return 0; }
+	}
 	virtual ~fracNode() { deleteAll(); }
 };
 

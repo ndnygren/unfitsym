@@ -29,6 +29,8 @@ class leafNode : public eqnNode
 	virtual int size() const { return 1; }
 	virtual bool isLeaf() const { return true; }
 	virtual eqnNode* collapse() const { return copy(); }
+	virtual void replace(const std::string& var, eqnNode* expr) 
+	{ int x; if (&var== 0 || expr == 0) { x = 1+1; } }
 	virtual ~leafNode() { }
 };
 

@@ -61,6 +61,7 @@ class derivMetric : public eqnMetric
 	virtual int score(const eqnNode* input) const
 	{
 		if (input->type() == nodeTypes::deriv
+			|| input->type() == nodeTypes::integralb
 			|| input->type() == nodeTypes::integral)
 		{
 			return (score(((binOpNode*)input)->getL())+2)*

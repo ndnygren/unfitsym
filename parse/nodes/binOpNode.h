@@ -123,6 +123,28 @@ class binOpNode : public eqnNode
 	 */
 	virtual bool isConst(const std::string& name) const
 		{ return getL()->isConst(name) && getR()->isConst(name); }
+
+	virtual void replace(const std::string& var, eqnNode* expr)
+	{
+		if (getL()->isVar(var))
+		{
+			delete getL();
+			left = expr->copy();
+		}
+		else
+		{
+			getL()->replace(var,expr);
+		}
+		if (getR()->isVar(var))
+		{
+			delete getR();
+			right = expr->copy();
+		}
+		else
+		{
+			getR()->replace(var,expr);
+		}
+	}
 };
 
 

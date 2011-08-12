@@ -16,7 +16,6 @@
 
 #include "curlyParse.h"
 #include <string>
-#include <iostream>
 
 void curlyParse::loadString(int offset, const std::string& data, int cap)
 {

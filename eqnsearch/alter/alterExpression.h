@@ -28,6 +28,7 @@
 #include "../../parse/nodes/hatNode.h"
 #include "../../parse/nodes/derivNode.h"
 #include "../../parse/nodes/intNode.h"
+#include "../../parse/nodes/intBNode.h"
 #include "../../parse/nodes/lnNode.h"
 #include "../../parse/nodes/sineNode.h"
 #include "../../parse/nodes/cosineNode.h"
@@ -89,6 +90,13 @@ class alterExpression
 	 * @returns a list of equivalent expressions, manipulated slightly
 	 */
 	static std::vector<eqnNode*> intCand(intNode* input);
+
+	/**
+	 * @brief manipulates expressions with a root node of type intBNode
+	 * @param input the expression to be manipulated
+	 * @returns a list of equivalent expressions, manipulated slightly
+	 */
+	static std::vector<eqnNode*> intBCand(intBNode* input);
 
 	/**
 	 * @brief manipulates expressions with a root node of type lnNode

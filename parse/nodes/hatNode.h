@@ -51,11 +51,6 @@ class hatNode : public binOpNode
 			delete ltemp;
 			delete rtemp;
 		}
-		else if (ltemp->type() == nodeTypes::num && ((numNode*)ltemp)->get() == 0)
-		{
-			outexpr = ltemp;
-			delete rtemp;
-		}
 		else if (rtemp->type() == nodeTypes::num && ((numNode*)rtemp)->get() == 0)
 		{
 			outexpr = new numNode(1);

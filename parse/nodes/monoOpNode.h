@@ -88,6 +88,19 @@ class monoOpNode : public eqnNode
 	 */
 	virtual bool isConst(const std::string& name) const
 		{ return getR()->isConst(name); }
+
+	virtual void replace(const std::string& var, eqnNode* expr)
+	{
+		if (getR()->isVar(var))
+		{
+			delete getR();
+			right = expr->copy();
+		}
+		else
+		{
+			getR()->replace(var,expr);
+		}
+	}
 };
 
 
