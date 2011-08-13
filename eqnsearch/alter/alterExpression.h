@@ -85,14 +85,14 @@ class alterExpression
 	static std::vector<eqnNode*> fracCand(fracNode* input);
 
 	/**
-	 * @brief manipulates expressions with a root node of type intNode
+	 * @brief manipulates expressions with a root node of type intNode (indefinte integrals)
 	 * @param input the expression to be manipulated
 	 * @returns a list of equivalent expressions, manipulated slightly
 	 */
 	static std::vector<eqnNode*> intCand(intNode* input);
 
 	/**
-	 * @brief manipulates expressions with a root node of type intBNode
+	 * @brief manipulates expressions with a root node of type intBNode (definite integrals)
 	 * @param input the expression to be manipulated
 	 * @returns a list of equivalent expressions, manipulated slightly
 	 */
@@ -151,8 +151,8 @@ class alterExpression
 	// eqnNode* attemptStrip(intNode* input);
 	/**
 	 * @brief solves the integral in such a way that the result contains to 
-	 *	remaining integrals, but is not specific to either bounded 
-	 *	or unbounded integrals
+	 *	remaining integrals, method common to definite and indefinite integrals
+	 *	
 	 * @param input the integral expression to evaluate
 	 * @returns a evaluated expression, or null if evaluation fails
 	 */
