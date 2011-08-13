@@ -1,4 +1,4 @@
-unfitsym
+unfitsym v0.2
 
 A time saving program, meant for quick validation and simplification of real calculus results, easily generalizable to other systems such as complex calculus, set theory or logic.
 
@@ -13,7 +13,6 @@ If this is installed, but compile errors still occur try running `which qmake` t
 
 In Windows, use the precompiled, or if you want to compile yourself, the Qt SDK for Open Source C++ development on Windows, available at http://qt.nokia.com/downloads/sdk-windows-cpp
 This should also compile for MacOS, since Qt4 is portable, and there are no other requirements, but I have not attempted.
-If someone is willing to try this and write build instructions for MacOS, please email me: nnygren@nygren.ca and I will post.
 
 Building
 
