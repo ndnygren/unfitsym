@@ -22,7 +22,7 @@
 #include <vector>
 
 /**
- * @class break-words.h
+ * @class breakWords
  *
  * @brief Static functions, methods used to remove whitespace
  */

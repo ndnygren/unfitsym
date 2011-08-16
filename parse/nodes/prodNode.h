@@ -37,6 +37,28 @@ class prodNode : public binOpNode
 		return "(" + left->str() + "\\cdot " + right->str() + ")";
 	}
 
+	virtual std::string nice_str() const
+	{
+		std::string outstr;
+		if (left->type() == type() || left->isLeaf() || left->isMono() ||
+			left->type() == nodeTypes::frac ||
+			left->type() == nodeTypes::hat ||
+			left->type() == nodeTypes::idx)
+			{ outstr = left->nice_str() + "\\cdot "; }
+		else
+			{ outstr = "(" + left->nice_str() + ")\\cdot "; }
+		
+		if (right->type() == type() || right->isLeaf() || right->isMono() ||
+			right->type() == nodeTypes::frac ||
+			right->type() == nodeTypes::hat ||
+			right->type() == nodeTypes::idx)
+			{ outstr += right->nice_str(); }
+		else
+			{ outstr += "(" + right->nice_str() + ")"; }
+
+		return outstr;
+	}
+
 	virtual eqnNode* collapse() const
 	{
 		eqnNode* ltemp = left->collapse();

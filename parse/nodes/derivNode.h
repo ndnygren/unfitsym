@@ -48,6 +48,14 @@ class derivNode : public binOpNode
 		{return "\\frac{d}{d" + right->str() + "}(" + left->str()+")";}
 	}
 
+	virtual std::string nice_str() const
+	{
+		if (left->isLeaf()) // the "small" format
+		{return "\\frac{d" + left->str() + "}{d" + right->str() + "}";}
+		else // the "large" format
+		{return "\\frac{d}{d" + right->str() + "}(" + left->nice_str()+")";}
+	}
+
 	/*
 	 * virtual int size() const
 	 * 

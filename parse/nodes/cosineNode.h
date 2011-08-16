@@ -31,6 +31,11 @@ class cosineNode : public monoOpNode
 		return "\\cos(" + right->str() + ")";
 	}
 
+	virtual std::string nice_str() const
+	{
+		return "\\cos(" + right->nice_str() + ")";
+	}
+
 	virtual eqnNode* copy() const
 	{
 		return new cosineNode(right);

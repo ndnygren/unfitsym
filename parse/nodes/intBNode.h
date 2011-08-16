@@ -29,7 +29,14 @@
 class intBNode : public intNode
 {
 	protected:
+	/**
+	 * @brief the expression representing the upper bound of the integral
+	 */
 	eqnNode* upper;
+
+	/**
+	 * @brief the expression representing the upper bound of the integral
+	 */
 	eqnNode* lower;
 
 	public:
@@ -41,6 +48,11 @@ class intBNode : public intNode
 	virtual std::string str() const
 	{
 		return "\\int_{"+ getLower()->str() + "}^{" + getUpper()->str() + "} " + left->str() + " d{" + right->str()+ "}";
+	}
+
+	virtual std::string nice_str() const
+	{
+		return "\\int_{"+ getLower()->nice_str() + "}^{" + getUpper()->nice_str() + "} " + left->nice_str() + " d{" + right->nice_str()+ "}";
 	}
 
 	virtual void deleteAll() 

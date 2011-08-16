@@ -27,6 +27,7 @@ class lnNode : public monoOpNode
 {
 	public:
 	virtual std::string str() const { return "\\ln(" + right->str() + ")"; }
+	virtual std::string nice_str() const { return "\\ln(" + right->nice_str() + ")"; }
 	virtual eqnNode* copy() const { return new lnNode(right); }
 	virtual int type() const { return nodeTypes::ln; }
 	lnNode(eqnNode* input) { right = input->copy(); }

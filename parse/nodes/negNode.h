@@ -42,6 +42,13 @@ class negNode : public monoOpNode
 		return "-" + right->str();
 	}
 
+	virtual std::string nice_str() const
+	{
+		if (right->isLeaf() || right->type() == nodeTypes::idx)
+			{ return "-" + right->str(); }
+		return "-(" + right->str() + ")";
+	}
+
 	virtual eqnNode* copy() const
 	{
 		return new negNode(right);

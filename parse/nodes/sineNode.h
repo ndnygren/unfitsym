@@ -26,26 +26,11 @@
 class sineNode : public monoOpNode
 {
 	public:
-	virtual std::string str() const
-	{
-		return "\\sin(" + right->str() + ")";
-	}
-
-	virtual eqnNode* copy() const
-	{
-		return new sineNode(right);
-	}
-
-	virtual int type() const
-	{
-		return nodeTypes::sin;
-	}
-
-	sineNode(eqnNode* input)
-	{
-		right = input->copy();
-	}
-
+	virtual std::string str() const { return "\\sin(" + right->str() + ")"; }
+	virtual std::string nice_str() const { return "\\sin(" + right->nice_str() + ")"; }
+	virtual eqnNode* copy() const { return new sineNode(right); }
+	virtual int type() const { return nodeTypes::sin; }
+	sineNode(eqnNode* input) { right = input->copy(); }
 	virtual double value() const { return sin(getR()->value()); }
 	virtual ~sineNode() { deleteAll(); }
 };

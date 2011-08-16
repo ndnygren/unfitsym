@@ -44,6 +44,11 @@ class intNode : public binOpNode
 		return "\\int " + left->str() + " d{" + right->str()+ "}";
 	}
 
+	virtual std::string nice_str() const
+	{
+		return "\\int " + left->nice_str() + " d{" + right->str()+ "}";
+	}
+
 	virtual int size() const
 	{
 		return getL()->size() + 1;

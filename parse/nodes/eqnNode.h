@@ -142,6 +142,14 @@ class eqnNode
 	virtual std::string str() const = 0;
 
 
+	// virtual std::string nice_str()
+	/**
+	 * @brief Recursively forms the LaTeX formated string representing 
+	 *	the parse tree, except using brackets only where necessary
+	 * @returns std::string in LaTeX format
+	 */
+	virtual std::string nice_str() const { return str(); }
+
 	// bool isConst()
 	/**
 	 * @returns true iff the expression contains no variables

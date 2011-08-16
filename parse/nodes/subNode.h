@@ -35,6 +35,26 @@ class subNode : public binOpNode
 	virtual std::string str() const 
 		{ return "(" + left->str() + "-" + right->str() + ")"; }
 
+	virtual std::string nice_str() const
+	{
+		std::string outstr;
+		if (left->isLeaf() || left->isMono() ||
+			left->type() == nodeTypes::frac ||
+			left->type() == nodeTypes::idx)
+			{ outstr = left->nice_str() + " - "; }
+		else
+			{ outstr = "(" + left->nice_str() + ") - "; }
+		
+		if (right->isLeaf() || right->isMono() ||
+			right->type() == nodeTypes::frac ||
+			right->type() == nodeTypes::idx)
+			{ outstr += right->nice_str(); }
+		else
+			{ outstr += "(" + right->nice_str() + ")"; }
+
+		return outstr;
+	}
+
 	virtual eqnNode* collapse() const
 	{
 		eqnNode* ltemp = left->collapse();

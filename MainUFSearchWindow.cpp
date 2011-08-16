@@ -29,7 +29,7 @@ void MainUFSearchWindow::fillBest()
 
 	for (i = 0; i < bList.size(); i++)
 	{
-		bestmodel->appendRow(new QStandardItem(QString(bList[i]->str().c_str())));
+		bestmodel->appendRow(new QStandardItem(QString(bList[i]->nice_str().c_str())));
 //		if (i == 0) { entry2.set_active_text(bList[i]->str()); }
 	}
 }

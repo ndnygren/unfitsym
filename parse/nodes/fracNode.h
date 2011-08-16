@@ -36,6 +36,11 @@ class fracNode : public binOpNode
 		return "\\frac{" + left->str() + "}{" + right->str() + "}";
 	}
 
+	virtual std::string nice_str() const
+	{
+		return "\\frac{" + left->nice_str() + "}{" + right->nice_str() + "}";
+	}
+
 	virtual eqnNode* collapse() const
 	{
 		eqnNode* ltemp = left->collapse();

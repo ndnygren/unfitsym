@@ -37,6 +37,13 @@ class hatNode : public binOpNode
 		return "(" + left->str() + ")^{" + right->str() + "}";
 	}
 
+	virtual std::string nice_str() const
+	{
+		if (left->isLeaf() || left->type() == nodeTypes::idx) 
+			{ return left->str() + "^{" + right->nice_str() + "}"; }
+		return "(" + left->nice_str() + ")^{" + right->nice_str() + "}";
+	}
+
 	virtual eqnNode* collapse() const
 	{
 		eqnNode* ltemp = left->collapse();
