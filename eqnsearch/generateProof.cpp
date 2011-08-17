@@ -95,7 +95,7 @@ string generateProof::convertVector(const vector<string> &path)
 	
 	for (i = (int)path.size()-1; i >= 0; i--)
 	{
-			outstring += path[i] + "\n";
+		outstring += path[i] + "\n";
 	}
 
 	return outstring;
@@ -107,4 +107,20 @@ string generateProof::build(const vector<pair<string, string> > &pairs, const st
 	breakDown(pairs, edges);
 	
 	return convertVector(genVector(edges, start, target));	
+}
+
+string generateProof::nice_build(const vector<pair<string, string> > &pairs, const string &start, const string &target)
+{
+	int i;
+	string outstring;
+	map<string, vector<string> > edges;
+	breakDown(pairs, edges);
+	vector<string> lines = genVector(edges, start, target);	
+	
+	for (i = (int)lines.size()-1; i >= 0; i--)
+	{
+		outstring += parserFull::makenice(lines[i]) + "\n";
+	}
+
+	return outstring;
 }

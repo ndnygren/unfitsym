@@ -66,9 +66,20 @@ void MainUFSearchWindow::loadeqn()
 
 void MainUFSearchWindow::loadProof(const QModelIndex &i)
 {
-	std::string temp = generateProof::build( engine->adjPairs, 
+	std::string temp;
+
+	if (nicecheck->isChecked())
+	{
+		temp = generateProof::nice_build( engine->adjPairs, 
 		engine->start->str(), 
 		bList[i.row()]->str());
+	}
+	else
+	{
+		temp = generateProof::build( engine->adjPairs, 
+		engine->start->str(), 
+		bList[i.row()]->str());
+	}
 	proofBox->setPlainText(QString(temp.c_str()));
 }
 
@@ -103,6 +114,7 @@ MainUFSearchWindow::MainUFSearchWindow()
 	QHBoxLayout *varlayout = new QHBoxLayout();
 	QVBoxLayout *prooflayout = new QVBoxLayout();
 	QVBoxLayout *sollayout = new QVBoxLayout();
+
 	searchinit = false;
 	cols = new QGridLayout();
 
@@ -123,6 +135,7 @@ MainUFSearchWindow::MainUFSearchWindow()
 	closebutton->setMaximumWidth(50);
 	gobutton = new QPushButton("Go");
 	gobutton->setMaximumWidth(40);
+	nicecheck = new QCheckBox("Nice Output");
 
 	connect(closebutton, SIGNAL(clicked()), qApp, SLOT(quit()));
 	connect(gobutton, SIGNAL(clicked()), this, SLOT(loadeqn()));
@@ -147,6 +160,7 @@ MainUFSearchWindow::MainUFSearchWindow()
 	cols->addWidget(searchdeepbutton,2,2);
 	cols->addWidget(prooflabel,0,3,2,2);
 	cols->addWidget(closebutton,2,4);
+	cols->addWidget(nicecheck,2,3);
 
 	setLayout(cols);
 }

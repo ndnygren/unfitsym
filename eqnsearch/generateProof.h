@@ -21,7 +21,7 @@
 #include <map>
 #include <string>
 #include <utility>
-
+#include "../parse/parserFull.h"
 
 /**
  * @class generateProof
@@ -109,6 +109,16 @@ class generateProof
 	 * @returns the proof of the "solution" from the initial expression
 	 */
 	static std::string build(const std::vector<std::pair<std::string, std::string> > &pairs, const std::string &start, const std::string &target);
+
+	/**
+	 * @brief Same as generateProof::build(), except using the "nice" output
+	 * @param pairs the adjacency-list-represented graph
+	 * @param start the initial expression
+	 * @param target the chosen "solution" expression
+	 *
+	 * @returns the proof of the "solution" from the initial expression
+	 */
+	static std::string nice_build(const std::vector<std::pair<std::string, std::string> > &pairs, const std::string &start, const std::string &target);
 };
 
 #endif

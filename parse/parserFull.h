@@ -62,7 +62,14 @@ class parserFull
 	 *	or null if the parse fails
 	 *
 	 */
-	static eqnNode* getExpr(std::string input);
+	static eqnNode* getExpr(const std::string& input);
+
+	/**
+	 * @brief parses a string, and returns a "nice" equivalent string
+	 * @param input the string to convert
+	 * @returns a "nice" string equivalent to the original
+	 */
+	static std::string makenice(const std::string& input);
 };
 
 #endif

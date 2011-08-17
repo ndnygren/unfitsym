@@ -61,6 +61,7 @@ class MainUFSearchWindow : public QWidget
 	QPushButton *searchdeepbutton;
 	QPushButton *closebutton;
 	QPushButton *gobutton;
+	QCheckBox *nicecheck;
 };
 
 

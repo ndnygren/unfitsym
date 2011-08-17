@@ -38,7 +38,7 @@ void parserFull::freeMap(map< pair<int, int>, vector<pair<int, eqnNode*> > > fai
 }
 
 
-eqnNode* parserFull::getExpr(string input1) 
+eqnNode* parserFull::getExpr(const string& input1) 
 {
 	std::map< std::pair<int, int>, std::vector<std::pair<int, eqnNode*> > > fails;
 	int i;
@@ -71,4 +71,11 @@ eqnNode* parserFull::getExpr(string input1)
 	// returns null if no such interpretations exist
 	freeMap(fails);
 	return 0;
+}
+
+string parserFull::makenice(const string& input)
+{
+	eqnNode* output = getExpr(input);
+	if (output == 0) { return ""; }
+	return output->nice_str();
 }
