@@ -40,6 +40,7 @@ void parserFull::freeMap(map< pair<int, int>, vector<pair<int, eqnNode*> > > fai
 
 eqnNode* parserFull::getExpr(string input1) 
 {
+	std::map< std::pair<int, int>, std::vector<std::pair<int, eqnNode*> > > fails;
 	int i;
 	// expParse represents the main variable in the CFG, 
 	//	any arithmetic expression.
@@ -63,14 +64,11 @@ eqnNode* parserFull::getExpr(string input1)
 		{
 		// a copy is returned. The original is freed when the 
 		//	function returns.
+			freeMap(fails);
 			 return d.getTrees()[i].second->copy();
 		}
 	}
 	// returns null if no such interpretations exist
-	return 0;
-}
-
-parserFull::~parserFull()
-{
 	freeMap(fails);
+	return 0;
 }

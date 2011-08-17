@@ -36,7 +36,6 @@ void MainUFSearchWindow::fillBest()
 
 void MainUFSearchWindow::loadeqn()
 {
-	parserFull parser;
 	eqnNode *output;
 
 	if (searchinit) 
@@ -47,7 +46,7 @@ void MainUFSearchWindow::loadeqn()
 		proofBox->clear();
 	}
 	
-	output = parser.getExpr(entry1->text().toStdString());
+	output = parserFull::getExpr(entry1->text().toStdString());
 
 	if (output != 0)
 	{

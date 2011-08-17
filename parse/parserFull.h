@@ -33,12 +33,6 @@
 class parserFull
 {
 	protected:
-	/**
-	 * @brief cache of all successful parses
-	 * @details With this cache, parse runs in 
-	 *	quadratic time, rather than exponential.
-	 */
-	std::map< std::pair<int, int>, std::vector<std::pair<int, eqnNode*> > > fails;
 
 	// void deleteList(std::vector<std::pair<int, eqnNode*> > list)
 	/**	
@@ -47,14 +41,14 @@ class parserFull
 	 * @param list The vector containing memory to be freed
 	 *
 	 */
-	void deleteList(std::vector<std::pair<int, eqnNode*> > list);
+	static void deleteList(std::vector<std::pair<int, eqnNode*> > list);
 
 	// void freeMap(std::map< std::pair<int, int>, std::vector<std::pair<int, eqnNode*> > > fails)
 	/**
 	 * @brief Iterates over the provided map, calling deleteList() on each element.
 	 * @param fails The map containing memory to be freed
 	 */
-	void freeMap(std::map< std::pair<int, int>, std::vector<std::pair<int, eqnNode*> > > fails);
+	static void freeMap(std::map< std::pair<int, int>, std::vector<std::pair<int, eqnNode*> > > fails);
 
 	public:
 
@@ -68,8 +62,7 @@ class parserFull
 	 *	or null if the parse fails
 	 *
 	 */
-	eqnNode* getExpr(std::string input);
-	~parserFull();
+	static eqnNode* getExpr(std::string input);
 };
 
 #endif

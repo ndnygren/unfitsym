@@ -27,7 +27,6 @@ using namespace std;
 int main(int argc, char** argv)
 {
 	unsigned int i;
-	parserFull parser;
 	eqnNode *output, *temp;
 	eqnMetric *rate;
 	searchMaxMin *a;
@@ -38,7 +37,7 @@ int main(int argc, char** argv)
 	if (argc > 1)
 	{
 		cout << "input: " <<  argv[1] << "\n";
-		output = parser.getExpr(argv[1]);
+		output = parserFull::getExpr(argv[1]);
 		if (output != 0)
 		{
 			cout << "parsed: " << output->str() << "\n";
