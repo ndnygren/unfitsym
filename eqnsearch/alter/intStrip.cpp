@@ -25,6 +25,23 @@ eqnNode* alterExpression::substitute(prodNode* input, string var)
 	fracNode *fracspare;
 	hatNode *hatspare;
 	numNode one(1);
+	numNode two(2);
+
+	//simplest case \int f(u)du/dx dx
+	temp1 = derivative(input->getR(),var);
+	temp2 = scalarCompare(input->getL(), temp1);
+	delete temp1;
+
+	if (temp2 != 0)
+	{
+		hatspare = new hatNode(input->getR(), &two);
+		fracspare = new fracNode(temp2, &two);
+		outexpr = new prodNode(fracspare, hatspare);
+		delete hatspare;
+		delete fracspare;
+		delete temp2;
+		return outexpr;
+	}
 
 	//polynomial types
 	if (input->getR()->type() == nodeTypes::hat
@@ -32,6 +49,8 @@ eqnNode* alterExpression::substitute(prodNode* input, string var)
 	{
 		temp1 = derivative(((hatNode*)input->getR())->getL(), var);
 		temp2 = scalarCompare(input->getL(),temp1);
+		delete temp1;
+
 		if (temp2 != 0)
 		{
 			sumspare = new sumNode(((hatNode*)input->getR())->getR(), &one);
@@ -42,7 +61,6 @@ eqnNode* alterExpression::substitute(prodNode* input, string var)
 			delete hatspare;
 			delete sumspare;
 			delete temp2;
-			delete temp1;
 			return outexpr;
 		}
 	}
@@ -52,8 +70,9 @@ eqnNode* alterExpression::substitute(prodNode* input, string var)
 
 eqnNode* alterExpression::attemptStrip(intNode* input)
 {
-	eqnNode* outexpr;
+	eqnNode *outexpr, *left, *right;
 	sumNode *sumspare;
+	intNode *intleftspare, *intrightspare; 
 	fracNode *fracspare;
 	prodNode *prodspare;
 	hatNode *hatspare, *hat1spare;
@@ -64,6 +83,28 @@ eqnNode* alterExpression::attemptStrip(intNode* input)
 	varNode *varspare;
 	sineNode *sinspare;
 	cosineNode *cosspare;
+
+	//recurse into sums
+	if (input->getL()->type() == nodeTypes::sum)
+	{
+		sumspare = (sumNode*)(input->getL());
+		intleftspare = new intNode(sumspare->getL(), input->getR());
+		intrightspare = new intNode(sumspare->getR(), input->getR());
+		left = attemptStrip(intleftspare);
+		right = attemptStrip(intrightspare);
+		delete intleftspare;
+		delete intrightspare;
+		
+		if (left != 0 && right != 0)
+		{
+			outexpr = new sumNode(left,right);
+			delete left;
+			delete right;
+			return outexpr;
+		}
+		else if (left != 0) { delete left; }
+		else if (right != 0) { delete right; }
+	}
 
 	//check for constants
 	if (input->getL()->isConst()) 

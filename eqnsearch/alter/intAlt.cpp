@@ -25,7 +25,7 @@ int alterExpression::maxIndex(eqnNode* input)
 	if (input->type() == nodeTypes::idx
 		&& ((idxNode*)input)->getL()->eq(&c)
 		&& ((idxNode*)input)->getR()->isConst())
-		{ return (int)(((idxNode*)input)->getR()->isConst()); }
+		{ return (int)(((idxNode*)input)->getR()->value()); }
 	else if (input->isBin())
 	{
 		return binOpNode::max(maxIndex(((binOpNode*)input)->getL()) ,maxIndex(((binOpNode*)input)->getR()));
