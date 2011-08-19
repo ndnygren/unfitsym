@@ -41,9 +41,9 @@ int main(int argc, char** argv)
 		if (output != 0)
 		{
 			cout << "parsed: " << output->str() << "\n";
-			temp = alterExpression::derivative(output,"x");
+/*			temp = alterExpression::derivative(output,"x");
 			cout << "derivative: " << temp->str() << "\n";
-			delete temp;
+			delete temp;*/
 
 			temp = output->collapse();
 			cout << "collapse: " << temp->str() << "\n";

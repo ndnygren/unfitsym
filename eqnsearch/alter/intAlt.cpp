@@ -62,14 +62,14 @@ void alterExpression::setIndex(eqnNode* input, int newindex)
 vector<eqnNode*> alterExpression::intCand(intNode* input)
 {
 	unsigned int i;
-	eqnNode *stripped;
+	eqnNode *stripped, *deriv;
 	vector<eqnNode*> changes;
 	vector<eqnNode*> subchanges;
 	intNode *spare, *otherspare;
 	sumNode *sumspare;
 	subNode *subspare;
 	fracNode *fracspare, *frac1spare;
-	prodNode *prodspare;
+	prodNode *prodspare, *prod1spare;
 	numNode one(1);
 	numNode negone(-1);
 	numNode two(2);
@@ -153,6 +153,28 @@ vector<eqnNode*> alterExpression::intCand(intNode* input)
 	{
 		changes.push_back(new sumNode(stripped, &rep));
 		delete stripped;
+	}
+
+	//by parts
+	if (input->getL()->type() == nodeTypes::prod && input->getR()->type() == nodeTypes::var)
+	{
+		prodspare = (prodNode*)input->getL();
+		spare = new intNode(prodspare->getL(), input->getR());
+		stripped = attemptStrip(spare);
+		delete spare;
+		if (stripped != 0)
+		{
+			deriv = derivative(prodspare->getR(), ((varNode*)input->getR())->get());
+			prodspare = new prodNode(stripped, prodspare->getR());
+			prod1spare = new prodNode(stripped, deriv);
+			spare = new intNode(prod1spare, input->getR());
+			changes.push_back(new subNode(prodspare, spare));
+			delete spare;
+			delete prodspare;
+			delete prod1spare;
+			delete deriv;
+			delete stripped;
+		}
 	}	
 
 	//recursing

@@ -220,6 +220,13 @@ eqnNode* alterExpression::attemptStrip(intNode* input)
 		outexpr = substitute((prodNode*)input->getL(), ((varNode*)input->getR())->get());
 		if (outexpr != 0) { return outexpr; }
 	}
+	else if (input->getR()->type() == nodeTypes::var)
+	{
+		prodspare = new prodNode(&one, input->getL());
+		outexpr = substitute(prodspare, ((varNode*)input->getR())->get());
+		delete prodspare;
+		if (outexpr != 0) { return outexpr; }
+	}
 
 	return 0;
 }

@@ -22,14 +22,14 @@ using namespace std;
 vector<eqnNode*> alterExpression::intBCand(intBNode* input)
 {
 	unsigned int i;
-	eqnNode *stripped, *stripped2;
+	eqnNode *stripped, *stripped2, *deriv;
 	vector<eqnNode*> changes;
 	vector<eqnNode*> subchanges;
 	intBNode *spare, *otherspare;
 	sumNode *sumspare;
 	subNode *subspare;
 	fracNode *fracspare, *frac1spare;
-	prodNode *prodspare;
+	prodNode *prodspare, *prod1spare;
 	numNode one(1);
 	numNode negone(-1);
 	numNode two(2);
@@ -134,6 +134,37 @@ vector<eqnNode*> alterExpression::intBCand(intBNode* input)
 			changes.push_back(new subNode(stripped, stripped2));
 			delete stripped;
 			delete stripped2;
+		}
+	}
+	
+	//by parts
+	if (input->getL()->type() == nodeTypes::prod && input->getR()->type() == nodeTypes::var)
+	{
+		prodspare = (prodNode*)input->getL();
+		spare = new intBNode(prodspare->getL(), input->getR(), input->getUpper(), input->getLower());
+		stripped = attemptStrip(spare);
+		delete spare;
+		if (stripped != 0)
+		{
+			deriv = derivative(prodspare->getR(), ((varNode*)input->getR())->get());
+			prodspare = new prodNode(stripped, prodspare->getR());
+			prod1spare = new prodNode(stripped, deriv);
+			spare = new intBNode(prod1spare, input->getR(), input->getUpper(), input->getLower());
+
+			stripped2 = prodspare->copy();
+
+			prodspare->replace(var1, input->getUpper());
+			stripped2->replace(var1, input->getLower());
+			subspare = new subNode(prodspare, stripped2);
+
+			changes.push_back(new subNode(subspare, spare));
+			delete spare;
+			delete prodspare;
+			delete prod1spare;
+			delete deriv;
+			delete stripped;
+			delete stripped2;
+			delete subspare;
 		}
 	}	
 
