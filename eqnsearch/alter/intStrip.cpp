@@ -24,6 +24,9 @@ eqnNode* alterExpression::substitute(prodNode* input, string var)
 	sumNode *sumspare;
 	fracNode *fracspare;
 	hatNode *hatspare;
+	negNode *negspare;
+	sineNode *sinspare;
+	cosineNode *cosspare;
 	numNode one(1);
 	numNode two(2);
 
@@ -60,6 +63,44 @@ eqnNode* alterExpression::substitute(prodNode* input, string var)
 			delete fracspare;
 			delete hatspare;
 			delete sumspare;
+			delete temp2;
+			return outexpr;
+		}
+	}
+
+	//cosine
+	if (input->getR()->type() == nodeTypes::cos)
+	{
+		cosspare = (cosineNode*)(input->getR());
+		temp1 = derivative(cosspare->getR(), var);
+		temp2 = scalarCompare(input->getL(), temp1);
+		delete temp1;
+
+		if (temp2 != 0)
+		{
+			sinspare = new sineNode(cosspare->getR());
+			outexpr = new prodNode(temp2, sinspare);
+			delete sinspare;
+			delete temp2;
+			return outexpr;
+		}
+	}
+
+	//sine
+	if (input->getR()->type() == nodeTypes::sin)
+	{
+		sinspare = (sineNode*)(input->getR());
+		temp1 = derivative(sinspare->getR(), var);
+		temp2 = scalarCompare(input->getL(), temp1);
+		delete temp1;
+
+		if (temp2 != 0)
+		{
+			cosspare = new cosineNode(sinspare->getR());
+			negspare = new negNode(cosspare);
+			outexpr = new prodNode(temp2, negspare);
+			delete cosspare;
+			delete negspare;
 			delete temp2;
 			return outexpr;
 		}
@@ -154,33 +195,6 @@ eqnNode* alterExpression::attemptStrip(intNode* input)
 		}
 	}
 
-	//simple cosine
-	if (input->getL()->type() == nodeTypes::cos
-		&& input->getR()->type() == nodeTypes::var)
-	{
-		varspare = (varNode*)(input->getR());
-		cosspare = (cosineNode*)(input->getL());
-		if (cosspare->getR()->isVar(varspare->get()))
-		{
-			outexpr = new sineNode(cosspare->getR());
-			return outexpr;
-		}
-		//slightly less simple \int \cos(c*x) d{x}
-		else if (cosspare->getR()->type() == nodeTypes::prod)
-		{
-			prodspare = (prodNode*)(cosspare->getR());
-			if (prodspare->getR()->isVar(varspare->get())
-				&& prodspare->getL()->isConst(varspare->get()))
-			{
-				sinspare = new sineNode(prodspare);
-				fracspare = new fracNode(&one,prodspare->getL());
-				outexpr = new prodNode(fracspare, sinspare);
-				delete fracspare;
-				delete sinspare;
-				return outexpr;
-			}
-		}
-	}
 
 	//simple sine
 	if (input->getL()->type() == nodeTypes::sin
