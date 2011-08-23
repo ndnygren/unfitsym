@@ -114,7 +114,6 @@ eqnNode* alterExpression::attemptStrip(intNode* input)
 	eqnNode *outexpr, *left, *right;
 	sumNode *sumspare;
 	intNode *intleftspare, *intrightspare; 
-	fracNode *fracspare;
 	prodNode *prodspare;
 	hatNode *hatspare, *hat1spare;
 	numNode one(1);
@@ -122,8 +121,6 @@ eqnNode* alterExpression::attemptStrip(intNode* input)
 	numNode two(2);
 	numNode zero(0);
 	varNode *varspare;
-	sineNode *sinspare;
-	cosineNode *cosspare;
 
 	//recurse into sums
 	if (input->getL()->type() == nodeTypes::sum)
@@ -195,36 +192,6 @@ eqnNode* alterExpression::attemptStrip(intNode* input)
 		}
 	}
 
-
-	//simple sine
-	if (input->getL()->type() == nodeTypes::sin
-		&& input->getR()->type() == nodeTypes::var)
-	{
-		varspare = (varNode*)(input->getR());
-		sinspare = (sineNode*)(input->getL());
-		if (sinspare->getR()->isVar(varspare->get()))
-		{
-			cosspare = new cosineNode(sinspare->getR());
-			outexpr = new negNode(cosspare);
-			delete cosspare;
-			return outexpr;
-		}
-		//slightly less simple \int \sin(c*x) d{x}
-		else if (sinspare->getR()->type() == nodeTypes::prod)
-		{
-			prodspare = (prodNode*)(sinspare->getR());
-			if (prodspare->getR()->isVar(varspare->get())
-				&& prodspare->getL()->isConst(varspare->get()))
-			{
-				cosspare = new cosineNode(prodspare);
-				fracspare = new fracNode(&negone,prodspare->getL());
-				outexpr = new prodNode(fracspare, cosspare);
-				delete fracspare;
-				delete cosspare;
-				return outexpr;
-			}
-		}
-	}
 
 
 	//for products, attempt substitution of variables

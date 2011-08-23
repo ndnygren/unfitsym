@@ -294,7 +294,7 @@ class alterExpression
 	 * @param var the variable of differentiation
 	 * @returns a expression representing the derivative of the supplied expression.
 	 */
-	static eqnNode* derivative(eqnNode* expression, std::string var);
+	static eqnNode* derivative(eqnNode* expression, const std::string& var);
 
 	// std::vector<eqnNode*> getCand(eqnNode* input);
 	/**

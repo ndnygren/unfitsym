@@ -20,32 +20,146 @@
 
 using namespace std;
 
-eqnNode* alterExpression::derivative(eqnNode* expression, std::string var)
+eqnNode* alterExpression::derivative(eqnNode* input, const std::string& var)
 {
-	varNode vn(var);
-	derivMetric rate;
-	eqnNode* start = new derivNode(expression, &vn);
-	eqnNode* bestcand = 0;
-	searchMaxMin *engine = new searchMaxMin(start, &rate);
-	
-	while(bestcand == 0)
-	{
-		engine->next(100);
-		bestcand = (engine->best(1))[0]->copy();
+	eqnNode *outexpr, *left, *right;
+	sumNode *sumspare; 
+	subNode *subspare; 
+	prodNode *prodspare, *prod1spare, *prod2spare;
+	fracNode *fracspare;
+	sineNode *sinspare;
+	cosineNode *cosspare;
+	hatNode *hatspare, *hat1spare;
+	lnNode *lnspare;
+	numNode negone(-1), one(1), two(2);
 
-		if (rate.countd(bestcand) > 0)
-		{
-			delete bestcand;
-			bestcand = 0;
-		}
+	if (input->type() == nodeTypes::sum)
+	{
+		sumspare = (sumNode*)input;
+		
+		left = derivative(sumspare->getL(), var);
+		right = derivative(sumspare->getR(), var);
+		outexpr = new sumNode(left, right);
+		delete left;
+		delete right;
+		return outexpr;
+	}
+	else if (input->type() == nodeTypes::sub)
+	{
+		subspare = (subNode*)input;
+		
+		left = derivative(subspare->getL(), var);
+		right = derivative(subspare->getR(), var);
+		outexpr = new subNode(left, right);
+		delete left;
+		delete right;
+		return outexpr;
+	}	
+	else if (input->type() == nodeTypes::num)
+	{
+		return new numNode(0);
+	}
+	else if (input->type() == nodeTypes::var)
+	{
+		if (((varNode*)input)->get() == var)
+			{ return new numNode(1); }
+		else { return new numNode(0); }
+	}
+	else if (input->type() == nodeTypes::prod)
+	{
+		prodspare = (prodNode*)input;
+		
+		left = derivative(prodspare->getL(), var);
+		right = derivative(prodspare->getR(), var);
+		prod1spare = new prodNode(prodspare->getL(), right);
+		prod2spare = new prodNode(left, prodspare->getR());
+
+		outexpr = new sumNode(prod1spare, prod2spare);
+		delete left;
+		delete right;
+		delete prod1spare;
+		delete prod2spare;
+		return outexpr;
+	}
+	else if (input->type() == nodeTypes::frac)
+	{
+		fracspare = (fracNode*)input;
+		
+		left = derivative(fracspare->getL(), var);
+		right = derivative(fracspare->getR(), var);
+		prod1spare = new prodNode(fracspare->getL(), right);
+		prod2spare = new prodNode(left, fracspare->getR());
+
+		subspare = new subNode(prod1spare, prod2spare);
+		hatspare = new hatNode(fracspare->getR(),&two);
+		outexpr = new fracNode(subspare, hatspare);
+
+		delete left;
+		delete right;
+		delete subspare;
+		delete hatspare;
+		delete prod1spare;
+		delete prod2spare;
+		return outexpr;
+	}
+	else if (input->type() == nodeTypes::cos)
+	{
+		cosspare = (cosineNode*)input;
+		left = derivative(cosspare->getR(), var);
+		sinspare = new sineNode(cosspare->getR());
+		prodspare = new prodNode(&negone, left);
+		outexpr = new prodNode(prodspare,sinspare);
+
+		delete left;
+		delete sinspare;
+		delete prodspare;
+		return outexpr;
+	}
+	else if (input->type() == nodeTypes::sin)
+	{
+		sinspare = (sineNode*)input;
+		left = derivative(sinspare->getR(), var);
+		cosspare = new cosineNode(sinspare->getR());
+		outexpr = new prodNode(left,cosspare);
+		delete left;
+		delete cosspare;
+		return outexpr;
+	}
+	else if (input->type() == nodeTypes::hat && ((hatNode*)input)->getR()->isConst(var))
+	{
+		hatspare = (hatNode*)input;
+		subspare = new subNode(hatspare->getR(), &one);
+		left = derivative(hatspare->getL(), var);
+		hat1spare = new hatNode(hatspare->getL(), subspare);
+		prodspare = new prodNode(hatspare->getR(), left);
+		outexpr = new prodNode(prodspare, hat1spare);
+	
+		delete subspare;
+		delete prodspare;
+		delete left;
+		delete hat1spare;
+		return outexpr;
+	}
+	else if (input->type() == nodeTypes::hat && ((hatNode*)input)->getL()->isConst(var))
+	{
+		hatspare = (hatNode*)input;
+		lnspare = new lnNode(hatspare->getL());
+		right = derivative(hatspare->getR(), var);
+		prodspare = new prodNode(right, lnspare);
+		outexpr = new prodNode(prodspare, input);
+
+		delete lnspare;
+		delete right;
+		delete prodspare;
+		return outexpr;
 	}
 
-	delete bestcand;
-	engine->next(200);
-	bestcand = (engine->best(1))[0]->copy();
+	/* not even close to correct... needs to be replaced*/
+	else if (input->type() == nodeTypes::integral
+		|| input->type() == nodeTypes::integralb)
+	{
+		return ((intNode*)input)->getL()->copy();
+	}
 
-	delete engine;
-	delete start;
-
-	return bestcand;
+	return 0;
 }
