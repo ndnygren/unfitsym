@@ -23,7 +23,7 @@
 /**
  * @class cassetteMachine
  *
- * @brief Execute arbirarily many different parseParts, in sequence.
+ * @brief Execute arbitrarily many different parseParts, in sequence.
  *
  * @details Could be considered a counter-part to the altParse. Calls a list of 
  *	parseParts in sequence rather than parallel. Does not however return a

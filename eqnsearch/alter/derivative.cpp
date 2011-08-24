@@ -160,6 +160,28 @@ eqnNode* alterExpression::derivative(eqnNode* input, const std::string& var)
 	{
 		return ((intNode*)input)->getL()->copy();
 	}
+	else if (input->type() == nodeTypes::ln)
+	{
+		fracspare = new fracNode(&one, ((lnNode*)input)->getR());
+		right = derivative(((lnNode*)input)->getR(),var);
+		outexpr = new prodNode(fracspare,right);
+
+		delete fracspare;
+		delete right;
+		return outexpr;
+	}
+	else if (input->type() == nodeTypes::neg)
+	{
+		right = derivative(((negNode*)input)->getR(),var);
+		outexpr = new negNode(right);
+		
+		delete right;
+		return outexpr;
+	}
+	else if (input->type() == nodeTypes::idx)
+	{
+		return new numNode(0);
+	}
 
 	return 0;
 }

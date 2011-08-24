@@ -23,6 +23,7 @@
 #include "eqnsearch/generateProof.h"
 #include "eqnsearch/isoSimpMetric.h"
 #include "eqnsearch/unchainMetric.h"
+#include "eqnsearch/numDownMetric.h"
 
 class MainUFSearchWindow : public QWidget
 {
@@ -34,6 +35,7 @@ class MainUFSearchWindow : public QWidget
 	eqnMetric *rate;
 	eqnMetric simp;
 	unchainMetric unchain;
+	numDownMetric numdown;
 	int proofwidth;
 	int proofheight;
 	std::vector<eqnNode*> bList;

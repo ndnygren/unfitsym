@@ -13,47 +13,44 @@
 *
 * You should have received a copy of the GNU General Public License
 * along with this program. If not, see <http://www.gnu.org/licenses/>. */
-#ifndef NN_UNCHAINMETRIC_H
-#define NN_UNCHAINMETRIC_H
+#ifndef NN_NUMDOWNMETRIC_H
+#define NN_NUMDOWNMETRIC_H
 
 #include "../parse/nodes/eqnNode.h"
-#include "../parse/nodes/nodeTypes.h"
 #include "eqnMetric.h"
 #include <string>
 
 /**
- * @class unchainMetric
+ * @class numDownMetric
  *
- *
- * @brief Metric to encourage the formation of derivatives from more simple functions
- *
+ * @brief Metric to encourage combining and reducigng numeric values. 
  */
 
-class unchainMetric : public eqnMetric
+
+class numDownMetric : public eqnMetric
 {
 	public:
-	/**
-	 * @brief increments in the case that the argument is already greater than one.
-	 * @param input the value to be incremented
-	 * @returns input+1 if input > 0, otherwise 0.
-	 */
-	int bump(int input) const
-	{
-		if (input > 0) { return input + 1; }
-		else { return 0; }
-	}
 
 	virtual int score(const eqnNode* input) const
 	{
-		if (input->type() == nodeTypes::sub && (((subNode*)input)->getR()->type() == nodeTypes::integral ||
-		((subNode*)input)->getR()->type() == nodeTypes::integral))
+		if (input->isBin())
 		{
-			return 0;
+			return score(((binOpNode*)input)->getL()) 
+				+score(((binOpNode*)input)->getR());
 		}
-		return 1;
+		else if (input->isMono())
+		{
+			return score(((monoOpNode*)input)->getR()); 
+		}
+		else if (input->type() == nodeTypes::num)
+		{
+			return abs(((numNode*)input)->get());
+		}
+		
+		return 0;
 	}
 
-	virtual ~unchainMetric() {}
+	virtual ~numDownMetric() {}
 };
 
 

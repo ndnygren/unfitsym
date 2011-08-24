@@ -54,6 +54,7 @@ void MainUFSearchWindow::loadeqn()
 		engine = new searchMaxMin(output,rate);
 		engine->addNewDirection(&simp);
 		engine->addNewDirection(&unchain);
+		engine->addNewDirection(&numdown);
 		delete output;
 		searchinit = true;
 		fillBest();
