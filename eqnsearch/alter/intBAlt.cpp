@@ -22,7 +22,7 @@ using namespace std;
 vector<eqnNode*> alterExpression::intBCand(intBNode* input)
 {
 	unsigned int i;
-	eqnNode *stripped, *stripped2, *deriv;
+	eqnNode *stripped, *stripped2, *deriv, *temp, *temp2;
 	vector<eqnNode*> changes;
 	vector<eqnNode*> subchanges;
 	intBNode *spare, *otherspare;
@@ -148,14 +148,16 @@ vector<eqnNode*> alterExpression::intBCand(intBNode* input)
 		{
 			deriv = derivative(prodspare->getR(), ((varNode*)input->getR())->get());
 			prodspare = new prodNode(stripped, prodspare->getR());
+			temp = prodspare->collapse();
 			prod1spare = new prodNode(stripped, deriv);
-			spare = new intBNode(prod1spare, input->getR(), input->getUpper(), input->getLower());
+			temp2 = prod1spare->collapse();
+			spare = new intBNode(temp2, input->getR(), input->getUpper(), input->getLower());
 
-			stripped2 = prodspare->copy();
+			stripped2 = temp->copy();
 
 			prodspare->replace(var1, input->getUpper());
 			stripped2->replace(var1, input->getLower());
-			subspare = new subNode(prodspare, stripped2);
+			subspare = new subNode(temp, stripped2);
 
 			changes.push_back(new subNode(subspare, spare));
 			delete spare;
@@ -165,6 +167,8 @@ vector<eqnNode*> alterExpression::intBCand(intBNode* input)
 			delete stripped;
 			delete stripped2;
 			delete subspare;
+			delete temp;
+			delete temp2;
 		}
 	}	
 

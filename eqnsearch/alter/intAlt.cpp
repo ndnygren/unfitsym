@@ -15,6 +15,7 @@
 * along with this program. If not, see <http://www.gnu.org/licenses/>. */
 
 #include "alterExpression.h"
+#include <iostream>
 
 using namespace std;
 
@@ -62,7 +63,7 @@ void alterExpression::setIndex(eqnNode* input, int newindex)
 vector<eqnNode*> alterExpression::intCand(intNode* input)
 {
 	unsigned int i;
-	eqnNode *stripped, *deriv;
+	eqnNode *stripped, *deriv, *temp, *temp2;
 	vector<eqnNode*> changes;
 	vector<eqnNode*> subchanges;
 	intNode *spare, *otherspare;
@@ -158,20 +159,26 @@ vector<eqnNode*> alterExpression::intCand(intNode* input)
 	//by parts
 	if (input->getL()->type() == nodeTypes::prod && input->getR()->type() == nodeTypes::var)
 	{
+		cout << "found prod:" << input->getL()->nice_str() << "\n";
 		prodspare = (prodNode*)input->getL();
 		spare = new intNode(prodspare->getL(), input->getR());
 		stripped = attemptStrip(spare);
 		delete spare;
 		if (stripped != 0)
 		{
+			cout << "stripped" << stripped->nice_str() << "\n";
 			deriv = derivative(prodspare->getR(), ((varNode*)input->getR())->get());
 			prodspare = new prodNode(stripped, prodspare->getR());
+			temp = prodspare->collapse();
 			prod1spare = new prodNode(stripped, deriv);
-			spare = new intNode(prod1spare, input->getR());
-			changes.push_back(new subNode(prodspare, spare));
+			temp2 = prod1spare->collapse();
+			spare = new intNode(temp2, input->getR());
+			changes.push_back(new subNode(temp, spare));
 			delete spare;
 			delete prodspare;
 			delete prod1spare;
+			delete temp;
+			delete temp2;
 			delete deriv;
 			delete stripped;
 		}

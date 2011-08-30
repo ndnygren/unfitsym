@@ -32,16 +32,6 @@
 class unchainMetric : public eqnMetric
 {
 	public:
-	/**
-	 * @brief increments in the case that the argument is already greater than one.
-	 * @param input the value to be incremented
-	 * @returns input+1 if input > 0, otherwise 0.
-	 */
-	int bump(int input) const
-	{
-		if (input > 0) { return input + 1; }
-		else { return 0; }
-	}
 
 	virtual int score(const eqnNode* input) const
 	{

@@ -20,7 +20,7 @@ using namespace std;
 
 eqnNode* alterExpression::substitute(prodNode* input, string var)
 {
-	eqnNode *outexpr, *temp1, *temp2;
+	eqnNode *outexpr, *temp1, *temp2, *temp3;
 	sumNode *sumspare;
 	fracNode *fracspare;
 	hatNode *hatspare;
@@ -32,8 +32,10 @@ eqnNode* alterExpression::substitute(prodNode* input, string var)
 
 	//simplest case \int f(u)du/dx dx
 	temp1 = derivative(input->getR(),var);
-	temp2 = scalarCompare(input->getL(), temp1);
+	temp3 = temp1->collapse();
+	temp2 = scalarCompare(input->getL(), temp3);
 	delete temp1;
+	delete temp3;
 
 	if (temp2 != 0)
 	{

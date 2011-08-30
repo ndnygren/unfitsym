@@ -36,16 +36,6 @@ class isolateMetric : public eqnMetric
 	std::string target;
 
 	public:
-	/**
-	 * @brief increments in the case that the argument is already greater than one.
-	 * @param input the value to be incremented
-	 * @returns input+1 if input > 0, otherwise 0.
-	 */
-	int bump(int input) const
-	{
-		if (input > 0) { return input + 1; }
-		else { return 0; }
-	}
 
 	virtual int score(const eqnNode* input) const
 	{
@@ -54,6 +44,11 @@ class isolateMetric : public eqnMetric
 			if (((varNode*)input)->get() == target )
 				{ return 1; }
 			else { return 0; }
+		}
+		else if (input->type() == nodeTypes::num)
+		{
+			if (((numNode*)input)->get() == 0) { return 1; }
+			return isqrt(abs(((numNode*)input)->get()));
 		}
 		else if (input->type() == nodeTypes::idx)
 		{

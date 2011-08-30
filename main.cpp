@@ -27,7 +27,7 @@ using namespace std;
 int main(int argc, char** argv)
 {
 	unsigned int i;
-	eqnNode *output, *temp;
+	eqnNode *output, *temp, *temp2;
 	eqnMetric *rate;
 	searchMaxMin *a;
 	vector<eqnNode*> list;
@@ -42,7 +42,9 @@ int main(int argc, char** argv)
 		{
 			cout << "parsed: " << output->str() << "\n";
 			temp = alterExpression::derivative(output,"x");
-			cout << "derivative: " << temp->str() << "\n";
+			temp2 = temp->collapse();
+			cout << "derivative: " << temp2->nice_str() << "\n";
+			delete temp2;
 			delete temp;
 
 			temp = output->collapse();

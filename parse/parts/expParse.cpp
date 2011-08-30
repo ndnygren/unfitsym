@@ -76,16 +76,6 @@ void expParse::loadString(int offset, const std::string& data, int cap)
 		succ = copyList((*fails)[pair<int,int>(offset,cap)]);
 	}
 
-/*	for (i = 0; i< succ.size(); i++)
-	{
-		std::cout << offset << "==>" << succ[i].first;
-		if (succ[i].second != 0)
-		{
-			std::cout << "==>" << succ[i].second->str()
-				<< "\n";
-		}
-		else { std::cout << "\n"; }
-	}*/
 }
 
 expParse::expParse()

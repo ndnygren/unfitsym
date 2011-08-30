@@ -17,6 +17,8 @@
 
 #include "alterExpression.h"
 
+using namespace std;
+
 eqnNode* alterExpression::scalarCompare(eqnNode* actual, eqnNode* expected)
 {
 	numNode one(1);

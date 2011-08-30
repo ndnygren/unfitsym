@@ -17,6 +17,10 @@
 #define NN_EQNMETRIC_H
 
 #include "../parse/nodes/eqnNode.h"
+#include "../parse/nodes/nodeTypes.h"
+#include "../parse/nodes/binOpNode.h"
+#include "../parse/nodes/monoOpNode.h"
+#include <cmath>
 
 /**
  * @class eqnMetric
@@ -30,6 +34,62 @@
 class eqnMetric
 {
 	public:
+	/**
+	 * @brief the number of derivNode*'s in the parse tree
+	 * @param input the eqnNode* to be analyzed
+	 * @returns number of derivatives
+	 */
+	int countd(const eqnNode* input) const
+	{
+		if (input->type() == nodeTypes::deriv)
+		{
+			return countd(((binOpNode*)input)->getL())*
+				countd(((binOpNode*)input)->getL()) + 1;
+		}
+		else if (input->isBin())
+		{
+			return countd(((binOpNode*)input)->getL()) 
+				+ countd(((binOpNode*)input)->getR());
+		}
+		else if (input->isMono())
+		{
+			return countd(((monoOpNode*)input)->getR()); 
+		}
+		
+		return 0;
+		
+	}
+
+	/**
+	 * @brief increments in the case that the argument is already greater than one.
+	 * @param input the value to be incremented
+	 * @returns input+1 if input > 0, otherwise 0.
+	 */
+	int bump(int input) const
+	{
+		if (input > 0) { return input + 1; }
+		else { return 0; }
+	}
+
+	/**
+	 * @brief standard integer square-root
+	 * @param input argument of the quare root
+	 * @returns the quare root of input
+	 */
+	static int isqrt(int input)
+	{
+		double a,b;
+		b = 1;
+		do
+		{
+			a = b;
+			b = (a + ((double)input)/a )/2.0;
+		} while (fabs(b-a) > 0.75);
+
+		return (int)floor(b);
+	}
+
+
 	/**
 	 * @brief a mapping from expressions to integers
 	 *

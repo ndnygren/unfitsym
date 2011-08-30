@@ -45,13 +45,29 @@ class negNode : public monoOpNode
 	virtual std::string nice_str() const
 	{
 		if (right->isLeaf() || right->isMono() || right->type() == nodeTypes::idx)
-			{ return "-" + right->str(); }
-		return "-(" + right->str() + ")";
+			{ return "-" + right->nice_str(); }
+		return "-(" + right->nice_str() + ")";
 	}
 
 	virtual eqnNode* copy() const
 	{
 		return new negNode(right);
+	}
+
+	virtual eqnNode* collapse() const
+	{
+		eqnNode *outexpr;
+		eqnNode *rorig = getR()->collapse();
+		if (rorig->type() == nodeTypes::num)
+		{
+			outexpr = new numNode(((numNode*)rorig)->get() * -1);
+		}
+		else
+		{
+			outexpr = new negNode(rorig);
+		}
+		delete rorig;
+		return outexpr;
 	}
 
 	virtual int type() const { return nodeTypes::neg; }

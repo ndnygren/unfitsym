@@ -16,8 +16,6 @@
 #ifndef NN_DERIVMETRIC_H
 #define NN_DERIVMETRIC_H
 
-#include "../parse/nodes/eqnNode.h"
-#include "../parse/nodes/nodeTypes.h"
 #include "eqnMetric.h"
 #include <string>
 
@@ -32,31 +30,6 @@
 class derivMetric : public eqnMetric
 {
 	public:
-	/**
-	 * @brief the number of derivNode*'s in the parse tree
-	 * @param input the eqnNode* to be analyzed
-	 * @returns number of derivatives
-	 */
-	int countd(const eqnNode* input) const
-	{
-		if (input->type() == nodeTypes::deriv)
-		{
-			return countd(((binOpNode*)input)->getL())*
-				countd(((binOpNode*)input)->getL()) + 1;
-		}
-		else if (input->isBin())
-		{
-			return countd(((binOpNode*)input)->getL()) 
-				+ countd(((binOpNode*)input)->getR());
-		}
-		else if (input->isMono())
-		{
-			return countd(((monoOpNode*)input)->getR()); 
-		}
-		
-		return 0;
-		
-	}
 
 	virtual int score(const eqnNode* input) const
 	{
