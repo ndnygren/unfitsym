@@ -170,5 +170,6 @@ MainUFSearchWindow::MainUFSearchWindow()
 	cols->addWidget(nicecheck,2,3);
 
 	setLayout(cols);
+	setWindowTitle("unfitsym - v0.3");
 }
 
