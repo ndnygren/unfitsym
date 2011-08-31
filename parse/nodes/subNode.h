@@ -40,6 +40,7 @@ class subNode : public binOpNode
 		std::string outstr;
 		if (left->isLeaf() || left->isMono() ||
 			left->type() == nodeTypes::frac ||
+			left->type() == nodeTypes::sum ||
 			left->type() == nodeTypes::idx)
 			{ outstr = left->nice_str() + " - "; }
 		else

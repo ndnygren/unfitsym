@@ -44,6 +44,7 @@ class MainUFSearchWindow : public QWidget
 	MainUFSearchWindow();
 
 	private slots:
+	void loadCurrentProof();
 	void fillBest();
 	void loadeqn();
 	void loadProof(const QModelIndex &i);

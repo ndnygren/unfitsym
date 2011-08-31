@@ -15,7 +15,6 @@
 * along with this program. If not, see <http://www.gnu.org/licenses/>. */
 
 #include "alterExpression.h"
-#include <iostream>
 
 using namespace std;
 
@@ -159,14 +158,12 @@ vector<eqnNode*> alterExpression::intCand(intNode* input)
 	//by parts
 	if (input->getL()->type() == nodeTypes::prod && input->getR()->type() == nodeTypes::var)
 	{
-		cout << "found prod:" << input->getL()->nice_str() << "\n";
 		prodspare = (prodNode*)input->getL();
 		spare = new intNode(prodspare->getL(), input->getR());
 		stripped = attemptStrip(spare);
 		delete spare;
 		if (stripped != 0)
 		{
-			cout << "stripped" << stripped->nice_str() << "\n";
 			deriv = derivative(prodspare->getR(), ((varNode*)input->getR())->get());
 			prodspare = new prodNode(stripped, prodspare->getR());
 			temp = prodspare->collapse();

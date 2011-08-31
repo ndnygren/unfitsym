@@ -65,6 +65,11 @@ void MainUFSearchWindow::loadeqn()
 	}
 }
 
+void MainUFSearchWindow::loadCurrentProof()
+{
+	loadProof(list->currentIndex());
+}
+
 void MainUFSearchWindow::loadProof(const QModelIndex &i)
 {
 	std::string temp;
@@ -142,6 +147,7 @@ MainUFSearchWindow::MainUFSearchWindow()
 	connect(gobutton, SIGNAL(clicked()), this, SLOT(loadeqn()));
 	connect(searchdeepbutton, SIGNAL(clicked()), this, SLOT(deeper()));
 	connect(list, SIGNAL(clicked(const QModelIndex &)), this, SLOT(loadProof(const QModelIndex &)));
+	connect(nicecheck, SIGNAL(clicked()), this, SLOT(loadCurrentProof()));
 
 	inputlayout->addWidget(inputlabel);
 	inputlayout->addWidget(entry1);
