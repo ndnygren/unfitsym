@@ -18,12 +18,12 @@
 #define NN_MAINUFSEARCHWINDOW_H
 
 #include <QtGui>
-#include "parse/parserFull.h"
-#include "eqnsearch/searchMaxMin.h"
-#include "eqnsearch/generateProof.h"
-#include "eqnsearch/isoSimpMetric.h"
-#include "eqnsearch/unchainMetric.h"
-#include "eqnsearch/numDownMetric.h"
+#include "../parse/parserFull.h"
+#include "../eqnsearch/searchMaxMin.h"
+#include "../eqnsearch/generateProof.h"
+#include "../eqnsearch/isoSimpMetric.h"
+#include "../eqnsearch/unchainMetric.h"
+#include "../eqnsearch/numDownMetric.h"
 
 class MainUFSearchWindow : public QWidget
 {
@@ -44,6 +44,7 @@ class MainUFSearchWindow : public QWidget
 	MainUFSearchWindow();
 
 	private slots:
+	void newMoreWindow();
 	void loadCurrentProof();
 	void fillBest();
 	void loadeqn();
@@ -51,7 +52,12 @@ class MainUFSearchWindow : public QWidget
 	void deeper();
 	void quit();
 
+	public slots:
+	void closeMoreWindow();
+	void addToBest(const QModelIndex &i);
+
 	private:
+	QWidget *morewindow;
 	QGridLayout *cols;
 	
 	QTextEdit *proofBox;
@@ -64,6 +70,7 @@ class MainUFSearchWindow : public QWidget
 	QPushButton *searchdeepbutton;
 	QPushButton *closebutton;
 	QPushButton *gobutton;
+	QPushButton *morebutton;
 	QCheckBox *nicecheck;
 };
 

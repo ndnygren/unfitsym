@@ -15,9 +15,40 @@
 * along with this program. If not, see <http://www.gnu.org/licenses/>. */
 
 #include "MainUFSearchWindow.h"
+#include "UFMoreWindow.h"
 #include <sstream>
+#include <map>
 
 using namespace std;
+
+void MainUFSearchWindow::newMoreWindow()
+{
+	morewindow = new UFMoreWindow(this);
+	morewindow->show();
+
+	map<string, eqnNode*>::iterator it;
+
+	for (it=engine->exprMap.begin(); it!=engine->exprMap.end(); it++)
+	{
+		((UFMoreWindow*)morewindow)->addNewLine((*it).first);
+	}
+}
+
+void MainUFSearchWindow::closeMoreWindow()
+{
+	morewindow->close();
+	delete morewindow;
+}
+
+void MainUFSearchWindow::addToBest(const QModelIndex &i)
+{
+	eqnNode *output = parserFull::getExpr(i.data().toString().toStdString());
+	if (output != 0)
+	{
+		bList.push_back(output);
+		bestmodel->appendRow(new QStandardItem(QString(output->nice_str().c_str())));	
+	}
+}
 
 void MainUFSearchWindow::fillBest()
 {
@@ -30,7 +61,6 @@ void MainUFSearchWindow::fillBest()
 	for (i = 0; i < bList.size(); i++)
 	{
 		bestmodel->appendRow(new QStandardItem(QString(bList[i]->nice_str().c_str())));
-//		if (i == 0) { entry2.set_active_text(bList[i]->str()); }
 	}
 }
 
@@ -70,7 +100,7 @@ void MainUFSearchWindow::loadCurrentProof()
 	loadProof(list->currentIndex());
 }
 
-void MainUFSearchWindow::loadProof(const QModelIndex &i)
+void MainUFSearchWindow::loadProof( const QModelIndex &i)
 {
 	std::string temp;
 
@@ -141,9 +171,12 @@ MainUFSearchWindow::MainUFSearchWindow()
 	closebutton->setMaximumWidth(50);
 	gobutton = new QPushButton("Go");
 	gobutton->setMaximumWidth(40);
+	morebutton = new QPushButton("More");
+	morebutton->setMaximumWidth(50);
 	nicecheck = new QCheckBox("Nice Output");
 
 	connect(closebutton, SIGNAL(clicked()), qApp, SLOT(quit()));
+	connect(morebutton, SIGNAL(clicked()), this, SLOT(newMoreWindow()));
 	connect(gobutton, SIGNAL(clicked()), this, SLOT(loadeqn()));
 	connect(searchdeepbutton, SIGNAL(clicked()), this, SLOT(deeper()));
 	connect(list, SIGNAL(clicked(const QModelIndex &)), this, SLOT(loadProof(const QModelIndex &)));
@@ -165,6 +198,7 @@ MainUFSearchWindow::MainUFSearchWindow()
 	cols->addWidget(gobutton,0,2,1,1,Qt::AlignBottom);
 	cols->addWidget(sollabel,1,0,1,3);
 	cols->addWidget(searchdeepbutton,2,2);
+	cols->addWidget(morebutton,2,1);
 	cols->addWidget(prooflabel,0,3,2,2);
 	cols->addWidget(closebutton,2,4);
 	cols->addWidget(nicecheck,2,3);

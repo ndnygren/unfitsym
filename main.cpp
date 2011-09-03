@@ -20,7 +20,7 @@
 #include "eqnsearch/isoSimpMetric.h"
 #include "eqnsearch/generateProof.h"
 #include "eqnsearch/alter/alterExpression.h"
-#include "MainUFSearchWindow.h"
+#include "gui/MainUFSearchWindow.h"
 
 using namespace std;
 
