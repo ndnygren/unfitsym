@@ -21,8 +21,15 @@
 
 using namespace std;
 
+void MainUFSearchWindow::unlockButtons(bool input)
+{
+	morebutton->setEnabled(input);
+	searchdeepbutton->setEnabled(input);
+}
+
 void MainUFSearchWindow::newMoreWindow()
 {
+	unlockButtons(false);
 	morewindow = new UFMoreWindow(this);
 	morewindow->show();
 
@@ -38,6 +45,7 @@ void MainUFSearchWindow::closeMoreWindow()
 {
 	morewindow->close();
 	delete morewindow;
+	unlockButtons(true);
 }
 
 void MainUFSearchWindow::addToBest(const QModelIndex &i)
@@ -73,6 +81,7 @@ void MainUFSearchWindow::loadeqn()
 		delete engine; 
 		delete rate;
 		searchinit = false;
+		unlockButtons(false);
 		proofBox->clear();
 	}
 	
@@ -87,6 +96,7 @@ void MainUFSearchWindow::loadeqn()
 		engine->addNewDirection(&numdown);
 		delete output;
 		searchinit = true;
+		unlockButtons(true);
 		fillBest();
 	} 
 	else
@@ -203,6 +213,7 @@ MainUFSearchWindow::MainUFSearchWindow()
 	cols->addWidget(closebutton,2,4);
 	cols->addWidget(nicecheck,2,3);
 
+	unlockButtons(false);
 	setLayout(cols);
 }
 

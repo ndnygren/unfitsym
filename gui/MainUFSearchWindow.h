@@ -40,6 +40,8 @@ class MainUFSearchWindow : public QWidget
 	int proofheight;
 	std::vector<eqnNode*> bList;
 
+	void unlockButtons(bool input);
+
 	public:
 	MainUFSearchWindow();
 

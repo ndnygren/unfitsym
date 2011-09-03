@@ -43,7 +43,7 @@ UFMoreWindow::UFMoreWindow(MainUFSearchWindow *parent)
 	addbutton->setMaximumWidth(50);
 	closebutton->setMaximumWidth(50);
 
-	connect(closebutton, SIGNAL(clicked()), mainwindow, SLOT(closeMoreWindow()));
+	connect(closebutton, SIGNAL(clicked()), this, SLOT(close()));
 	connect(addbutton, SIGNAL(clicked()), this, SLOT(pushLine()));
 
 	cols->addWidget(list,0,0,1,3);
@@ -53,3 +53,8 @@ UFMoreWindow::UFMoreWindow(MainUFSearchWindow *parent)
 	setLayout(cols);
 }
 
+void UFMoreWindow::closeEvent(QCloseEvent *event)
+{
+	event->accept();
+	mainwindow->closeMoreWindow();
+}

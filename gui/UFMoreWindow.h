@@ -46,6 +46,9 @@ class UFMoreWindow : public QWidget
 
 	QPushButton *addbutton;
 	QPushButton *closebutton;
+	
+	protected:
+	virtual void closeEvent(QCloseEvent *event);
 };
 
 
