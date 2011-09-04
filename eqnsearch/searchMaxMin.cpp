@@ -48,7 +48,7 @@ searchMaxMin::searchMaxMin(eqnNode* input, eqnMetric* inrate)
 	start = input->copy();
 	allPush(input);
 
-	next();
+	next(50);
 }
 
 void searchMaxMin::addNewDirection(eqnMetric* inrate)
@@ -78,7 +78,6 @@ void searchMaxMin::next(int limit)
 	int count = 0;
 	unsigned int cs = 0;
 
-
 	// exprLinked interacts with the expression manipulators 
 	//	(stored in eqnsearch/alter/)
 	// 	and returns a list of expressions to add to the adjacent
@@ -87,7 +86,7 @@ void searchMaxMin::next(int limit)
 
 	// the stack should never empty itself, but this is left in
 	// 	in case the rules about identity (+0, *1) are removed.
-	while (stacks[0].size() > 0 && count < limit)
+	while (stacks[cs % stacks.size()].size() > 0 && count < limit)
 	{
 		//chooses a particular direction and selects an expresion
 		if (cs >= stacks.size()) { cs = 0; }

@@ -63,14 +63,15 @@ void MainUFSearchWindow::fromHere()
 				bList[list->currentIndex().row()]->str());
 		}
 
+		output = bList[list->currentIndex().row()]->copy();
 		delete engine; 
 		delete rate;
 		proofBox->clear();
 
-		output = bList[list->currentIndex().row()];
 
 		rate = new isoSimpMetric(entry2->text().toStdString());
 		engine = new searchMaxMin(output,rate);
+		delete output;
 		fillBest();
 	}
 }

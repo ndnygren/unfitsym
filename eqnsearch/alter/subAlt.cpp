@@ -76,6 +76,13 @@ vector<eqnNode*> alterExpression::subCand(subNode* input)
 	changes.push_back(new sumNode(input->getL(), negspare));
 	delete negspare;
 
+	// neg on right
+	if (input->getR()->type() == nodeTypes::neg)
+	{
+		negspare = (negNode*)input->getR();
+		changes.push_back(new sumNode(input->getL(), negspare->getR()));
+	}
+
 	//distribute left over addition
 	if (input->getL()->type() == nodeTypes::sum) 
 	{
