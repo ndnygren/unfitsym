@@ -17,12 +17,14 @@
 #include "MainUFSearchWindow.h"
 #include "UFMoreWindow.h"
 #include <sstream>
+#include <iostream>
 #include <map>
 
 using namespace std;
 
 void MainUFSearchWindow::unlockButtons(bool input)
 {
+	herebutton->setEnabled(input);
 	morebutton->setEnabled(input);
 	searchdeepbutton->setEnabled(input);
 }
@@ -30,6 +32,7 @@ void MainUFSearchWindow::unlockButtons(bool input)
 void MainUFSearchWindow::newMoreWindow()
 {
 	unlockButtons(false);
+	gobutton->setEnabled(false);
 	morewindow = new UFMoreWindow(this);
 	morewindow->show();
 
@@ -41,11 +44,43 @@ void MainUFSearchWindow::newMoreWindow()
 	}
 }
 
+void MainUFSearchWindow::fromHere()
+{
+	eqnNode *output;
+
+	if (list->currentIndex().row() != -1)
+	{
+		if (nicecheck->isChecked())
+		{
+			preproof += generateProof::nice_build( engine->adjPairs, 
+				engine->start->str(), 
+				bList[list->currentIndex().row()]->str());
+		}
+		else 
+		{
+			preproof += generateProof::build( engine->adjPairs, 
+				engine->start->str(), 
+				bList[list->currentIndex().row()]->str());
+		}
+
+		delete engine; 
+		delete rate;
+		proofBox->clear();
+
+		output = bList[list->currentIndex().row()];
+
+		rate = new isoSimpMetric(entry2->text().toStdString());
+		engine = new searchMaxMin(output,rate);
+		fillBest();
+	}
+}
+
 void MainUFSearchWindow::closeMoreWindow()
 {
 	morewindow->close();
 	delete morewindow;
 	unlockButtons(true);
+	gobutton->setEnabled(true);
 }
 
 void MainUFSearchWindow::addToBest(const QModelIndex &i)
@@ -75,6 +110,8 @@ void MainUFSearchWindow::fillBest()
 void MainUFSearchWindow::loadeqn()
 {
 	eqnNode *output;
+	
+	preproof = "";
 
 	if (searchinit) 
 	{
@@ -107,7 +144,10 @@ void MainUFSearchWindow::loadeqn()
 
 void MainUFSearchWindow::loadCurrentProof()
 {
-	loadProof(list->currentIndex());
+	if (list->currentIndex().row() != -1)
+	{
+		loadProof(list->currentIndex());
+	}
 }
 
 void MainUFSearchWindow::loadProof( const QModelIndex &i)
@@ -126,7 +166,7 @@ void MainUFSearchWindow::loadProof( const QModelIndex &i)
 		engine->start->str(), 
 		bList[i.row()]->str());
 	}
-	proofBox->setPlainText(QString(temp.c_str()));
+	proofBox->setPlainText(QString((preproof + temp).c_str()));
 }
 
 void MainUFSearchWindow::deeper()
@@ -169,7 +209,7 @@ MainUFSearchWindow::MainUFSearchWindow()
 	entry2 = new QLineEdit();
 	entry2->setMaximumWidth(40);
 	proofBox = new QTextEdit();
-	proofBox->setMinimumWidth(450);
+	proofBox->setMinimumWidth(380);
 
 	list = new QListView();
 	list->setMaximumWidth(350);
@@ -183,10 +223,13 @@ MainUFSearchWindow::MainUFSearchWindow()
 	gobutton->setMaximumWidth(40);
 	morebutton = new QPushButton("More");
 	morebutton->setMaximumWidth(50);
+	herebutton = new QPushButton("From Here");
+	herebutton->setMaximumWidth(70);
 	nicecheck = new QCheckBox("Nice Output");
 
 	connect(closebutton, SIGNAL(clicked()), qApp, SLOT(quit()));
 	connect(morebutton, SIGNAL(clicked()), this, SLOT(newMoreWindow()));
+	connect(herebutton, SIGNAL(clicked()), this, SLOT(fromHere()));
 	connect(gobutton, SIGNAL(clicked()), this, SLOT(loadeqn()));
 	connect(searchdeepbutton, SIGNAL(clicked()), this, SLOT(deeper()));
 	connect(list, SIGNAL(clicked(const QModelIndex &)), this, SLOT(loadProof(const QModelIndex &)));
@@ -200,8 +243,6 @@ MainUFSearchWindow::MainUFSearchWindow()
 	prooflabel->setLayout(prooflayout);
 	sollayout->addWidget(list);
 	sollabel->setLayout(sollayout);
-/*	cols->addWidget(varlabel,0,1);
-	cols->addWidget(prooflabel,0,3);*/
 
 	cols->addLayout(inputlayout,0,0);
 	cols->addLayout(varlayout,0,1);
@@ -209,9 +250,12 @@ MainUFSearchWindow::MainUFSearchWindow()
 	cols->addWidget(sollabel,1,0,1,3);
 	cols->addWidget(searchdeepbutton,2,2);
 	cols->addWidget(morebutton,2,1);
+	cols->addWidget(herebutton,2,0);
 	cols->addWidget(prooflabel,0,3,2,2);
 	cols->addWidget(closebutton,2,4);
 	cols->addWidget(nicecheck,2,3);
+
+	preproof = "";
 
 	unlockButtons(false);
 	setLayout(cols);

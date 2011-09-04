@@ -30,6 +30,7 @@ class MainUFSearchWindow : public QWidget
 	Q_OBJECT
 
 	protected:
+	std::string preproof;
 	bool searchinit;
 	searchMaxMin *engine;
 	eqnMetric *rate;
@@ -46,6 +47,7 @@ class MainUFSearchWindow : public QWidget
 	MainUFSearchWindow();
 
 	private slots:
+	void fromHere();
 	void newMoreWindow();
 	void loadCurrentProof();
 	void fillBest();
@@ -73,6 +75,7 @@ class MainUFSearchWindow : public QWidget
 	QPushButton *closebutton;
 	QPushButton *gobutton;
 	QPushButton *morebutton;
+	QPushButton *herebutton;
 	QCheckBox *nicecheck;
 };
 

@@ -68,6 +68,7 @@ vector<eqnNode*> alterExpression::intCand(intNode* input)
 	intNode *spare, *otherspare;
 	sumNode *sumspare;
 	subNode *subspare;
+	negNode *negspare;
 	fracNode *fracspare, *frac1spare;
 	prodNode *prodspare, *prod1spare;
 	numNode one(1);
@@ -79,6 +80,15 @@ vector<eqnNode*> alterExpression::intCand(intNode* input)
 	idxNode rep(&c,&r);
 	
 
+
+	// neg
+	if (input->getL()->type() == nodeTypes::neg) 
+	{
+		negspare = (negNode*)(input->getL());
+		spare = new intNode(negspare->getR(), input->getR());
+		changes.push_back(new negNode(spare));
+		delete spare;
+	}
 
 	// sums
 	if (input->getL()->type() == nodeTypes::sum) 
