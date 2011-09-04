@@ -23,6 +23,7 @@ vector<eqnNode*> alterExpression::sineCand(sineNode* input)
 	unsigned int i;
 	vector<eqnNode*> changes;
 	vector<eqnNode*> subchanges;
+	numNode zero(0);
 	numNode two(2);
 	varNode pi("\\pi");
 	sineNode *spare;
@@ -38,6 +39,16 @@ vector<eqnNode*> alterExpression::sineCand(sineNode* input)
 	delete sumspare;
 	delete subspare;
 	delete prodspare;
+
+	// zero and pi
+	if (input->getR()->isVar("\\pi"))
+	{
+		changes.push_back(new numNode(0));
+	}
+	if (input->getR()->eq(&zero))
+	{
+		changes.push_back(new numNode(0));
+	}
 
 	// check for int*pi
 	if (input->getR()->type() == nodeTypes::prod)

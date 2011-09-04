@@ -23,6 +23,7 @@ vector<eqnNode*> alterExpression::cosineCand(cosineNode* input)
 	unsigned int i;
 	vector<eqnNode*> changes;
 	vector<eqnNode*> subchanges;
+	numNode zero(0);
 	numNode two(2);
 	numNode negone(-1);
 	varNode pi("\\pi");
@@ -39,6 +40,16 @@ vector<eqnNode*> alterExpression::cosineCand(cosineNode* input)
 	delete sumspare;
 	delete subspare;
 	delete prodspare;
+
+	//zero and pi
+	if (input->getR()->isVar("\\pi"))
+	{
+		changes.push_back(new numNode(-1));
+	}
+	if (input->getR()->eq(&zero))
+	{
+		changes.push_back(new numNode(1));
+	}
 
 	// check for int*pi
 	if (input->getR()->type() == nodeTypes::prod)

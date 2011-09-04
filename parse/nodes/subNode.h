@@ -41,6 +41,9 @@ class subNode : public binOpNode
 		if (left->isLeaf() || left->isMono() ||
 			left->type() == nodeTypes::frac ||
 			left->type() == nodeTypes::sum ||
+			left->type() == nodeTypes::deriv ||
+			left->type() == nodeTypes::integral ||
+			left->type() == nodeTypes::integralb ||
 			left->type() == nodeTypes::idx)
 			{ outstr = left->nice_str() + " - "; }
 		else
@@ -48,6 +51,9 @@ class subNode : public binOpNode
 		
 		if (right->isLeaf() || right->isMono() ||
 			right->type() == nodeTypes::frac ||
+			right->type() == nodeTypes::deriv ||
+			right->type() == nodeTypes::integral ||
+			right->type() == nodeTypes::integralb ||
 			right->type() == nodeTypes::idx)
 			{ outstr += right->nice_str(); }
 		else

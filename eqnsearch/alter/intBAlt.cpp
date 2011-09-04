@@ -155,7 +155,7 @@ vector<eqnNode*> alterExpression::intBCand(intBNode* input)
 
 			stripped2 = temp->copy();
 
-			prodspare->replace(var1, input->getUpper());
+			temp->replace(var1, input->getUpper());
 			stripped2->replace(var1, input->getLower());
 			subspare = new subNode(temp, stripped2);
 

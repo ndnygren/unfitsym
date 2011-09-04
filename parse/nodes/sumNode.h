@@ -43,6 +43,7 @@ class sumNode : public binOpNode
 		if (left->type() == type() || left->isLeaf() || left->isMono() || 
 			left->type() == nodeTypes::frac ||
 			left->type() == nodeTypes::hat ||
+			left->type() == nodeTypes::deriv ||
 			left->type() == nodeTypes::integral ||
 			left->type() == nodeTypes::integralb ||
 			left->type() == nodeTypes::idx)
@@ -53,6 +54,7 @@ class sumNode : public binOpNode
 		if (right->type() == type() || right->isLeaf() || right->isMono() ||
 			right->type() == nodeTypes::frac ||
 			right->type() == nodeTypes::hat ||
+			right->type() == nodeTypes::deriv ||
 			right->type() == nodeTypes::integral ||
 			right->type() == nodeTypes::integralb ||
 			right->type() == nodeTypes::idx)
