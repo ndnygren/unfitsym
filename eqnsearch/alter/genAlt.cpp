@@ -25,15 +25,17 @@ vector<eqnNode*> alterExpression::getCand(eqnNode* input)
 	vector<eqnNode*> sumChanges;
 	subNode *subzero = new subNode(&one,&one);
 	hatNode *hatspare = new hatNode(input, &negone);
-	
-	changes.push_back(new sumNode(input, subzero));
-	changes.push_back(new prodNode(input, &one));
-	changes.push_back(new prodNode(&one,input));
-	changes.push_back(new hatNode(input, &one));
-	changes.push_back(new fracNode(&one,hatspare));
-	delete subzero;
-	delete hatspare;
 
+	if (input->type() != nodeTypes::ident)	
+	{
+		changes.push_back(new sumNode(input, subzero));
+		changes.push_back(new prodNode(input, &one));
+		changes.push_back(new prodNode(&one,input));
+		changes.push_back(new hatNode(input, &one));
+		changes.push_back(new fracNode(&one,hatspare));
+		delete subzero;
+		delete hatspare;
+	}
 
 	if (input->type() == nodeTypes::sum)
 		{ sumChanges = sumCand((sumNode*)input); }
@@ -59,6 +61,8 @@ vector<eqnNode*> alterExpression::getCand(eqnNode* input)
 		{ sumChanges = sineCand((sineNode*)input); }
 	else if (input->type() == nodeTypes::ln)
 		{ sumChanges = lnCand((lnNode*)input); }
+	else if (input->type() == nodeTypes::ident)
+		{ sumChanges = idCand((idNode*)input); }
 	copyCand(sumChanges, changes);
 	sumChanges.clear();
 

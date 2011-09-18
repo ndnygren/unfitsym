@@ -33,6 +33,7 @@
 #include "../../parse/nodes/sineNode.h"
 #include "../../parse/nodes/cosineNode.h"
 #include "../../parse/nodes/idxNode.h"
+#include "../../parse/nodes/idNode.h"
 #include "../../parse/nodes/nodeTypes.h"
 
 /**
@@ -139,6 +140,13 @@ class alterExpression
 	 * @returns a list of equivalent expressions, manipulated slightly
 	 */
 	static std::vector<eqnNode*> hatCand(hatNode* input);
+
+	/**
+	 * @brief manipulates expressions with a root node of type idNode
+	 * @param input the expression to be manipulated
+	 * @returns a list of equivalent expressions, manipulated slightly
+	 */
+	static std::vector<eqnNode*> idCand(idNode* input);
 
 	/**
 	 * @brief attempts to integrate by substitution
