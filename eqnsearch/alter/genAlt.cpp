@@ -23,11 +23,11 @@ vector<eqnNode*> alterExpression::getCand(eqnNode* input)
 	numNode negone(-1);
 	vector<eqnNode*> changes;
 	vector<eqnNode*> sumChanges;
-	subNode *subzero = new subNode(&one,&one);
-	hatNode *hatspare = new hatNode(input, &negone);
 
 	if (input->type() != nodeTypes::ident)	
 	{
+		subNode *subzero = new subNode(&one,&one);
+		hatNode *hatspare = new hatNode(input, &negone);
 		changes.push_back(new sumNode(input, subzero));
 		changes.push_back(new prodNode(input, &one));
 		changes.push_back(new prodNode(&one,input));

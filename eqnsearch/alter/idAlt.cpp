@@ -24,9 +24,57 @@ vector<eqnNode*> alterExpression::idCand(idNode* input)
 	vector<eqnNode*> changes;
 	vector<eqnNode*> subchanges;
 	idNode *spare;
+	sumNode *sum1spare, *sum2spare;
+	subNode *subspare;
+	fracNode *fracspare;
+	prodNode *prodspare;
 
 	//commute
 	changes.push_back(new idNode(input->getR(), input->getL()));
+
+
+	// cancellation (additive)
+	if (input->getL()->type() == nodeTypes::sum
+		&& input->getR()->type() == nodeTypes::sum)
+	{
+		sum1spare = (sumNode*)input->getL();
+		sum2spare = (sumNode*)input->getR();
+		if (sum1spare->getR()->eq(sum2spare->getR()))
+		{
+			changes.push_back(new idNode(sum1spare->getL(),sum2spare->getL()));
+		}
+	}
+
+	//moving term (additive)
+	if (input->getL()->type() == nodeTypes::sum)
+	{
+		sum1spare = (sumNode*)input->getL();
+		subspare = new subNode(input->getR(), sum1spare->getR());
+		changes.push_back(new idNode(sum1spare->getL(),subspare));
+		delete subspare;
+	}
+
+	//moving factor (numerator)
+	if (input->getL()->type() == nodeTypes::prod)
+	{
+		prodspare = (prodNode*)input->getL();
+		if (prodspare->getL()->isConst()
+			&& prodspare->getL()->value()!= 0)
+		{
+			fracspare = new fracNode(input->getR(), prodspare->getL());
+			changes.push_back(new idNode(prodspare->getR(),fracspare));
+			delete fracspare;
+		}
+	}
+
+	//moving factor (denominator)
+	if (input->getL()->type() == nodeTypes::frac)
+	{
+		fracspare = (fracNode*)input->getL();
+		prodspare = new prodNode(input->getR(), fracspare->getR());
+		changes.push_back(new idNode(fracspare->getL(),prodspare));
+		delete prodspare;
+	}
 
 	//recursing
 	copyCand(getCand(input->getL()), subchanges);

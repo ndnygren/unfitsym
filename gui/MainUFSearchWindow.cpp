@@ -179,7 +179,10 @@ void MainUFSearchWindow::deeper()
 
 	if (searchinit)
 	{
-		engine->next(engine->exprMap.size());
+		if (engine->exprMap.size() < 500)
+			{ engine->next(500); }
+		else
+			{ engine->next(engine->exprMap.size()); }
 		sstemp << "\nMap size: ";
 		sstemp << (int)(engine->exprMap.size());
 		fillBest();
