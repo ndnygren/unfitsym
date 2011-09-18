@@ -139,6 +139,7 @@ void MainUFSearchWindow::loadeqn()
 	} 
 	else
 	{
+		proofBox->setPlainText(QString("Error: Parse Failed."));
 		bestmodel->clear();
 	}
 }
@@ -227,6 +228,7 @@ MainUFSearchWindow::MainUFSearchWindow()
 	herebutton = new QPushButton("From Here");
 	herebutton->setMaximumWidth(70);
 	nicecheck = new QCheckBox("Nice Output");
+	nicecheck->setChecked(true);
 
 	connect(closebutton, SIGNAL(clicked()), qApp, SLOT(quit()));
 	connect(morebutton, SIGNAL(clicked()), this, SLOT(newMoreWindow()));
