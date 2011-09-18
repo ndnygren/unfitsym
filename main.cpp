@@ -41,11 +41,14 @@ int main(int argc, char** argv)
 		if (output != 0)
 		{
 			cout << "parsed: " << output->str() << "\n";
-			temp = alterExpression::derivative(output,"x");
-			temp2 = temp->collapse();
-			cout << "derivative: " << temp2->nice_str() << "\n";
-			delete temp2;
-			delete temp;
+			if (output->type() != nodeTypes::ident)
+			{
+				temp = alterExpression::derivative(output,"x");
+				temp2 = temp->collapse();
+				cout << "derivative: " << temp2->nice_str() << "\n";
+				delete temp2;
+				delete temp;
+			}
 
 			temp = output->collapse();
 			cout << "collapse: " << temp->str() << "\n";

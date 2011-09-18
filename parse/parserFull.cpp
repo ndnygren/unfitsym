@@ -44,30 +44,48 @@ eqnNode* parserFull::getExpr(const string& input1)
 	int i;
 	// expParse represents the main variable in the CFG, 
 	//	any arithmetic expression.
-	expParse d;
+	expParse a;
+	idParse b;
 	string input = breakWords::stripwhite(input1, &breakWords::w_only);
 
 	// the cache is pasted down when recursing, so the same sub-strings	
 	// 	will not be parsed twice.
-	d.setMap(&fails);
+	a.setMap(&fails);
+	b.setMap(&fails);
 
 	// the lower(offset) and upper(cap) bounds are set to zero in the 
 	//	beginning
-	d.loadString(0, input, 0);
+	a.loadString(0, input, 0);
 
-	for (i = 0; i < (int)d.getTrees().size(); i++)
+	for (i = 0; i < (int)a.getTrees().size(); i++)
 	{
 		// if too few brackets are used multiple interpretations 
 		//	may exist. the first interpretation which utilizes all
 		// 	supplied characters is assumed to be the correct one.
-		if (d.getTrees()[i].first == (int)input.length())
+		if (a.getTrees()[i].first == (int)input.length())
 		{
 		// a copy is returned. The original is freed when the 
 		//	function returns.
 			freeMap(fails);
-			 return d.getTrees()[i].second->copy();
+			 return a.getTrees()[i].second->copy();
 		}
 	}
+
+
+
+	//do it again for the real equations with "="
+	b.loadString(0, input, 0);
+
+	for (i = 0; i < (int)b.getTrees().size(); i++)
+	{
+		if (b.getTrees()[i].first == (int)input.length())
+		{
+			freeMap(fails);
+			 return b.getTrees()[i].second->copy();
+		}
+	}
+
+
 	// returns null if no such interpretations exist
 	freeMap(fails);
 	return 0;

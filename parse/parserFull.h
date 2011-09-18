@@ -17,6 +17,7 @@
 #define NN_PARSERFULL_H
 
 #include "../parse/parts/expParse.h"
+#include "../parse/parts/idParse.h"
 #include "../parse/nodes/eqnNode.h"
 #include "break-words.h"
 #include <vector>
