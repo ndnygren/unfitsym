@@ -265,5 +265,6 @@ MainUFSearchWindow::MainUFSearchWindow()
 
 	unlockButtons(false);
 	setLayout(cols);
+	setWindowTitle("unfitsym - v0.4");
 }
 
