@@ -13,27 +13,25 @@
 *
 * You should have received a copy of the GNU General Public License
 * along with this program. If not, see <http://www.gnu.org/licenses/>. */
-#ifndef NN_LEAFNODE_H
-#define NN_LEAFNODE_H
+#ifndef NN_TVARPARSE_H
+#define NN_TVARPARSE_H
 
-#include "eqnNode.h"
+#include "../nodes/tvarNode.h"
+#include "expParse.h"
+#include "tokParse.h"
 
 /**
- * @class leafNode
+ * @class tvarParse
  *
- * @brief Virtual class containing some common functions for numbers and variables
+ * @brief the CFG rule Expr -> "A_{" Num "}"
+ * @details Parses template variables, used to read rules of inference from file
  */
-class leafNode : public eqnNode
+
+class tvarParse : public parsePart
 {
 	public:
-	virtual int size() const { return 1; }
-	virtual bool isLeaf() const { return true; }
-	virtual eqnNode* collapse() const { return copy(); }
-	virtual void replace(const std::string& var, eqnNode* expr) 
-	{ int x; if (&var== 0 || expr == 0) { x = 1+1; } }
-	virtual bool isTemplate() const { return false; }
-	virtual ~leafNode() { }
+	virtual void loadString(int offset, const std::string& data, int cap);
+	virtual ~tvarParse() { deleteAll(); }
 };
-
 
 #endif

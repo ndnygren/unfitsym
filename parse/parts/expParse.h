@@ -34,6 +34,7 @@
 #include "cosineParse.h"
 #include "lnParse.h"
 #include "idxParse.h"
+#include "tvarParse.h"
 
 /**
  * @class expParse

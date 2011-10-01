@@ -13,27 +13,26 @@
 *
 * You should have received a copy of the GNU General Public License
 * along with this program. If not, see <http://www.gnu.org/licenses/>. */
-#ifndef NN_LEAFNODE_H
-#define NN_LEAFNODE_H
 
-#include "eqnNode.h"
+#include "tvarParse.h"
+#include <string>
 
-/**
- * @class leafNode
- *
- * @brief Virtual class containing some common functions for numbers and variables
- */
-class leafNode : public eqnNode
+void tvarParse::loadString(int offset, const std::string& data, int cap)
 {
-	public:
-	virtual int size() const { return 1; }
-	virtual bool isLeaf() const { return true; }
-	virtual eqnNode* collapse() const { return copy(); }
-	virtual void replace(const std::string& var, eqnNode* expr) 
-	{ int x; if (&var== 0 || expr == 0) { x = 1+1; } }
-	virtual bool isTemplate() const { return false; }
-	virtual ~leafNode() { }
-};
+	unsigned int i;
+	token op1("TV_{");
+	natParse cr;
+	token op2("}");
+	cassetteMachine seq;
 
+	seq.setMap(fails);
+	seq.add(&op1);
+	seq.add(&cr);
+	seq.add(&op2);
+	seq.loadString(offset,data,cap);
 
-#endif
+	for (i = 0; i< seq.pieces.size(); i++)
+	{
+		succ.push_back(std::pair<int,eqnNode*>( seq.pieces[i].first, new tvarNode(seq.pieces[i].second[1])));
+	}
+}

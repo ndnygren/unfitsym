@@ -67,7 +67,10 @@ eqnNode* parserFull::getExpr(const string& input1)
 		// a copy is returned. The original is freed when the 
 		//	function returns.
 			freeMap(fails);
-			 return a.getTrees()[i].second->copy();
+			if (a.getTrees()[i].second->isTemplate())
+				{ return 0; }
+			else
+				{ return a.getTrees()[i].second->copy(); }
 		}
 	}
 
@@ -81,7 +84,10 @@ eqnNode* parserFull::getExpr(const string& input1)
 		if (b.getTrees()[i].first == (int)input.length())
 		{
 			freeMap(fails);
-			 return b.getTrees()[i].second->copy();
+			if (b.getTrees()[i].second->isTemplate())
+				{ return 0; }
+			else
+				{ return b.getTrees()[i].second->copy(); }
 		}
 	}
 

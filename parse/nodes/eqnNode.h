@@ -187,6 +187,12 @@ class eqnNode
 	 */
 	virtual void replace(const std::string& var, eqnNode* expr) = 0;
 
+	/**
+	 * @brief Any expression that contains at least one tvarNode is a template expression, to be compared against real expressions
+	 * @returns true if and only if this expression contains at least one tvarNode.
+	 */
+	virtual bool isTemplate() const = 0;
+
 	//eqnNode* collapse()
 	/**
 	 * @brief attempts to reduce the expression to a single numNode*

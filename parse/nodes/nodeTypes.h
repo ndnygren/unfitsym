@@ -43,6 +43,7 @@ class nodeTypes
 	static const int integralb = 14; // definite integrals
 	static const int idx = 15;
 	static const int ident = 16;
+	static const int tvar = 17;
 };
 
 

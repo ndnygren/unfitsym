@@ -37,6 +37,7 @@ void expParse::loadString(int offset, const std::string& data, int cap)
 	sineParse sine;
 	cosineParse cosine;
 	idxParse indexed;
+	tvarParse tvar;
 
 	std::vector<parsePart*> exprs;
 	
@@ -56,6 +57,7 @@ void expParse::loadString(int offset, const std::string& data, int cap)
 	exprs.push_back(&sine);
 	exprs.push_back(&cosine);
 	exprs.push_back(&indexed);
+	exprs.push_back(&tvar);
 
 	deleteAll();
 	

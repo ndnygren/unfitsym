@@ -124,6 +124,8 @@ class binOpNode : public eqnNode
 	virtual bool isConst(const std::string& name) const
 		{ return getL()->isConst(name) && getR()->isConst(name); }
 
+	virtual bool isTemplate() const { return getL()->isTemplate() || getR()->isTemplate(); }
+
 	virtual void replace(const std::string& var, eqnNode* expr)
 	{
 		if (getL()->isVar(var))
