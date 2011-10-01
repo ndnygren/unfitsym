@@ -19,7 +19,6 @@
 #include "../nodes/eqnNode.h"
 #include "../nodes/prodNode.h"
 #include "expParse.h"
-#include "altParse.h"
 
 /**
  * @class prodParse

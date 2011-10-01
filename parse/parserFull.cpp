@@ -14,6 +14,7 @@
 * You should have received a copy of the GNU General Public License
 * along with this program. If not, see <http://www.gnu.org/licenses/>. */
 #include "parserFull.h"
+#include "parts/altParse.h"
 
 using namespace std;
 
@@ -95,6 +96,57 @@ eqnNode* parserFull::getExpr(const string& input1)
 	// returns null if no such interpretations exist
 	freeMap(fails);
 	return 0;
+}
+
+pair<eqnNode*,eqnNode*> parserFull::readRule(const string& input1)
+{
+	map<pair<int, int>, vector<pair<int, eqnNode*> > > fails;
+	int i;
+	// expParse represents the main variable in the CFG, 
+	//	any arithmetic expression.
+	expParse a1;
+	expParse a2;
+	idParse b1;
+	idParse b2;
+
+	altParse left(&a1,&b1);
+	token op("\\Rightarrow");
+	altParse right(&a2,&b2);
+
+	cassetteMachine seq;
+	
+	string input = breakWords::stripwhite(input1, &breakWords::w_only);
+
+	// the cache is pasted down when recursing, so the same sub-strings	
+	// 	will not be parsed twice.
+	seq.setMap(&fails);
+	seq.add(&left);
+	seq.add(&op);
+	seq.add(&right);
+
+
+	// the lower(offset) and upper(cap) bounds are set to zero in the 
+	//	beginning
+	seq.loadString(0, input, 0);
+
+	for (i = 0; i < (int)seq.pieces.size(); i++)
+	{
+		// if too few brackets are used multiple interpretations 
+		//	may exist. the first interpretation which utilizes all
+		// 	supplied characters is assumed to be the correct one.
+		if (seq.pieces[i].first == (int)input.length())
+		{
+		// a copy is returned. The original is freed when the 
+		//	function returns.
+			freeMap(fails);
+			return pair<eqnNode*,eqnNode*>( seq.pieces[i].second[0]->copy(), seq.pieces[i].second[2]->copy());
+		}
+	}
+
+
+	// returns null if no such interpretations exist
+	freeMap(fails);
+	return pair<eqnNode*,eqnNode*>(0,0);
 }
 
 string parserFull::makenice(const string& input)

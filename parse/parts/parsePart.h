@@ -51,7 +51,7 @@ class parsePart
 	 * it must be copied prior to freeing the parse part containing it.
 	 *
 	 */
-	void deleteAll()
+	virtual void deleteAll()
 	{
 		int i;
 		for (i = 0; i < (int)succ.size(); i++)
@@ -73,9 +73,18 @@ class parsePart
 		
 		for (i = 0; i < (int)list.size(); i++ )
 		{ 
-			succ.push_back(std::pair<int,eqnNode*>(
-				list[i].first,
-				list[i].second->copy())); 
+			if (list[i].second != 0)
+			{ 
+				succ.push_back(std::pair<int,eqnNode*>(
+					list[i].first,
+					list[i].second->copy())); 
+			}
+			else
+			{
+				succ.push_back(std::pair<int,eqnNode*>(
+					list[i].first,
+					(eqnNode*)0));
+			}
 		}
 	}
 
@@ -107,7 +116,7 @@ class parsePart
 	 * @brief Assigns the parse cache to the supplied pointer
 	 * @param f The existing cache, to be shared 
 	 */
-	void setMap( std::map< std::pair<int,int>, 
+	virtual void setMap( std::map< std::pair<int,int>, 
 		std::vector<std::pair<int, eqnNode*> > > *f) { fails = f; }
 
 	// virtual void loadString(int offset, const std::string& data, int cap)

@@ -17,6 +17,7 @@
 #define NN_ALTPARSE_H
 
 #include "parsePart.h"
+#include <cassert>
 #include <string>
 
 /**
@@ -42,30 +43,37 @@ class altParse : public parsePart
 	void loadString(int offset, const std::string& data, int cap)
 	{
 		int i;
+		assert(left != 0);
+		assert(right != 0);
 
 		// clears any pre-existing data
 		deleteAll();
 
-		if (offset < (int)data.length() - cap)
-		{
-			// calls both child parseParts
-			left->loadString(offset,data,cap);
-			right->loadString(offset,data,cap);
+		// calls both child parseParts
+		left->loadString(offset,data,cap);
+		right->loadString(offset,data,cap);
 
-			// merges the results
-			for (i = 0; i < (int)left->getTrees().size(); i++ )
-				{ succ.push_back(left->getTrees()[i]); }
-			for ( i = 0; i < (int)right->getTrees().size(); i++)
-				{ succ.push_back(right->getTrees()[i]); }
-		}
+		// merges the results
+		for (i = 0; i < (int)left->getTrees().size(); i++ )
+			{ copySucc(left->getTrees()); }
+		for (i = 0; i < (int)right->getTrees().size(); i++)
+			{ copySucc(right->getTrees()); }
 	}
+
+	virtual void setMap( std::map< std::pair<int,int>, std::vector<std::pair<int, eqnNode*> > > *f) 
+	{
+		fails = f;
+		left->setMap(f);
+		right->setMap(f);
+	}
+
 
 	altParse(parsePart* lin, parsePart* rin)
 	{
 		left = lin;
 		right = rin;
 	}
-	
+
 	virtual ~altParse() { deleteAll(); }
 };
 

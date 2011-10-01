@@ -15,6 +15,7 @@
 * along with this program. If not, see <http://www.gnu.org/licenses/>. */
 
 #include "prodParse.h"
+#include "altParse.h"
 #include <string>
 
 void prodParse::loadString(int offset, const std::string& data, int cap)

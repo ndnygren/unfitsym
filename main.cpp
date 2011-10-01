@@ -31,6 +31,13 @@ int main(int argc, char** argv)
 	eqnMetric *rate;
 	searchMaxMin *a;
 	vector<eqnNode*> list;
+	pair<eqnNode*, eqnNode*> rule = parserFull::readRule("1*TV_{1} \\Rightarrow TV_{1}");
+
+	cout << "rule left half:\t" <<  rule.first->nice_str() << "\n";
+	cout << "rule right half:\t" <<  rule.second->nice_str() << "\n";
+
+	delete rule.first;
+	delete rule.second;
 
 	rate = new isoSimpMetric("x");
 

@@ -15,11 +15,13 @@
 * along with this program. If not, see <http://www.gnu.org/licenses/>. */
 #include "expParse.h"
 #include <vector>
+#include <cassert>
 
 using namespace std;
 
 void expParse::loadString(int offset, const std::string& data, int cap)
 {
+	assert(fails != 0);
 	int i;
 	natParse number;
 	sumParse sums;

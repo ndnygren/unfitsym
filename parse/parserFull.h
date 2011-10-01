@@ -66,6 +66,14 @@ class parserFull
 	static eqnNode* getExpr(const std::string& input);
 
 	/**
+	 * @brief Parses a string, representing a rule of inference
+	 * @param input The string to be parsed
+	 *
+	 * @returns A pair, the left being the pattern to match, the right being the pattern to create, both represented by parse trees, containing tvarNode.
+	 */
+	static std::pair<eqnNode*,eqnNode*> readRule(const std::string& input);
+
+	/**
 	 * @brief parses a string, and returns a "nice" equivalent string
 	 * @param input the string to convert
 	 * @returns a "nice" string equivalent to the original
