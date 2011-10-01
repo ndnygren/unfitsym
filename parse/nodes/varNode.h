@@ -73,6 +73,7 @@ class varNode : public leafNode
 	virtual bool isConst(const std::string& name) const
 		{ return !(get() == name); }
 
+ 
 	virtual bool isVar(const std::string& name) const 
 	{
 			return get() == name;

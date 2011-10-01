@@ -17,7 +17,6 @@
 #define NN_MONOOPNODE_H
 
 #include "eqnNode.h"
-#include "numNode.h"
 
 /**
  * @class monoOpNode
@@ -101,6 +100,51 @@ class monoOpNode : public eqnNode
 		else
 		{
 			getR()->replace(var,expr);
+		}
+	}
+
+	virtual void replace(int index, eqnNode* expr)
+	{
+		monoOpNode* temp;
+
+		if (getR()->type() == nodeTypes::tvar)
+		{
+			temp = (monoOpNode*)getR();
+			if (((numNode*)temp->getR())->get() == index)
+			{
+				delete getR();
+				right = expr->copy();
+			}
+		}
+		else
+		{
+			getR()->replace(index,expr);
+		}
+	}
+
+	virtual std::pair<bool,std::vector<std::pair<int, eqnNode*> > > compareTemplate(eqnNode* texpr) const
+	{
+		std::pair<bool,std::vector<std::pair<int, eqnNode*> > > retpair; 
+
+		if (eq(texpr))
+		{ 
+			retpair.first = true;
+			return retpair;
+		}
+		else if (texpr->type() == type())
+		{
+			return getR()->compareTemplate(((monoOpNode*)texpr)->getR());
+		}
+		else if (texpr->type() == nodeTypes::tvar)
+		{
+			retpair.first = true;
+			retpair.second.push_back(std::pair<int,eqnNode*>(texpr->tNum(), copy()));
+			return retpair;
+		}
+		else
+		{
+			retpair.first = false;
+			return retpair;
 		}
 	}
 };

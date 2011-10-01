@@ -19,6 +19,8 @@
 #include "nodeTypes.h"
 #include <cmath>
 #include <string>
+#include <utility>
+#include <vector>
 
 /**
  * @class eqnNode
@@ -190,10 +192,33 @@ class eqnNode
 	virtual void replace(const std::string& var, eqnNode* expr) = 0;
 
 	/**
+	 *@brief substitutes an expression for a template variable
+	 *@param index the number of the template variable to replace
+	 *@param expr the expression to replace it with
+	 */
+	virtual void replace(int index, eqnNode* expr) = 0;
+
+	/**
+	 * @brief Compares the expression against a given template and returns
+	 *	list of definitions for template variables if true.
+	 * @param texpr The template expression to compare against
+	 * @returns a pair of, a boolean value indicating if the template 
+	 *	pattern matches, and a vector of template variable definition 
+	 *	in the case that a match is found.
+	 */
+	virtual std::pair<bool,std::vector<std::pair<int, eqnNode*> > > compareTemplate(eqnNode* texpr) const = 0;
+
+	/**
 	 * @brief Any expression that contains at least one tvarNode is a template expression, to be compared against real expressions
 	 * @returns true if and only if this expression contains at least one tvarNode.
 	 */
 	virtual bool isTemplate() const = 0;
+
+	/**
+	 * @brief if this is a template variable, returns the template number.
+	 * @returns the template number
+	 */
+	virtual int tNum() const { return -1; }
 
 	//eqnNode* collapse()
 	/**
@@ -206,4 +231,5 @@ class eqnNode
 };
 
 
+#include "numNode.h"
 #endif

@@ -17,7 +17,7 @@
 #define NN_BINOPNODE_H
 
 #include "eqnNode.h"
-#include "numNode.h"
+#include "monoOpNode.h"
 
 /**
  * @class binOpNode 
@@ -144,6 +144,92 @@ class binOpNode : public eqnNode
 		else
 		{
 			getR()->replace(var,expr);
+		}
+	}
+
+	virtual void replace(int index, eqnNode* expr)
+	{
+		monoOpNode* temp;
+
+		if (getL()->type() == nodeTypes::tvar)
+		{
+			temp = (monoOpNode*)getL();
+			if (((numNode*)temp->getR())->get() == index)
+			{
+				delete getL();
+				left = expr->copy();
+			}
+		}
+		else
+		{
+			getL()->replace(index,expr);
+		}
+	
+		if (getR()->type() == nodeTypes::tvar)
+		{
+			temp = (monoOpNode*)getR();
+			if (((numNode*)temp->getR())->get() == index)
+			{
+				delete getR();
+				right = expr->copy();
+			}
+		}
+		else
+		{
+			getR()->replace(index,expr);
+		}
+	}
+
+	virtual std::pair<bool,std::vector<std::pair<int, eqnNode*> > > compareTemplate(eqnNode* texpr) const
+	{
+		unsigned int i;
+
+		std::pair<bool, std::vector<std::pair<int, eqnNode*> > > lpair; 
+		std::pair<bool, std::vector<std::pair<int, eqnNode*> > > rpair; 
+		std::pair<bool, std::vector<std::pair<int, eqnNode*> > > retpair; 
+
+		if (eq(texpr))
+		{ 
+			retpair.first = true;
+			return retpair;
+		}
+		else if (texpr->type() == type())
+		{
+			lpair = getL()->compareTemplate(((binOpNode*)texpr)->getL());
+			rpair = getR()->compareTemplate(((binOpNode*)texpr)->getR());
+			if (!lpair.first || !rpair.first)
+			{
+				retpair.first = false;
+
+				for (i = 0; i < lpair.second.size(); i++)
+					{ delete lpair.second[i].second; }
+				for (i = 0; i < rpair.second.size(); i++)
+					{ delete rpair.second[i].second; }
+
+				return retpair;
+			}
+			else
+			{
+				retpair.first = true;
+
+				for (i = 0; i < lpair.second.size(); i++)
+					{ retpair.second.push_back(lpair.second[i]); }
+				for (i = 0; i < rpair.second.size(); i++)
+					{ retpair.second.push_back(rpair.second[i]); }
+				
+				return retpair;
+			}
+		}
+		else if (texpr->type() == nodeTypes::tvar)
+		{
+			retpair.first = true;
+			retpair.second.push_back(std::pair<int,eqnNode*>(texpr->tNum(), copy()));
+			return retpair;
+		}
+		else
+		{
+			retpair.first = false;
+			return retpair;
 		}
 	}
 };

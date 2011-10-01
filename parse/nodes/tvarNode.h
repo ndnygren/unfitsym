@@ -62,6 +62,7 @@ class tvarNode : public monoOpNode
 	tvarNode(eqnNode* input) { right = input->copy(); }
 	tvarNode(int input) { right = new numNode(input); }
 	virtual double value() const { return 0; }
+	virtual int tNum() const { return ((numNode*)getR())->get(); }
 	virtual ~tvarNode() { deleteAll(); }
 
 };

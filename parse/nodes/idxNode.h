@@ -17,7 +17,6 @@
 #define NN_IDXNODE_H
 
 #include "binOpNode.h"
-#include "numNode.h"
 
 /**
  * @class idxNode

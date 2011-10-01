@@ -21,7 +21,6 @@
 #include "../../parse/nodes/sumNode.h"
 #include "../../parse/nodes/subNode.h"
 #include "../../parse/nodes/prodNode.h"
-#include "../../parse/nodes/numNode.h"
 #include "../../parse/nodes/varNode.h"
 #include "../../parse/nodes/fracNode.h"
 #include "../../parse/nodes/negNode.h"

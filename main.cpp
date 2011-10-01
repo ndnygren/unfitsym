@@ -31,13 +31,12 @@ int main(int argc, char** argv)
 	eqnMetric *rate;
 	searchMaxMin *a;
 	vector<eqnNode*> list;
+	pair<bool, vector<pair<int, eqnNode*> > > patmatch;
 	pair<eqnNode*, eqnNode*> rule = parserFull::readRule("1*TV_{1} \\Rightarrow TV_{1}");
 
 	cout << "rule left half:\t" <<  rule.first->nice_str() << "\n";
 	cout << "rule right half:\t" <<  rule.second->nice_str() << "\n";
 
-	delete rule.first;
-	delete rule.second;
 
 	rate = new isoSimpMetric("x");
 
@@ -48,6 +47,23 @@ int main(int argc, char** argv)
 		if (output != 0)
 		{
 			cout << "parsed: " << output->str() << endl;
+
+			patmatch = output->compareTemplate(rule.first);
+
+			cout << "pattern matched: " << patmatch.first << endl;
+			if (patmatch.first)
+			{
+				for (i = 0; i < patmatch.second.size(); i++)
+				{
+					cout << patmatch.second[i].first << ":\t";
+					cout << patmatch.second[i].second->nice_str() << endl;
+				}
+
+				
+				for (i = 0; i < patmatch.second.size(); i++)
+					{ delete patmatch.second[i].second; }
+			}
+
 			if (output->type() != nodeTypes::ident)
 			{
 				temp = alterExpression::derivative(output,"x");
@@ -87,6 +103,8 @@ int main(int argc, char** argv)
 	}
 
 	delete rate;
+	delete rule.first;
+	delete rule.second;
 
 	return 0;
 }
