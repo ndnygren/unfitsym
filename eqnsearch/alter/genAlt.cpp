@@ -15,6 +15,8 @@
 * along with this program. If not, see <http://www.gnu.org/licenses/>. */
 
 #include "alterExpression.h"
+#include "templateMatcher.h"
+
 using namespace std;
 
 vector<eqnNode*> alterExpression::getCand(eqnNode* input)
@@ -36,6 +38,9 @@ vector<eqnNode*> alterExpression::getCand(eqnNode* input)
 		delete subzero;
 		delete hatspare;
 	}
+
+	sumChanges = templateMatcher::getMatches(input);
+	copyCand(sumChanges, changes);
 
 	if (input->type() == nodeTypes::sum)
 		{ sumChanges = sumCand((sumNode*)input); }
