@@ -29,13 +29,15 @@
 
 class eqnNode
 {
-	public:
+	protected:
 	// virtual void deleteAll()
 	/**
 	 *
 	 * @brief Recursively frees all the parse tree's memory.
 	 */
 	virtual void deleteAll() { };
+
+	public:
 
 	//int intPow(int base, int arg)
 	/**

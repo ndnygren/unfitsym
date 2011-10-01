@@ -43,22 +43,22 @@ int main(int argc, char** argv)
 
 	if (argc > 1)
 	{
-		cout << "input: " <<  argv[1] << "\n";
+		cout << "input: " <<  argv[1] << endl;
 		output = parserFull::getExpr(argv[1]);
 		if (output != 0)
 		{
-			cout << "parsed: " << output->str() << "\n";
+			cout << "parsed: " << output->str() << endl;
 			if (output->type() != nodeTypes::ident)
 			{
 				temp = alterExpression::derivative(output,"x");
 				temp2 = temp->collapse();
-				cout << "derivative: " << temp2->nice_str() << "\n";
+				cout << "derivative: " << temp2->nice_str() << endl;
 				delete temp2;
 				delete temp;
 			}
 
 			temp = output->collapse();
-			cout << "collapse: " << temp->str() << "\n";
+			cout << "collapse: " << temp->str() << endl;
 			delete temp;
 
 			a = new searchMaxMin(output, rate);
@@ -68,15 +68,7 @@ int main(int argc, char** argv)
 
 			for (i = 0; i < 1; i++)
 				{ cout << list[i]->str() << endl; }
-/*
-			a->next();
-			cout << "second 50:" << endl;
-			list = a->best();
 
-			for (i = 0; i < list.size(); i++)
-				{ cout << list[i]->str() << endl; }
-
-*/
 			cout << "proof:" << endl;
 			cout << generateProof::build(a->adjPairs, a->start->str(), list[0]->str()) << endl;
 			

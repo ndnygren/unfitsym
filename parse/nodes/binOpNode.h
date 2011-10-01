@@ -41,6 +41,25 @@ class binOpNode : public eqnNode
 	 */
 	eqnNode* right;
 
+	/*
+	 * virtual void deleteAll() 
+	 * 
+	 * Recursively handles the deallocation of memory for the parse tree
+	 */
+	virtual void deleteAll() 
+	{
+		if (left != 0)
+		{
+			delete left;
+			left = 0;
+		}
+		if (right != 0)
+		{
+			delete right;
+			right = 0;
+		}
+	}
+
 	public:
 	// int max(int left, int right) const
 	/**
@@ -74,26 +93,6 @@ class binOpNode : public eqnNode
 		return 1 + getR()->size() + getL()->size();
 	}
 
-	/*
-	 * virtual void deleteAll() 
-	 * 
-	 * Recursively handles the deallocation of memory for the parse tree
-	 */
-	virtual void deleteAll() 
-	{
-		if (left != 0)
-		{
-			left->deleteAll();
-			delete left;
-			left = 0;
-		}
-		if (right != 0)
-		{
-			right->deleteAll();
-			delete right;
-			right = 0;
-		}
-	}
 
 	// getL() 
 	/**

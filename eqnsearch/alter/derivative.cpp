@@ -17,11 +17,13 @@
 #include "alterExpression.h"
 #include "../derivMetric.h"
 #include "../searchMaxMin.h"
+#include <cassert>
 
 using namespace std;
 
 eqnNode* alterExpression::derivative(eqnNode* input, const std::string& var)
 {
+	bool DERIV_NOT_FOUND = false;
 	eqnNode *outexpr, *left, *right;
 	sumNode *sumspare; 
 	subNode *subspare; 
@@ -182,6 +184,8 @@ eqnNode* alterExpression::derivative(eqnNode* input, const std::string& var)
 	{
 		return new numNode(0);
 	}
+
+	assert(DERIV_NOT_FOUND);
 
 	return 0;
 }

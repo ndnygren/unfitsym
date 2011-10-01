@@ -34,6 +34,15 @@ class monoOpNode : public eqnNode
 	 */
 	eqnNode* right; 
 
+	virtual void deleteAll() 
+	{
+		if (right != 0)
+		{
+			delete right;
+			right = 0;
+		}
+	}
+
 	public:
 	virtual bool eq(const eqnNode* input) const
 	{
@@ -49,15 +58,6 @@ class monoOpNode : public eqnNode
 		return getR()->size() + 1;
 	}
 
-	virtual void deleteAll() 
-	{
-		if (right != 0)
-		{
-			right->deleteAll();
-			delete right;
-			right = 0;
-		}
-	}
 
 
 	/**

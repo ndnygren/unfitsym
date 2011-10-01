@@ -39,6 +39,30 @@ class intBNode : public intNode
 	 */
 	eqnNode* lower;
 
+	virtual void deleteAll() 
+	{
+		if (left != 0)
+		{
+			delete left;
+			left = 0;
+		}
+		if (right != 0)
+		{
+			delete right;
+			right = 0;
+		}
+		if (upper != 0)
+		{
+			delete upper;
+			upper = 0;
+		}
+		if (lower != 0)
+		{
+			delete lower;
+			lower = 0;
+		}
+	}
+
 	public:
 	virtual eqnNode* copy() const 
 		{ return new intBNode(getL(), getR(), getUpper(), getLower()); } 
@@ -55,33 +79,6 @@ class intBNode : public intNode
 		return "\\int_{"+ getLower()->nice_str() + "}^{" + getUpper()->nice_str() + "} " + left->nice_str() + " d{" + right->nice_str()+ "}";
 	}
 
-	virtual void deleteAll() 
-	{
-		if (left != 0)
-		{
-			left->deleteAll();
-			delete left;
-			left = 0;
-		}
-		if (right != 0)
-		{
-			right->deleteAll();
-			delete right;
-			right = 0;
-		}
-		if (upper != 0)
-		{
-			upper->deleteAll();
-			delete upper;
-			upper = 0;
-		}
-		if (lower != 0)
-		{
-			lower->deleteAll();
-			delete lower;
-			lower = 0;
-		}
-	}
 
 	/**
 	 * @brief standard getter function for upper bound
