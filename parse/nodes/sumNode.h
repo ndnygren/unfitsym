@@ -105,6 +105,11 @@ class sumNode : public binOpNode
 
 	virtual double value() const { return getL()->value() + getR()->value(); }	
 	virtual ~sumNode() { deleteAll(); }
+
+	virtual eqnNode* new_node(eqnNode* linput, eqnNode* rinput) const
+	{
+		return new sumNode(linput, rinput);
+	}
 };
 
 

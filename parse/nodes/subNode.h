@@ -97,6 +97,11 @@ class subNode : public binOpNode
 
 	virtual double value() const { return getL()->value() - getR()->value(); }
 	virtual ~subNode() { deleteAll(); }
+
+	virtual eqnNode* new_node(eqnNode* linput, eqnNode* rinput) const
+	{
+		return new subNode(linput, rinput);
+	}
 };
 
 

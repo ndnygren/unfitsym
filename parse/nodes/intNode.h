@@ -72,6 +72,11 @@ class intNode : public binOpNode
 	}
 	virtual double value() const { return getL()->value(); }
 	virtual ~intNode() { deleteAll(); }
+
+	virtual eqnNode* new_node(eqnNode* linput, eqnNode* rinput) const
+	{
+		return new intNode(linput, rinput);
+	}
 };
 
 

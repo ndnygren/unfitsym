@@ -89,6 +89,11 @@ class derivNode : public binOpNode
 
 	virtual double value() const { return getL()->value(); }	
 	virtual ~derivNode() { deleteAll(); }
+
+	virtual eqnNode* new_node(eqnNode* linput, eqnNode* rinput) const
+	{
+		return new derivNode(linput, rinput);
+	}
 };
 
 

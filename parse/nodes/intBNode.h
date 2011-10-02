@@ -109,6 +109,11 @@ class intBNode : public intNode
 		lower = lowin->copy();
 	}
 	virtual ~intBNode() { deleteAll(); }
+
+	virtual eqnNode* new_node(eqnNode* linput, eqnNode* rinput) const
+	{
+		return new intBNode(linput, rinput, getUpper(), getLower());
+	}
 };
 
 

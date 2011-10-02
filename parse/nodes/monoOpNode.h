@@ -145,6 +145,11 @@ class monoOpNode : public eqnNode
 		}
 	}
 
+	/**
+	 * @brief creates a new node of this type
+	 * @param input the subtree of the new node
+	 * @returns the new node
+	 */
 	virtual eqnNode* new_node(eqnNode* input) const = 0;
 };
 

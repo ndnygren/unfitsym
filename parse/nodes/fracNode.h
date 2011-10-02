@@ -88,6 +88,11 @@ class fracNode : public binOpNode
 		else { return 0; }
 	}
 	virtual ~fracNode() { deleteAll(); }
+
+	virtual eqnNode* new_node(eqnNode* linput, eqnNode* rinput) const
+	{
+		return new fracNode(linput, rinput);
+	}
 };
 
 

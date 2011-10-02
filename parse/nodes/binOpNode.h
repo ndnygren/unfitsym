@@ -232,6 +232,14 @@ class binOpNode : public eqnNode
 			return retpair;
 		}
 	}
+
+	/**
+	 * @brief produces a new node of this node's type
+	 * @param linput the left subtree of the new node
+	 * @param rinput the right subtree of the new node
+	 * @returns the new node of this node's type
+	 */
+	virtual eqnNode* new_node(eqnNode* linput, eqnNode* rinput) const = 0;
 };
 
 

@@ -62,6 +62,11 @@ class idNode : public binOpNode
 
 	virtual double value() const { return 0; }	
 	virtual ~idNode() { deleteAll(); }
+
+	virtual eqnNode* new_node(eqnNode* linput, eqnNode* rinput) const
+	{
+		return new idNode(linput, rinput);
+	}
 };
 
 

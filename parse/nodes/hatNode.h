@@ -85,6 +85,11 @@ class hatNode : public binOpNode
 	}
 	virtual double value() const { return pow(getL()->value(),getR()->value()); }	
 	virtual ~hatNode() { deleteAll(); }
+
+	virtual eqnNode* new_node(eqnNode* linput, eqnNode* rinput) const
+	{
+		return new hatNode(linput, rinput);
+	}
 };
 
 

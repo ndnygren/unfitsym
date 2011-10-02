@@ -115,6 +115,11 @@ class prodNode : public binOpNode
 
 	virtual double value() const { return getL()->value() * getR()->value(); }
 	virtual ~prodNode() { deleteAll(); }
+
+	virtual eqnNode* new_node(eqnNode* linput, eqnNode* rinput) const
+	{
+		return new prodNode(linput, rinput);
+	}
 };
 
 
