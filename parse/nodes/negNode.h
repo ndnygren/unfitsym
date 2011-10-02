@@ -74,6 +74,7 @@ class negNode : public monoOpNode
 	negNode(eqnNode* input) { right = input->copy(); }
 	virtual double value() const { return -(getR()->value()); }
 	virtual ~negNode() { deleteAll(); }
+	virtual eqnNode* new_node(eqnNode* input) const { return new negNode(input); }
 
 };
 

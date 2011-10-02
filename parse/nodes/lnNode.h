@@ -42,6 +42,7 @@ class lnNode : public monoOpNode
 	}
 
 	virtual ~lnNode() { deleteAll(); }
+	virtual eqnNode* new_node(eqnNode* input) const { return new lnNode(input); }
 };
 
 

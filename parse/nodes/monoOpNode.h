@@ -144,6 +144,8 @@ class monoOpNode : public eqnNode
 			return retpair;
 		}
 	}
+
+	virtual eqnNode* new_node(eqnNode* input) const = 0;
 };
 
 

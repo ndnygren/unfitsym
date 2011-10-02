@@ -33,6 +33,7 @@ class sineNode : public monoOpNode
 	sineNode(eqnNode* input) { right = input->copy(); }
 	virtual double value() const { return sin(getR()->value()); }
 	virtual ~sineNode() { deleteAll(); }
+	virtual eqnNode* new_node(eqnNode* input) const { return new sineNode(input); }
 };
 
 

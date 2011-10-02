@@ -21,6 +21,7 @@ using namespace std;
 
 vector<eqnNode*> alterExpression::getCand(eqnNode* input)
 {
+	unsigned int i;
 	numNode one(1);
 	numNode negone(-1);
 	vector<eqnNode*> changes;
@@ -61,6 +62,17 @@ vector<eqnNode*> alterExpression::getCand(eqnNode* input)
 		{ sumChanges = intBCand((intBNode*)input); }
 	else if (input->type() == nodeTypes::ident)
 		{ sumChanges = idCand((idNode*)input); }
+	else if (input->isMono())
+	{
+		sumChanges = getCand(((monoOpNode*)input)->getR());
+		for (i = 0; i < sumChanges.size(); i++)
+		{
+			changes.push_back(((monoOpNode*)input)->new_node(sumChanges[i]));
+			delete sumChanges[i];
+		}
+		sumChanges.clear();
+	}
+
 	copyCand(sumChanges, changes);
 	sumChanges.clear();
 
