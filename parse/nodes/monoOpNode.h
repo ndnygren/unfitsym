@@ -105,12 +105,9 @@ class monoOpNode : public eqnNode
 
 	virtual void replace(int index, eqnNode* expr)
 	{
-		monoOpNode* temp;
-
 		if (getR()->type() == nodeTypes::tvar)
 		{
-			temp = (monoOpNode*)getR();
-			if (((numNode*)temp->getR())->get() == index)
+			if (getR()->tNum() == index)
 			{
 				delete getR();
 				right = expr->copy();

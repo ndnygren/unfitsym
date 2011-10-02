@@ -41,6 +41,7 @@ vector<eqnNode*> alterExpression::getCand(eqnNode* input)
 
 	sumChanges = templateMatcher::getMatches(input);
 	copyCand(sumChanges, changes);
+	sumChanges.clear();
 
 	if (input->type() == nodeTypes::sum)
 		{ sumChanges = sumCand((sumNode*)input); }
@@ -50,8 +51,6 @@ vector<eqnNode*> alterExpression::getCand(eqnNode* input)
 		{ sumChanges = prodCand((prodNode*)input); }
 	else if (input->type() == nodeTypes::frac)
 		{ sumChanges = fracCand((fracNode*)input); }
-	else if (input->type() == nodeTypes::neg)
-		{ sumChanges = negCand((negNode*)input); }
 	else if (input->type() == nodeTypes::hat)
 		{ sumChanges = hatCand((hatNode*)input); }
 	else if (input->type() == nodeTypes::deriv)
@@ -60,12 +59,6 @@ vector<eqnNode*> alterExpression::getCand(eqnNode* input)
 		{ sumChanges = intCand((intNode*)input); }
 	else if (input->type() == nodeTypes::integralb)
 		{ sumChanges = intBCand((intBNode*)input); }
-	else if (input->type() == nodeTypes::cos)
-		{ sumChanges = cosineCand((cosineNode*)input); }
-	else if (input->type() == nodeTypes::sin)
-		{ sumChanges = sineCand((sineNode*)input); }
-	else if (input->type() == nodeTypes::ln)
-		{ sumChanges = lnCand((lnNode*)input); }
 	else if (input->type() == nodeTypes::ident)
 		{ sumChanges = idCand((idNode*)input); }
 	copyCand(sumChanges, changes);

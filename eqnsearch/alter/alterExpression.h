@@ -98,26 +98,7 @@ class alterExpression
 	 */
 	static std::vector<eqnNode*> intBCand(intBNode* input);
 
-	/**
-	 * @brief manipulates expressions with a root node of type lnNode
-	 * @param input the expression to be manipulated
-	 * @returns a list of equivalent expressions, manipulated slightly
-	 */
-	static std::vector<eqnNode*> lnCand(lnNode* input);
 
-	/**
-	 * @brief manipulates expressions with a root node of type cosineNode
-	 * @param input the expression to be manipulated
-	 * @returns a list of equivalent expressions, manipulated slightly
-	 */
-	static std::vector<eqnNode*> cosineCand(cosineNode* input);
-
-	/**
-	 * @brief manipulates expressions with a root node of type sineNode
-	 * @param input the expression to be manipulated
-	 * @returns a list of equivalent expressions, manipulated slightly
-	 */
-	static std::vector<eqnNode*> sineCand(sineNode* input);
 
 	/**
 	 * @brief manipulates expressions with a root node of type derivNode
@@ -125,13 +106,6 @@ class alterExpression
 	 * @returns a list of equivalent expressions, manipulated slightly
 	 */
 	static std::vector<eqnNode*> derivCand(derivNode* input);
-
-	/**
-	 * @brief manipulates expressions with a root node of type negNode
-	 * @param input the expression to be manipulated
-	 * @returns a list of equivalent expressions, manipulated slightly
-	 */
-	static std::vector<eqnNode*> negCand(negNode* input);
 
 	/**
 	 * @brief manipulates expressions with a root node of type hatNode

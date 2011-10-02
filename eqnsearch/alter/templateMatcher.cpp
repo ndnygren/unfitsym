@@ -15,6 +15,7 @@
 * along with this program. If not, see <http://www.gnu.org/licenses/>. */
 
 #include "templateMatcher.h"
+#include <cassert>
 
 using namespace std;
 
@@ -84,9 +85,23 @@ eqnNode* templateMatcher::fillPattern( const std::vector<std::pair<int, eqnNode*
 	eqnNode *out = outpat->copy();
 	unsigned int i;
 
-	for (i = 0; i < defs.size(); i++)
+	if (out->type() == nodeTypes::tvar)
 	{
-		out->replace(defs[i].first,defs[i].second);
+		for (i = 0; i < defs.size(); i++)
+		{
+			if (out->tNum() == defs[i].first)
+			{
+				delete out;
+				return defs[i].second->copy();
+			}
+		}
+	}
+	else
+	{
+		for (i = 0; i < defs.size(); i++)
+		{
+			out->replace(defs[i].first,defs[i].second);
+		}
 	}
 
 	return out;
@@ -117,6 +132,41 @@ void templateMatcher::init()
 	addRule("(TV_{1}*TV_{2})+TV_{2} \\Rightarrow (TV_{1}+1)*TV_{2}");
 	// check double
 	addRule("TV_{2}+TV_{2} \\Rightarrow 2*TV_{2}");
+
+	// cosine
+	// add remove 2 pi
+	addRule("\\cos(TV_{1}) \\Rightarrow \\cos(TV_{1}+(2*\\pi))");
+	addRule("\\cos(TV_{1}) \\Rightarrow \\cos(TV_{1}-(2*\\pi))");
+	//handle 0
+	addRule("\\cos(0) \\Rightarrow 1");
+	//handle pi
+	addRule("\\cos(\\pi) \\Rightarrow -1");
+	addRule("\\cos(\\frac{\\pi}{2}) \\Rightarrow 0");
+	addRule("\\cos(\\frac{3*\\pi}{2}) \\Rightarrow 0");
+	//handle neg
+	addRule("\\cos(-TV_{1}) \\Rightarrow \\cos(TV_{1})");
+	// sine
+	// add remove 2 pi
+	addRule("\\sin(TV_{1}) \\Rightarrow \\sin(TV_{1}+(2*\\pi))");
+	addRule("\\sin(TV_{1}) \\Rightarrow \\sin(TV_{1}-(2*\\pi))");
+	//handle 0
+	addRule("\\sin(0) \\Rightarrow 0");
+	//handle pi
+	addRule("\\sin(\\pi) \\Rightarrow 0");
+	addRule("\\sin(\\frac{\\pi}{2}) \\Rightarrow 1");
+	addRule("\\sin(\\frac{3*\\pi}{2}) \\Rightarrow -1");
+	//handle neg
+	addRule("\\sin(-TV_{1}) \\Rightarrow -\\sin(TV_{1})");
+
+	//neg	
+	//handle multiplcation
+	addRule("-(TV_{1}*TV_{2}) \\Rightarrow (-TV_{1})*TV_{2}");
+	addRule("-(TV_{1}*TV_{2}) \\Rightarrow TV_{1}*(-TV_{2})");
+	//cancellation
+	addRule("--TV_{1} \\Rightarrow TV_{1}");
+	addRule("TV_{1} \\Rightarrow --TV_{1}");
+	//distribute
+	addRule("-(TV_{1}+TV_{2}) \\Rightarrow (-TV_{1})+(-TV_{2})");
 }
 
 void templateMatcher::end()
@@ -136,10 +186,9 @@ void templateMatcher::addRule(const std::string& input)
 {
 	pair<eqnNode*,eqnNode*> inpair = parserFull::readRule(input);
 
-	if (inpair.first != 0)
-	{
-		rulelist.push_back(inpair);
-	}
+	assert(inpair.first != 0);
+
+	rulelist.push_back(inpair);
 }
 
 std::vector<eqnNode*> templateMatcher::getMatches(const eqnNode* input)
@@ -155,6 +204,7 @@ std::vector<eqnNode*> templateMatcher::getMatches(const eqnNode* input)
 
 		if (patmatch.first)
 		{
+//			cout << "matched:\t" << rulelist[j].first->nice_str() << endl;
 			defs = patmatch.second;
 
 			varDefSort(defs);
@@ -166,12 +216,20 @@ std::vector<eqnNode*> templateMatcher::getMatches(const eqnNode* input)
 				{
 					cout << defs[i].first << ":\t";
 					cout << defs[i].second->nice_str() << endl;
-				}*/
+				} */
 				retlist.push_back(fillPattern(defs, rulelist[j].second));
 			}
 			varDefFree(defs);
 		}
 	}
+	
+/*	for (i = 0; i < retlist.size(); i++)
+	{
+		cout << "ret " << i << ":\t";
+		cout << retlist[i]->nice_str() << endl;
+	}
+	cout << endl;*/
+
 	return retlist;
 }
 
