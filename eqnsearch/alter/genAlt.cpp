@@ -45,8 +45,9 @@ vector<eqnNode*> alterExpression::getCand(eqnNode* input)
 	sumChanges.clear();
 
 	if (input->type() == nodeTypes::sum)
-		{ sumChanges = sumCand((sumNode*)input); }
-	else if (input->type() == nodeTypes::sub)
+		{ changes.push_back(sumSimplify((sumNode*)input)); }
+
+	if (input->type() == nodeTypes::sub)
 		{ sumChanges = subCand((subNode*)input); }
 	else if (input->type() == nodeTypes::prod)
 		{ sumChanges = prodCand((prodNode*)input); }
@@ -68,6 +69,23 @@ vector<eqnNode*> alterExpression::getCand(eqnNode* input)
 		for (i = 0; i < sumChanges.size(); i++)
 		{
 			changes.push_back(((monoOpNode*)input)->new_node(sumChanges[i]));
+			delete sumChanges[i];
+		}
+		sumChanges.clear();
+	}
+	else if (input->isBin())
+	{
+		sumChanges = getCand(((binOpNode*)input)->getR());
+		for (i = 0; i < sumChanges.size(); i++)
+		{
+			changes.push_back(((binOpNode*)input)->new_node( ((binOpNode*)input)->getL(), sumChanges[i]));
+			delete sumChanges[i];
+		}
+		sumChanges.clear();
+		sumChanges = getCand(((binOpNode*)input)->getL());
+		for (i = 0; i < sumChanges.size(); i++)
+		{
+			changes.push_back(((binOpNode*)input)->new_node(sumChanges[i], ((binOpNode*)input)->getR()));
 			delete sumChanges[i];
 		}
 		sumChanges.clear();
