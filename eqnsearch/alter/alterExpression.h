@@ -56,15 +56,6 @@ class alterExpression
 {
 	protected:
 
-
-	/**
-	 * @brief manipulates expressions with a root node of type prodNode
-	 * @param input the expression to be manipulated
-	 * @returns a list of equivalent expressions, manipulated slightly
-	 */
-	static std::vector<eqnNode*> prodCand(prodNode* input);
-
-
 	/**
 	 * @brief manipulates expressions with a root node of type intNode (indefinte integrals)
 	 * @param input the expression to be manipulated
@@ -80,14 +71,12 @@ class alterExpression
 	static std::vector<eqnNode*> intBCand(intBNode* input);
 
 
-
 	/**
 	 * @brief manipulates expressions with a root node of type derivNode
 	 * @param input the expression to be manipulated
 	 * @returns a list of equivalent expressions, manipulated slightly
 	 */
 	static std::vector<eqnNode*> derivCand(derivNode* input);
-
 
 
 	/**

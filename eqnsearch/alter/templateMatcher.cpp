@@ -147,6 +147,42 @@ void templateMatcher::init()
 	//check same base
 	addRule("(TV_{1}*TV_{2}) - (TV_{3}*TV_{2}) \\Rightarrow (TV_{1}-TV_{3})*TV_{2}");
 
+	//prod
+	//commute
+	addRule("TV_{1}*TV_{2} \\Rightarrow TV_{2}*TV_{1}");
+	//associate one way
+	addRule("(TV_{1}*TV_{2})*TV_{3} \\Rightarrow TV_{1}*(TV_{2}*TV_{3})");
+	//associate the other way
+	addRule("TV_{1}*(TV_{2}*TV_{3}) \\Rightarrow (TV_{1}*TV_{2})*TV_{3}");
+	//check left identity
+	addRule("1*TV_{1} \\Rightarrow TV_{1}");
+	//check right identity
+	addRule("TV_{1}*1 \\Rightarrow TV_{1}");
+	//check left zero
+	addRule("0*TV_{1} \\Rightarrow 0");
+	//check right zero
+	addRule("TV_{1}*0 \\Rightarrow 0");
+	//create neg
+	addRule("-1*TV_{1} \\Rightarrow -TV_{1}");
+	// handle frac
+	addRule("TV_{1}*\\frac{TV_{2}}{TV_{3}} \\Rightarrow \\frac{TV_{1}*TV_{2}}{TV_{3}}");
+	// distribute over addition
+	addRule("TV_{1}*(TV_{2}+TV_{3}) \\Rightarrow (TV_{1}*TV_{2}) + (TV_{1}*TV_{3})");
+	// distribute over subtraction
+	addRule("TV_{1}*(TV_{2}-TV_{3}) \\Rightarrow (TV_{1}*TV_{2}) - (TV_{1}*TV_{3})");
+	// exp same bases
+	addRule("TV_{1}^{TV_{2}}*(TV_{1}^{TV_{3}}) \\Rightarrow TV_{1}^{TV_{2}+TV_{3}}");
+	addRule("TV_{1}^{TV_{2}}*TV_{1} \\Rightarrow TV_{1}^{TV_{2}+1}");
+	addRule("TV_{1}*(TV_{1}^{TV_{3}}) \\Rightarrow TV_{1}^{1+TV_{3}}");
+	addRule("TV_{1}*TV_{1} \\Rightarrow TV_{1}^{2}");
+	// same exp
+	addRule("TV_{1}^{TV_{3}}*(TV_{2}^{TV_{3}}) \\Rightarrow (TV_{1}*TV_{2})^{TV_{3}}");
+	// pull out neg
+	addRule("TV_{1}*-TV_{2} \\Rightarrow -(TV_{1}*TV_{2})");
+	addRule("(-TV_{1})*TV_{2} \\Rightarrow -(TV_{1}*TV_{2})");
+	
+
+
 	//fraction
 	//seperate
 	addRule("\\frac{TV_{1}}{TV_{2}} \\Rightarrow TV_{1}*\\frac{1}{TV_{2}}");

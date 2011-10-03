@@ -44,12 +44,13 @@ vector<eqnNode*> alterExpression::getCand(eqnNode* input)
 	copyCand(sumChanges, changes);
 	sumChanges.clear();
 
+	//rapid simplification
 	if (input->type() == nodeTypes::sum)
 		{ changes.push_back(sumSimplify((sumNode*)input)); }
+	else if (input->type() == nodeTypes::prod)
+		{ changes.push_back(prodSimplify((prodNode*)input)); }
 
-	if (input->type() == nodeTypes::prod)
-		{ sumChanges = prodCand((prodNode*)input); }
-	else if (input->type() == nodeTypes::deriv)
+	if (input->type() == nodeTypes::deriv)
 		{ sumChanges = derivCand((derivNode*)input); }
 	else if (input->type() == nodeTypes::integral)
 		{ sumChanges = intCand((intNode*)input); }
