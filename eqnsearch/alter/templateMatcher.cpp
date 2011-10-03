@@ -147,6 +147,47 @@ void templateMatcher::init()
 	//check same base
 	addRule("(TV_{1}*TV_{2}) - (TV_{3}*TV_{2}) \\Rightarrow (TV_{1}-TV_{3})*TV_{2}");
 
+	//fraction
+	//seperate
+	addRule("\\frac{TV_{1}}{TV_{2}} \\Rightarrow TV_{1}*\\frac{1}{TV_{2}}");
+	//flip denominator up
+	addRule("\\frac{TV_{1}}{\\frac{TV_{2}}{TV_{3}}} \\Rightarrow TV_{1}*\\frac{TV_{3}}{TV_{2}}");
+	//numerator fraction down
+	addRule("\\frac{\\frac{TV_{1}}{TV_{2}}}{TV_{3}} \\Rightarrow \\frac{TV_{1}}{TV_{2}*TV_{3}}");
+	//right identity
+	addRule("\\frac{TV_{1}}{1} \\Rightarrow TV_{1}");
+	addRule("TV_{1} \\Rightarrow \\frac{TV_{1}}{1}");
+	//zero numerator
+	addRule("\\frac{0}{TV_{1}} \\Rightarrow 0");
+	//reduce to 1
+	addRule("\\frac{TV_{1}}{TV_{1}} \\Rightarrow 1");
+	// ^{-1} in numerator
+	addRule("\\frac{TV_{1}^{-1}}{TV_{2}} \\Rightarrow \\frac{1}{TV_{1}*TV_{2}}");
+	// handle same expo
+	addRule("\\frac{TV_{1}^{TV_{3}}}{TV_{2}^{TV_{3}}} \\Rightarrow \\frac{TV_{1}}{TV_{2}}^{TV_{3}}");
+	addRule(" \\frac{TV_{1}}{TV_{2}}^{TV_{3}} \\Rightarrow \\frac{TV_{1}^{TV_{3}}}{TV_{2}^{TV_{3}}} ");
+	// denominator expo
+	addRule("\\frac{TV_{1}}{TV_{2}^{TV_{3}}} \\Rightarrow TV_{1}*TV_{2}^{-TV_{3}}");
+	// numerator extraction
+	addRule("\\frac{TV_{1}*TV_{2}}{TV_{3}} \\Rightarrow TV_{1}*\\frac{TV_{2}}{TV_{3}}");
+
+	//hat
+	// handle right identity
+	addRule("TV_{1}^{1} \\Rightarrow TV_{1}");
+	// handle left zero
+	addRule("0^{TV_{1}} \\Rightarrow 0");
+	// handle right addition
+	addRule("TV_{1}^{TV_{2}+TV_{3}} \\Rightarrow TV_{1}^{TV_{2}} + TV_{1}^{TV_{3}}");
+	// base multiplication
+	addRule("(TV_{1}*TV_{2})^{TV_{3}} \\Rightarrow TV_{1}^{TV_{3}}*TV_{2}^{TV_{3}}");
+	// Right multiplication
+	addRule("TV_{1}^{TV_{2}*TV_{3}} \\Rightarrow (TV_{1}^{TV_{2}})^{TV_{3}}");
+	// hat chain
+	addRule("(TV_{1}^{TV_{2}})^{TV_{3}} \\Rightarrow TV_{1}^{TV_{2}*TV_{3}}");
+	
+	//flip
+	addRule("TV_{1}^{TV_{2}} \\Rightarrow \\frac{1}{TV_{1}^{-TV_{2}}}");
+
 	// cosine
 	// add remove 2 pi
 	addRule("\\cos(TV_{1}) \\Rightarrow \\cos(TV_{1}+(2*\\pi))");

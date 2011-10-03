@@ -64,12 +64,6 @@ class alterExpression
 	 */
 	static std::vector<eqnNode*> prodCand(prodNode* input);
 
-	/**
-	 * @brief manipulates expressions with a root node of type fracNode
-	 * @param input the expression to be manipulated
-	 * @returns a list of equivalent expressions, manipulated slightly
-	 */
-	static std::vector<eqnNode*> fracCand(fracNode* input);
 
 	/**
 	 * @brief manipulates expressions with a root node of type intNode (indefinte integrals)
@@ -94,12 +88,6 @@ class alterExpression
 	 */
 	static std::vector<eqnNode*> derivCand(derivNode* input);
 
-	/**
-	 * @brief manipulates expressions with a root node of type hatNode
-	 * @param input the expression to be manipulated
-	 * @returns a list of equivalent expressions, manipulated slightly
-	 */
-	static std::vector<eqnNode*> hatCand(hatNode* input);
 
 	/**
 	 * @brief manipulates expressions with a root node of type idNode
