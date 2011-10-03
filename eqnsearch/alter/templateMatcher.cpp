@@ -176,6 +176,8 @@ void templateMatcher::init()
 	addRule("TV_{1}^{1} \\Rightarrow TV_{1}");
 	// handle left zero
 	addRule("0^{TV_{1}} \\Rightarrow 0");
+	// handle right zero
+	addRule("{TV_{1}}^{0} \\Rightarrow 1");
 	// handle right addition
 	addRule("TV_{1}^{TV_{2}+TV_{3}} \\Rightarrow TV_{1}^{TV_{2}} + TV_{1}^{TV_{3}}");
 	// base multiplication
@@ -183,10 +185,21 @@ void templateMatcher::init()
 	// Right multiplication
 	addRule("TV_{1}^{TV_{2}*TV_{3}} \\Rightarrow (TV_{1}^{TV_{2}})^{TV_{3}}");
 	// hat chain
-	addRule("(TV_{1}^{TV_{2}})^{TV_{3}} \\Rightarrow TV_{1}^{TV_{2}*TV_{3}}");
-	
+	addRule("(TV_{1}^{TV_{2}})^{TV_{3}} \\Rightarrow TV_{1}^{TV_{2}*TV_{3}}");	
 	//flip
 	addRule("TV_{1}^{TV_{2}} \\Rightarrow \\frac{1}{TV_{1}^{-TV_{2}}}");
+
+	//identity
+	// commute
+	addRule("TV_{1}=TV_{2} \\Rightarrow TV_{2}=TV_{1}");
+	// cancellation (additive)
+	addRule("TV_{1}+TV_{2} = TV_{3}+TV_{2} \\Rightarrow TV_{1}=TV_{3}");
+	addRule("TV_{2}+TV_{1} = TV_{2}+TV_{3} \\Rightarrow TV_{1}=TV_{3}");
+	// move term (additive)
+	addRule("TV_{1}+TV_{2} = TV_{3} \\Rightarrow TV_{1}= TV_{3}-TV_{2}");
+	// move factor (denominator)
+	addRule("\\frac{TV_{1}}{TV_{2}}=TV_{3} \\Rightarrow TV_{1}=TV_{2}*TV_{3}");
+
 
 	// cosine
 	// add remove 2 pi

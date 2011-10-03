@@ -55,8 +55,6 @@ vector<eqnNode*> alterExpression::getCand(eqnNode* input)
 		{ sumChanges = intCand((intNode*)input); }
 	else if (input->type() == nodeTypes::integralb)
 		{ sumChanges = intBCand((intBNode*)input); }
-	else if (input->type() == nodeTypes::ident)
-		{ sumChanges = idCand((idNode*)input); }
 	else if (input->isMono())
 	{
 		sumChanges = getCand(((monoOpNode*)input)->getR());
