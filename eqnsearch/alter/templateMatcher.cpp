@@ -133,6 +133,20 @@ void templateMatcher::init()
 	// check double
 	addRule("TV_{2}+TV_{2} \\Rightarrow 2*TV_{2}");
 
+	//subtraction
+	//reduce to 0
+	addRule("TV_{1}-TV_{1} \\Rightarrow 0");
+	//replace with addition
+	addRule("TV_{1}-TV_{2} \\Rightarrow TV_{1} + -TV_{2}");
+	//neg on right
+	addRule("TV_{1}--TV_{2} \\Rightarrow TV_{1}+TV_{2}");
+	//distribute left over addition
+	addRule("TV_{1}-(TV_{2}+TV_{3}) \\Rightarrow (TV_{1}-TV_{2})-TV_{3}");
+	//distribute over left addition
+	addRule("(TV_{1}-TV_{2})+TV_{3} \\Rightarrow TV_{1} - (TV_{2} - TV_{3})");
+	//check same base
+	addRule("(TV_{1}*TV_{2}) - (TV_{3}*TV_{2}) \\Rightarrow (TV_{1}-TV_{3})*TV_{2}");
+
 	// cosine
 	// add remove 2 pi
 	addRule("\\cos(TV_{1}) \\Rightarrow \\cos(TV_{1}+(2*\\pi))");

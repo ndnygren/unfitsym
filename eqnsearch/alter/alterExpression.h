@@ -56,19 +56,6 @@ class alterExpression
 {
 	protected:
 
-	/**
-	 * @brief manipulates expressions with a root node of type sumNode
-	 * @param input the expression to be manipulated
-	 * @returns a list of equivalent expressions, manipulated slightly
-	 */
-	static std::vector<eqnNode*> sumCand(sumNode* input);
-
-	/**
-	 * @brief manipulates expressions with a root node of type subNode
-	 * @param input the expression to be manipulated
-	 * @returns a list of equivalent expressions, manipulated slightly
-	 */
-	static std::vector<eqnNode*> subCand(subNode* input);
 
 	/**
 	 * @brief manipulates expressions with a root node of type prodNode

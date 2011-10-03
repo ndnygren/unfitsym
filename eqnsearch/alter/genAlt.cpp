@@ -47,9 +47,7 @@ vector<eqnNode*> alterExpression::getCand(eqnNode* input)
 	if (input->type() == nodeTypes::sum)
 		{ changes.push_back(sumSimplify((sumNode*)input)); }
 
-	if (input->type() == nodeTypes::sub)
-		{ sumChanges = subCand((subNode*)input); }
-	else if (input->type() == nodeTypes::prod)
+	if (input->type() == nodeTypes::prod)
 		{ sumChanges = prodCand((prodNode*)input); }
 	else if (input->type() == nodeTypes::frac)
 		{ sumChanges = fracCand((fracNode*)input); }
