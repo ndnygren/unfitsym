@@ -15,6 +15,7 @@
 * along with this program. If not, see <http://www.gnu.org/licenses/>. */
 
 #include "subParse.h"
+#include "../nodes/subNode.h"
 #include <string>
 
 void subParse::loadString(int offset, const std::string& data, int cap)

@@ -35,8 +35,8 @@ class unchainMetric : public eqnMetric
 
 	virtual int score(const eqnNode* input) const
 	{
-		if (input->type() == nodeTypes::sub && (((subNode*)input)->getR()->type() == nodeTypes::integral ||
-		((subNode*)input)->getR()->type() == nodeTypes::integral))
+		if (input->type() == nodeTypes::sub && (((binOpNode*)input)->getR()->type() == nodeTypes::integral ||
+		((binOpNode*)input)->getR()->type() == nodeTypes::integral))
 		{
 			return 0;
 		}

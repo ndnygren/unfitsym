@@ -17,6 +17,10 @@
 
 #include "alterExpression.h"
 
+#include "../../parse/nodes/prodNode.h"
+#include "../../parse/nodes/fracNode.h"
+#include "../../parse/nodes/negNode.h"
+
 using namespace std;
 
 eqnNode* alterExpression::scalarCompare(eqnNode* actual, eqnNode* expected)

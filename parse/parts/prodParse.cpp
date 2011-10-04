@@ -16,6 +16,7 @@
 
 #include "prodParse.h"
 #include "altParse.h"
+#include "../nodes/prodNode.h"
 #include <string>
 
 void prodParse::loadString(int offset, const std::string& data, int cap)

@@ -17,7 +17,6 @@
 #define NN_PRODPARSE_H
 
 #include "../nodes/eqnNode.h"
-#include "../nodes/prodNode.h"
 #include "expParse.h"
 
 /**

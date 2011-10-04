@@ -17,7 +17,6 @@
 #define NN_SUBPARSE_H
 
 #include "../nodes/eqnNode.h"
-#include "../nodes/subNode.h"
 #include "expParse.h"
 
 

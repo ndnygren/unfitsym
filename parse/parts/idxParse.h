@@ -16,7 +16,6 @@
 #ifndef NN_IDXPARSE_H
 #define NN_IDXPARSE_H
 
-#include "../nodes/idxNode.h"
 #include "expParse.h"
 #include "tokParse.h"
 

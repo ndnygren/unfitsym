@@ -17,7 +17,6 @@
 #define NN_SUMPARSE_H
 
 #include "../nodes/eqnNode.h"
-#include "../nodes/sumNode.h"
 #include "expParse.h"
 #include "tokParse.h"
 

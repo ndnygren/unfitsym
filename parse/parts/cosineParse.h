@@ -16,7 +16,6 @@
 #ifndef NN_COSINEPARSE_H
 #define NN_COSINEPARSE_H
 
-#include "../nodes/cosineNode.h"
 #include "expParse.h"
 #include "tokParse.h"
 

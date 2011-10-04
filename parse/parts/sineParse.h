@@ -16,7 +16,6 @@
 #ifndef NN_SINEPARSE_H
 #define NN_SINEPARSE_H
 
-#include "../nodes/sineNode.h"
 #include "expParse.h"
 #include "tokParse.h"
 

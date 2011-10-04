@@ -17,7 +17,6 @@
 #define NN_FRACPARSE_H
 
 #include "../nodes/eqnNode.h"
-#include "../nodes/fracNode.h"
 #include "expParse.h"
 
 /**

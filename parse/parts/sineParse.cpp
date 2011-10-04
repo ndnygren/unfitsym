@@ -15,6 +15,7 @@
 * along with this program. If not, see <http://www.gnu.org/licenses/>. */
 
 #include "sineParse.h"
+#include "../nodes/sineNode.h"
 #include <string>
 
 void sineParse::loadString(int offset, const std::string& data, int cap)

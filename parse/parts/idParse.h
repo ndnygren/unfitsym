@@ -17,7 +17,6 @@
 #define NN_IDPARSE_H
 
 #include "../nodes/eqnNode.h"
-#include "../nodes/idNode.h"
 #include "expParse.h"
 #include "tokParse.h"
 

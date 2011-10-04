@@ -18,22 +18,11 @@
 
 #include <vector>
 #include "../../parse/nodes/eqnNode.h"
-#include "../../parse/nodes/sumNode.h"
-#include "../../parse/nodes/subNode.h"
 #include "../../parse/nodes/prodNode.h"
-#include "../../parse/nodes/varNode.h"
-#include "../../parse/nodes/fracNode.h"
-#include "../../parse/nodes/negNode.h"
-#include "../../parse/nodes/hatNode.h"
+#include "../../parse/nodes/sumNode.h"
 #include "../../parse/nodes/derivNode.h"
 #include "../../parse/nodes/intNode.h"
 #include "../../parse/nodes/intBNode.h"
-#include "../../parse/nodes/lnNode.h"
-#include "../../parse/nodes/sineNode.h"
-#include "../../parse/nodes/cosineNode.h"
-#include "../../parse/nodes/idxNode.h"
-#include "../../parse/nodes/idNode.h"
-#include "../../parse/nodes/nodeTypes.h"
 
 /**
  * @class alterExpression
@@ -186,7 +175,7 @@ class alterExpression
 	 */
 	static eqnNode* sumSimplify(sumNode* input);
 
-	// eqnNode* prodSimplify(sumNode* input)
+	// eqnNode* prodSimplify(prodNode* input)
 	/**
 	 * @brief rapid simplification of products, by general associativity and comutivity
 	 * @details The product is broken into terms, sorted grouped, collapsed and merged into another hopefully smaller expression, in a single step.

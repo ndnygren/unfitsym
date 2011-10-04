@@ -15,6 +15,7 @@
 * along with this program. If not, see <http://www.gnu.org/licenses/>. */
 
 #include "intParse.h"
+#include "../nodes/intBNode.h"
 #include "dParse.h"
 #include <string>
 

@@ -16,7 +16,6 @@
 #ifndef NN_LNPARSE_H
 #define NN_LNPARSE_H
 
-#include "../nodes/lnNode.h"
 #include "expParse.h"
 #include "tokParse.h"
 

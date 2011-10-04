@@ -15,6 +15,7 @@
 * along with this program. If not, see <http://www.gnu.org/licenses/>. */
 
 #include "sumParse.h"
+#include "../nodes/sumNode.h"
 #include <string>
 #include <utility>
 

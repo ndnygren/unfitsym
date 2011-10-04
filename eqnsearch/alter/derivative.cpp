@@ -17,7 +17,19 @@
 #include "alterExpression.h"
 #include "../derivMetric.h"
 #include "../searchMaxMin.h"
+
 #include <cassert>
+
+#include "../../parse/nodes/sumNode.h"
+#include "../../parse/nodes/subNode.h"
+#include "../../parse/nodes/prodNode.h"
+#include "../../parse/nodes/fracNode.h"
+#include "../../parse/nodes/negNode.h"
+#include "../../parse/nodes/cosineNode.h"
+#include "../../parse/nodes/sineNode.h"
+#include "../../parse/nodes/lnNode.h"
+#include "../../parse/nodes/varNode.h"
+#include "../../parse/nodes/hatNode.h"
 
 using namespace std;
 

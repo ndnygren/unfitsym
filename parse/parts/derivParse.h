@@ -16,7 +16,6 @@
 #ifndef NN_DERIVPARSE_H
 #define NN_DERIVPARSE_H
 
-#include "../nodes/derivNode.h"
 #include "expParse.h"
 
 /**

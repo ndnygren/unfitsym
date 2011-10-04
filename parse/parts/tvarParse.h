@@ -16,7 +16,6 @@
 #ifndef NN_TVARPARSE_H
 #define NN_TVARPARSE_H
 
-#include "../nodes/tvarNode.h"
 #include "expParse.h"
 #include "tokParse.h"
 

@@ -15,6 +15,7 @@
 * along with this program. If not, see <http://www.gnu.org/licenses/>. */
 
 #include "idxParse.h"
+#include "../nodes/idxNode.h"
 #include <string>
 
 void idxParse::loadString(int offset, const std::string& data, int cap)

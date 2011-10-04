@@ -15,6 +15,7 @@
 * along with this program. If not, see <http://www.gnu.org/licenses/>. */
 
 #include "derivParse.h"
+#include "../nodes/derivNode.h"
 #include <string>
 
 void derivParse::loadString(int offset, const std::string& data, int cap)

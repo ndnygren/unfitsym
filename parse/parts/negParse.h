@@ -16,7 +16,6 @@
 #ifndef NN_NEGPARSE_H
 #define NN_NEGPARSE_H
 
-#include "../nodes/negNode.h"
 #include "expParse.h"
 #include "tokParse.h"
 

@@ -15,6 +15,7 @@
 * along with this program. If not, see <http://www.gnu.org/licenses/>. */
 
 #include "idParse.h"
+#include "../nodes/idNode.h"
 #include <string>
 #include <utility>
 

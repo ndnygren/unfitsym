@@ -16,7 +16,6 @@
 #ifndef NN_HATPARSE_H
 #define NN_HATPARSE_H
 
-#include "../nodes/hatNode.h"
 #include "expParse.h"
 #include "tokParse.h"
 

@@ -15,6 +15,7 @@
 * along with this program. If not, see <http://www.gnu.org/licenses/>. */
 
 #include "negParse.h"
+#include "../nodes/negNode.h"
 #include <string>
 
 void negParse::loadString(int offset, const std::string& data, int cap)

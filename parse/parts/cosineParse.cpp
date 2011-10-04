@@ -15,6 +15,7 @@
 * along with this program. If not, see <http://www.gnu.org/licenses/>. */
 
 #include "cosineParse.h"
+#include "../nodes/cosineNode.h"
 #include <string>
 
 void cosineParse::loadString(int offset, const std::string& data, int cap)

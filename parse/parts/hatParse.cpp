@@ -15,6 +15,7 @@
 * along with this program. If not, see <http://www.gnu.org/licenses/>. */
 
 #include "hatParse.h"
+#include "../nodes/hatNode.h"
 #include <string>
 
 void hatParse::loadString(int offset, const std::string& data, int cap)

@@ -27,7 +27,9 @@ vector<eqnNode*> alterExpression::getCand(eqnNode* input)
 	vector<eqnNode*> changes;
 	vector<eqnNode*> sumChanges;
 
-	if (input->type() != nodeTypes::ident)	
+
+//This section to be moved into templateMatcher
+/*	if (input->type() != nodeTypes::ident)	
 	{
 		subNode *subzero = new subNode(&one,&one);
 		hatNode *hatspare = new hatNode(input, &negone);
@@ -38,7 +40,7 @@ vector<eqnNode*> alterExpression::getCand(eqnNode* input)
 		changes.push_back(new fracNode(&one,hatspare));
 		delete subzero;
 		delete hatspare;
-	}
+	}*/
 
 	sumChanges = templateMatcher::getMatches(input);
 	copyCand(sumChanges, changes);

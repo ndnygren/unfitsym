@@ -16,7 +16,6 @@
 #ifndef NN_INTPARSE_H
 #define NN_INTPARSE_H
 
-#include "../nodes/intBNode.h"
 #include "expParse.h"
 
 /**
