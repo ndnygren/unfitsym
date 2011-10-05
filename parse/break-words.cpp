@@ -155,3 +155,69 @@ vector<string> breakWords::breakwords(const string& input, bool (*whitespc)(char
 	return v_words;
 }
 
+vector<string> breakWords::breakwords(const string& input, const string& breaker)
+{
+	int wordstart = -1;
+	int count = 0;
+	unsigned int i = 0;
+	vector<string> v_words;
+
+	for (i = 0; i < input.length(); i++)
+	{
+		if (input.substr(i,breaker.length()) == breaker)
+		{
+			if (wordstart != -1)
+			{
+					v_words.push_back(input.substr(
+						wordstart, i - wordstart));
+				i+= breaker.length() - 1;
+				wordstart = -1;
+				count++;
+			}
+		}
+		else if (wordstart == -1) { wordstart = i; }
+		
+	}
+	if (wordstart != -1)
+	{
+			v_words.push_back(input.substr(wordstart, 
+				input.length() - wordstart));
+		wordstart = -1;
+		count++;	
+	}
+	return v_words;
+}
+
+string breakWords::removeBetween(const string& input, const string& left, const string& right)
+{
+	unsigned int i,j,lastend;
+	string outstring;
+
+	lastend = 0;
+	for (i = 0; i < input.length(); i++)
+	{
+		if (input.substr(i,left.length()) == left)
+		{
+			outstring += input.substr(lastend, i - lastend);
+			for (j = i + left.length(); j < input.length(); j++)
+			{
+				if (input.substr(j,right.length()) == right)
+				{
+					lastend = j + right.length();
+					i = j + right.length() - 1;
+					j = input.length();
+				}
+			}
+		}
+	}
+	outstring += input.substr(lastend, i - lastend);
+	return outstring;
+}
+
+/*
+	cout << "test: \'123\\*this is a comment*\\456\',\'\\*\',\'\\*\'" << endl;
+	cout << removeBetween("123\\*this is a comment*\\456","\\*","*\\") << endl;
+	cout << "test: \'\\*this is a comment*\\456\',\'\\*\',\'\\*\'" << endl;
+	cout << removeBetween("\\*this is a comment*\\456","\\*","*\\") << endl;
+	cout << "test: \'123\\*this is a comment*\\\',\'\\*\',\'\\*\'" << endl;
+	cout << removeBetween("123\\*this is a comment*\\","\\*","*\\") << endl;*/

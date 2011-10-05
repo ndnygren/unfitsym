@@ -106,6 +106,23 @@ class breakWords
 	 *
 	 */
 	static std::vector<std::string> breakwords(const std::string& input, bool (*whitespc)(char));
+
+	/**
+	 * @brief breaks lines on a given break string rather than a symbol
+	 * @param input the string to be broken
+	 * @param breaker the token indicating a line break
+	 * @returns an array for strings, the original broken at the given line breaks
+	 */
+	static std::vector<std::string> breakwords(const std::string& input, const std::string& breaker);
+
+	/**
+	 * @brief removes chunks of a string that lie between 2 proved tokens
+	 * @param input The string to be modified
+	 * @param left the left token
+	 * @param right the right token
+	 * @returns a copy of the string, minus and thing that lies between the 2 tokens.
+	 */
+	static std::string removeBetween(const std::string& input, const std::string& left, const std::string& right);
 };
 
 #endif

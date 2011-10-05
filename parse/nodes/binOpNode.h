@@ -220,7 +220,7 @@ class binOpNode : public eqnNode
 				return retpair;
 			}
 		}
-		else if (texpr->type() == nodeTypes::tvar)
+		else if (texpr->type() == nodeTypes::tvar && type() != nodeTypes::ident)
 		{
 			retpair.first = true;
 			retpair.second.push_back(std::pair<int,eqnNode*>(texpr->tNum(), copy()));

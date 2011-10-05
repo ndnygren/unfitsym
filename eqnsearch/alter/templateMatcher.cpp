@@ -16,8 +16,14 @@
 
 #include "templateMatcher.h"
 #include <cassert>
+#include <fstream>
+#include <iostream>
+#include "../../parse/break-words.h"
 
 using namespace std;
+
+const char* templateMatcher::TM_RULEFILE = "rulelist";
+
 
 vector<pair<eqnNode*,eqnNode*> > templateMatcher::rulelist;
 
@@ -107,170 +113,211 @@ eqnNode* templateMatcher::fillPattern( const std::vector<std::pair<int, eqnNode*
 	return out;
 }
 
+void templateMatcher::createDefaultFile()
+{
+	ofstream ofile(TM_RULEFILE);
+	
+	if (ofile)
+	{
+		ofile << "//addition:\n";
+		ofile << "//commute\n";
+		ofile << "TV_{1}+TV_{2} \\Rightarrow TV_{2}+TV_{1}\\\\\n";
+		ofile << "//associate one way\n";
+		ofile << "(TV_{1}+TV_{2})+TV_{3} \\Rightarrow TV_{1}+(TV_{2}+TV_{3})\\\\\n";
+		ofile << "//associate the other way\n";
+		ofile << "TV_{1}+(TV_{2}+TV_{3}) \\Rightarrow (TV_{1}+TV_{2})+TV_{3}\\\\\n";
+		ofile << "//check left identity\n";
+		ofile << "0+TV_{1} \\Rightarrow TV_{1}\\\\\n";
+		ofile << "//check right identity\n";
+		ofile << "TV_{1}+0 \\Rightarrow TV_{1}\\\\\n";
+		ofile << "//reverse distribute\n";
+		ofile << "(TV_{1}*TV_{2}) + (TV_{1}*TV_{3}) \\Rightarrow TV_{1}*(TV_{2}+TV_{3})\\\\\n";
+		ofile << "//commute with right subtraction\n";
+		ofile << "TV_{1}+(TV_{2}-TV_{3}) \\Rightarrow TV_{2}+(TV_{1}-TV_{3})\\\\\n";
+		ofile << "//handle frac\n";
+		ofile << "TV_{1}+\\frac{TV_{2}}{TV_{3}} \\Rightarrow \\frac{(TV_{1}*TV_{3})+TV_{2}}{TV_{3}}\\\\\n";
+		ofile << "//handle neg\n";
+		ofile << "TV_{1}+-TV_{2} \\Rightarrow TV_{1}-TV_{2}\\\\\n";
+		ofile << "//check for same base\n";
+		ofile << "(TV_{1}*TV_{2})+TV_{2} \\Rightarrow (TV_{1}+1)*TV_{2}\\\\\n";
+		ofile << "// check double\n";
+		ofile << "TV_{2}+TV_{2} \\Rightarrow 2*TV_{2}\\\\\n";
+
+		ofile << "//subtraction\n";
+		ofile << "//reduce to 0\n";
+		ofile << "TV_{1}-TV_{1} \\Rightarrow 0\\\\\n";
+		ofile << "//replace with addition\n";
+		ofile << "TV_{1}-TV_{2} \\Rightarrow TV_{1} + -TV_{2}\\\\\n";
+		ofile << "//neg on right\n";
+		ofile << "TV_{1}--TV_{2} \\Rightarrow TV_{1}+TV_{2}\\\\\n";
+		ofile << "//distribute left over addition\n";
+		ofile << "TV_{1}-(TV_{2}+TV_{3}) \\Rightarrow (TV_{1}-TV_{2})-TV_{3}\\\\\n";
+		ofile << "//distribute over left addition\n";
+		ofile << "(TV_{1}-TV_{2})+TV_{3} \\Rightarrow TV_{1} - (TV_{2} - TV_{3})\\\\\n";
+		ofile << "//check same base\n";
+		ofile << "(TV_{1}*TV_{2}) - (TV_{3}*TV_{2}) \\Rightarrow (TV_{1}-TV_{3})*TV_{2}\\\\\n";
+
+		ofile << "//prod\n";
+		ofile << "//commute\n";
+		ofile << "TV_{1}*TV_{2} \\Rightarrow TV_{2}*TV_{1}\\\\\n";
+		ofile << "//associate one way\n";
+		ofile << "(TV_{1}*TV_{2})*TV_{3} \\Rightarrow TV_{1}*(TV_{2}*TV_{3})\\\\\n";
+		ofile << "//associate the other way\n";
+		ofile << "TV_{1}*(TV_{2}*TV_{3}) \\Rightarrow (TV_{1}*TV_{2})*TV_{3}\\\\\n";
+		ofile << "//check left identity\n";
+		ofile << "1*TV_{1} \\Rightarrow TV_{1}\\\\\n";
+		ofile << "//check right identity\n";
+		ofile << "TV_{1}*1 \\Rightarrow TV_{1}\\\\\n";
+		ofile << "//check left zero\n";
+		ofile << "0*TV_{1} \\Rightarrow 0\\\\\n";
+		ofile << "//check right zero\n";
+		ofile << "TV_{1}*0 \\Rightarrow 0\\\\\n";
+		ofile << "//create neg\n";
+		ofile << "-1*TV_{1} \\Rightarrow -TV_{1}\\\\\n";
+		ofile << "// handle frac\n";
+		ofile << "TV_{1}*\\frac{TV_{2}}{TV_{3}} \\Rightarrow \\frac{TV_{1}*TV_{2}}{TV_{3}}\\\\\n";
+		ofile << "// distribute over addition\n";
+		ofile << "TV_{1}*(TV_{2}+TV_{3}) \\Rightarrow (TV_{1}*TV_{2}) + (TV_{1}*TV_{3})\\\\\n";
+		ofile << "// distribute over subtraction\n";
+		ofile << "TV_{1}*(TV_{2}-TV_{3}) \\Rightarrow (TV_{1}*TV_{2}) - (TV_{1}*TV_{3})\\\\\n";
+		ofile << "// exp same bases\n";
+		ofile << "TV_{1}^{TV_{2}}*(TV_{1}^{TV_{3}}) \\Rightarrow TV_{1}^{TV_{2}+TV_{3}}\\\\\n";
+		ofile << "TV_{1}^{TV_{2}}*TV_{1} \\Rightarrow TV_{1}^{TV_{2}+1}\\\\\n";
+		ofile << "TV_{1}*(TV_{1}^{TV_{3}}) \\Rightarrow TV_{1}^{1+TV_{3}}\\\\\n";
+		ofile << "TV_{1}*TV_{1} \\Rightarrow TV_{1}^{2}\\\\\n";
+		ofile << "// same exp\n";
+		ofile << "TV_{1}^{TV_{3}}*(TV_{2}^{TV_{3}}) \\Rightarrow (TV_{1}*TV_{2})^{TV_{3}}\\\\\n";
+		ofile << "// pull out neg\n";
+		ofile << "TV_{1}*-TV_{2} \\Rightarrow -(TV_{1}*TV_{2})\\\\\n";
+		ofile << "(-TV_{1})*TV_{2} \\Rightarrow -(TV_{1}*TV_{2})\\\\\n";
+		
+
+		ofile << "//fraction\n";
+		ofile << "//seperate\n";
+		ofile << "\\frac{TV_{1}}{TV_{2}} \\Rightarrow TV_{1}*\\frac{1}{TV_{2}}\\\\\n";
+		ofile << "//flip denominator up\n";
+		ofile << "\\frac{TV_{1}}{\\frac{TV_{2}}{TV_{3}}} \\Rightarrow TV_{1}*\\frac{TV_{3}}{TV_{2}}\\\\\n";
+		ofile << "//numerator fraction down\n";
+		ofile << "\\frac{\\frac{TV_{1}}{TV_{2}}}{TV_{3}} \\Rightarrow \\frac{TV_{1}}{TV_{2}*TV_{3}}\\\\\n";
+		ofile << "//right identity\n";
+		ofile << "\\frac{TV_{1}}{1} \\Rightarrow TV_{1}\\\\\n";
+		ofile << "TV_{1} \\Rightarrow \\frac{TV_{1}}{1}\\\\\n";
+		ofile << "//zero numerator\n";
+		ofile << "\\frac{0}{TV_{1}} \\Rightarrow 0\\\\\n";
+		ofile << "//reduce to 1\n";
+		ofile << "\\frac{TV_{1}}{TV_{1}} \\Rightarrow 1\\\\\n";
+		ofile << "// ^{-1} in numerator\n";
+		ofile << "\\frac{TV_{1}^{-1}}{TV_{2}} \\Rightarrow \\frac{1}{TV_{1}*TV_{2}}\\\\\n";
+		ofile << "// handle same expo\n";
+		ofile << "\\frac{TV_{1}^{TV_{3}}}{TV_{2}^{TV_{3}}} \\Rightarrow \\frac{TV_{1}}{TV_{2}}^{TV_{3}}\\\\\n";
+		ofile << " \\frac{TV_{1}}{TV_{2}}^{TV_{3}} \\Rightarrow \\frac{TV_{1}^{TV_{3}}}{TV_{2}^{TV_{3}}} \\\\\n";
+		ofile << "// denominator expo\n";
+		ofile << "\\frac{TV_{1}}{TV_{2}^{TV_{3}}} \\Rightarrow TV_{1}*TV_{2}^{-TV_{3}}\\\\\n";
+		ofile << "// numerator extraction\n";
+		ofile << "\\frac{TV_{1}*TV_{2}}{TV_{3}} \\Rightarrow TV_{1}*\\frac{TV_{2}}{TV_{3}}\\\\\n";
+
+		ofile << "//hat\n";
+		ofile << "// handle right identity\n";
+		ofile << "TV_{1}^{1} \\Rightarrow TV_{1}\\\\\n";
+		ofile << "// handle left zero\n";
+		ofile << "0^{TV_{1}} \\Rightarrow 0\\\\\n";
+		ofile << "// handle right zero\n";
+		ofile << "{TV_{1}}^{0} \\Rightarrow 1\\\\\n";
+		ofile << "// handle right addition\n";
+		ofile << "TV_{1}^{TV_{2}+TV_{3}} \\Rightarrow TV_{1}^{TV_{2}} + TV_{1}^{TV_{3}}\\\\\n";
+		ofile << "// base multiplication\n";
+		ofile << "(TV_{1}*TV_{2})^{TV_{3}} \\Rightarrow TV_{1}^{TV_{3}}*TV_{2}^{TV_{3}}\\\\\n";
+		ofile << "// Right multiplication\n";
+		ofile << "TV_{1}^{TV_{2}*TV_{3}} \\Rightarrow (TV_{1}^{TV_{2}})^{TV_{3}}\\\\\n";
+		ofile << "// hat chain\n";
+		ofile << "(TV_{1}^{TV_{2}})^{TV_{3}} \\Rightarrow TV_{1}^{TV_{2}*TV_{3}}\\\\\n";
+		ofile << "//flip\n";
+		ofile << "TV_{1}^{TV_{2}} \\Rightarrow \\frac{1}{TV_{1}^{-TV_{2}}}\\\\\n";
+
+		ofile << "//identity\n";
+		ofile << "// commute\n";
+		ofile << "TV_{1}=TV_{2} \\Rightarrow TV_{2}=TV_{1}\\\\\n";
+		ofile << "// cancellation (additive)\n";
+		ofile << "TV_{1}+TV_{2} = TV_{3}+TV_{2} \\Rightarrow TV_{1}=TV_{3}\\\\\n";
+		ofile << "TV_{2}+TV_{1} = TV_{2}+TV_{3} \\Rightarrow TV_{1}=TV_{3}\\\\\n";
+		ofile << "// move term (additive)\n";
+		ofile << "TV_{1}+TV_{2} = TV_{3} \\Rightarrow TV_{1}= TV_{3}-TV_{2}\\\\\n";
+		ofile << "// move factor (denominator)\n";
+		ofile << "\\frac{TV_{1}}{TV_{2}}=TV_{3} \\Rightarrow TV_{1}=TV_{2}*TV_{3}\\\\\n";
+
+
+		ofile << "// cosine\n";
+		ofile << "// add remove 2 pi\n";
+		ofile << "\\cos(TV_{1}) \\Rightarrow \\cos(TV_{1}+(2*\\pi))\\\\\n";
+		ofile << "\\cos(TV_{1}) \\Rightarrow \\cos(TV_{1}-(2*\\pi))\\\\\n";
+		ofile << "//handle 0\n";
+		ofile << "\\cos(0) \\Rightarrow 1\\\\\n";
+		ofile << "//handle pi\n";
+		ofile << "\\cos(\\pi) \\Rightarrow -1\\\\\n";
+		ofile << "\\cos(\\frac{\\pi}{2}) \\Rightarrow 0\\\\\n";
+		ofile << "\\cos(\\frac{3*\\pi}{2}) \\Rightarrow 0\\\\\n";
+		ofile << "//handle neg\n";
+		ofile << "\\cos(-TV_{1}) \\Rightarrow \\cos(TV_{1})\\\\\n";
+		ofile << "// sine\n";
+		ofile << "// add remove 2 pi\n";
+		ofile << "\\sin(TV_{1}) \\Rightarrow \\sin(TV_{1}+(2*\\pi))\\\\\n";
+		ofile << "\\sin(TV_{1}) \\Rightarrow \\sin(TV_{1}-(2*\\pi))\\\\\n";
+		ofile << "//handle 0\n";
+		ofile << "\\sin(0) \\Rightarrow 0\\\\\n";
+		ofile << "//handle pi\n";
+		ofile << "\\sin(\\pi) \\Rightarrow 0\\\\\n";
+		ofile << "\\sin(\\frac{\\pi}{2}) \\Rightarrow 1\\\\\n";
+		ofile << "\\sin(\\frac{3*\\pi}{2}) \\Rightarrow -1\\\\\n";
+		ofile << "//handle neg\n";
+		ofile << "\\sin(-TV_{1}) \\Rightarrow -\\sin(TV_{1})\\\\\n";
+
+		ofile << "//neg\n";
+		ofile << "//handle multiplcation\n";
+		ofile << "-(TV_{1}*TV_{2}) \\Rightarrow (-TV_{1})*TV_{2}\\\\\n";
+		ofile << "-(TV_{1}*TV_{2}) \\Rightarrow TV_{1}*(-TV_{2})\\\\\n";
+		ofile << "//cancellation\n";
+		ofile << "--TV_{1} \\Rightarrow TV_{1}\\\\\n";
+		ofile << "TV_{1} \\Rightarrow --TV_{1}\\\\\n";
+		ofile << "//distribute\n";
+		ofile << "-(TV_{1}+TV_{2}) \\Rightarrow (-TV_{1})+(-TV_{2})\\\\\n";
+		
+		ofile.flush();
+		ofile.close();
+	}
+}
+
 void templateMatcher::init()
 {
-	//addition:
-	//commute
-	addRule("TV_{1}+TV_{2} \\Rightarrow TV_{2}+TV_{1}");
-	//associate one way
-	addRule("(TV_{1}+TV_{2})+TV_{3} \\Rightarrow TV_{1}+(TV_{2}+TV_{3})");
-	//associate the other way
-	addRule("TV_{1}+(TV_{2}+TV_{3}) \\Rightarrow (TV_{1}+TV_{2})+TV_{3}");
-	//check left identity
-	addRule("0+TV_{1} \\Rightarrow TV_{1}");
-	//check right identity
-	addRule("TV_{1}+0 \\Rightarrow TV_{1}");
-	//reverse distribute
-	addRule("(TV_{1}*TV_{2}) + (TV_{1}*TV_{3}) \\Rightarrow TV_{1}*(TV_{2}+TV_{3})");
-	//commute with right subtraction
-	addRule("TV_{1}+(TV_{2}-TV_{3}) \\Rightarrow TV_{2}+(TV_{1}-TV_{3})");
-	//handle frac
-	addRule("TV_{1}+\\frac{TV_{2}}{TV_{3}} \\Rightarrow \\frac{(TV_{1}*TV_{3})+TV_{2}}{TV_{3}}");
-	//handle neg
-	addRule("TV_{1}+-TV_{2} \\Rightarrow TV_{1}-TV_{2}");
-	//check	for same base
-	addRule("(TV_{1}*TV_{2})+TV_{2} \\Rightarrow (TV_{1}+1)*TV_{2}");
-	// check double
-	addRule("TV_{2}+TV_{2} \\Rightarrow 2*TV_{2}");
+	string filestring;
+	string instring;
+	vector<string> words;
+	char ch;
+	unsigned int i;
 
-	//subtraction
-	//reduce to 0
-	addRule("TV_{1}-TV_{1} \\Rightarrow 0");
-	//replace with addition
-	addRule("TV_{1}-TV_{2} \\Rightarrow TV_{1} + -TV_{2}");
-	//neg on right
-	addRule("TV_{1}--TV_{2} \\Rightarrow TV_{1}+TV_{2}");
-	//distribute left over addition
-	addRule("TV_{1}-(TV_{2}+TV_{3}) \\Rightarrow (TV_{1}-TV_{2})-TV_{3}");
-	//distribute over left addition
-	addRule("(TV_{1}-TV_{2})+TV_{3} \\Rightarrow TV_{1} - (TV_{2} - TV_{3})");
-	//check same base
-	addRule("(TV_{1}*TV_{2}) - (TV_{3}*TV_{2}) \\Rightarrow (TV_{1}-TV_{3})*TV_{2}");
+	ifstream ifile(TM_RULEFILE);
+	if (!ifile)
+	{
+		ifile.close();
+		createDefaultFile();
+		ifile.open(TM_RULEFILE);
+	}
+	if (!ifile) { assert(ifile); }
 
-	//prod
-	//commute
-	addRule("TV_{1}*TV_{2} \\Rightarrow TV_{2}*TV_{1}");
-	//associate one way
-	addRule("(TV_{1}*TV_{2})*TV_{3} \\Rightarrow TV_{1}*(TV_{2}*TV_{3})");
-	//associate the other way
-	addRule("TV_{1}*(TV_{2}*TV_{3}) \\Rightarrow (TV_{1}*TV_{2})*TV_{3}");
-	//check left identity
-	addRule("1*TV_{1} \\Rightarrow TV_{1}");
-	//check right identity
-	addRule("TV_{1}*1 \\Rightarrow TV_{1}");
-	//check left zero
-	addRule("0*TV_{1} \\Rightarrow 0");
-	//check right zero
-	addRule("TV_{1}*0 \\Rightarrow 0");
-	//create neg
-	addRule("-1*TV_{1} \\Rightarrow -TV_{1}");
-	// handle frac
-	addRule("TV_{1}*\\frac{TV_{2}}{TV_{3}} \\Rightarrow \\frac{TV_{1}*TV_{2}}{TV_{3}}");
-	// distribute over addition
-	addRule("TV_{1}*(TV_{2}+TV_{3}) \\Rightarrow (TV_{1}*TV_{2}) + (TV_{1}*TV_{3})");
-	// distribute over subtraction
-	addRule("TV_{1}*(TV_{2}-TV_{3}) \\Rightarrow (TV_{1}*TV_{2}) - (TV_{1}*TV_{3})");
-	// exp same bases
-	addRule("TV_{1}^{TV_{2}}*(TV_{1}^{TV_{3}}) \\Rightarrow TV_{1}^{TV_{2}+TV_{3}}");
-	addRule("TV_{1}^{TV_{2}}*TV_{1} \\Rightarrow TV_{1}^{TV_{2}+1}");
-	addRule("TV_{1}*(TV_{1}^{TV_{3}}) \\Rightarrow TV_{1}^{1+TV_{3}}");
-	addRule("TV_{1}*TV_{1} \\Rightarrow TV_{1}^{2}");
-	// same exp
-	addRule("TV_{1}^{TV_{3}}*(TV_{2}^{TV_{3}}) \\Rightarrow (TV_{1}*TV_{2})^{TV_{3}}");
-	// pull out neg
-	addRule("TV_{1}*-TV_{2} \\Rightarrow -(TV_{1}*TV_{2})");
-	addRule("(-TV_{1})*TV_{2} \\Rightarrow -(TV_{1}*TV_{2})");
+	while (!ifile.eof())
+	{
+		ifile.get(ch);
+		filestring += ch;
+	}
 	
-
-
-	//fraction
-	//seperate
-	addRule("\\frac{TV_{1}}{TV_{2}} \\Rightarrow TV_{1}*\\frac{1}{TV_{2}}");
-	//flip denominator up
-	addRule("\\frac{TV_{1}}{\\frac{TV_{2}}{TV_{3}}} \\Rightarrow TV_{1}*\\frac{TV_{3}}{TV_{2}}");
-	//numerator fraction down
-	addRule("\\frac{\\frac{TV_{1}}{TV_{2}}}{TV_{3}} \\Rightarrow \\frac{TV_{1}}{TV_{2}*TV_{3}}");
-	//right identity
-	addRule("\\frac{TV_{1}}{1} \\Rightarrow TV_{1}");
-	addRule("TV_{1} \\Rightarrow \\frac{TV_{1}}{1}");
-	//zero numerator
-	addRule("\\frac{0}{TV_{1}} \\Rightarrow 0");
-	//reduce to 1
-	addRule("\\frac{TV_{1}}{TV_{1}} \\Rightarrow 1");
-	// ^{-1} in numerator
-	addRule("\\frac{TV_{1}^{-1}}{TV_{2}} \\Rightarrow \\frac{1}{TV_{1}*TV_{2}}");
-	// handle same expo
-	addRule("\\frac{TV_{1}^{TV_{3}}}{TV_{2}^{TV_{3}}} \\Rightarrow \\frac{TV_{1}}{TV_{2}}^{TV_{3}}");
-	addRule(" \\frac{TV_{1}}{TV_{2}}^{TV_{3}} \\Rightarrow \\frac{TV_{1}^{TV_{3}}}{TV_{2}^{TV_{3}}} ");
-	// denominator expo
-	addRule("\\frac{TV_{1}}{TV_{2}^{TV_{3}}} \\Rightarrow TV_{1}*TV_{2}^{-TV_{3}}");
-	// numerator extraction
-	addRule("\\frac{TV_{1}*TV_{2}}{TV_{3}} \\Rightarrow TV_{1}*\\frac{TV_{2}}{TV_{3}}");
-
-	//hat
-	// handle right identity
-	addRule("TV_{1}^{1} \\Rightarrow TV_{1}");
-	// handle left zero
-	addRule("0^{TV_{1}} \\Rightarrow 0");
-	// handle right zero
-	addRule("{TV_{1}}^{0} \\Rightarrow 1");
-	// handle right addition
-	addRule("TV_{1}^{TV_{2}+TV_{3}} \\Rightarrow TV_{1}^{TV_{2}} + TV_{1}^{TV_{3}}");
-	// base multiplication
-	addRule("(TV_{1}*TV_{2})^{TV_{3}} \\Rightarrow TV_{1}^{TV_{3}}*TV_{2}^{TV_{3}}");
-	// Right multiplication
-	addRule("TV_{1}^{TV_{2}*TV_{3}} \\Rightarrow (TV_{1}^{TV_{2}})^{TV_{3}}");
-	// hat chain
-	addRule("(TV_{1}^{TV_{2}})^{TV_{3}} \\Rightarrow TV_{1}^{TV_{2}*TV_{3}}");	
-	//flip
-	addRule("TV_{1}^{TV_{2}} \\Rightarrow \\frac{1}{TV_{1}^{-TV_{2}}}");
-
-	//identity
-	// commute
-	addRule("TV_{1}=TV_{2} \\Rightarrow TV_{2}=TV_{1}");
-	// cancellation (additive)
-	addRule("TV_{1}+TV_{2} = TV_{3}+TV_{2} \\Rightarrow TV_{1}=TV_{3}");
-	addRule("TV_{2}+TV_{1} = TV_{2}+TV_{3} \\Rightarrow TV_{1}=TV_{3}");
-	// move term (additive)
-	addRule("TV_{1}+TV_{2} = TV_{3} \\Rightarrow TV_{1}= TV_{3}-TV_{2}");
-	// move factor (denominator)
-	addRule("\\frac{TV_{1}}{TV_{2}}=TV_{3} \\Rightarrow TV_{1}=TV_{2}*TV_{3}");
-
-
-	// cosine
-	// add remove 2 pi
-	addRule("\\cos(TV_{1}) \\Rightarrow \\cos(TV_{1}+(2*\\pi))");
-	addRule("\\cos(TV_{1}) \\Rightarrow \\cos(TV_{1}-(2*\\pi))");
-	//handle 0
-	addRule("\\cos(0) \\Rightarrow 1");
-	//handle pi
-	addRule("\\cos(\\pi) \\Rightarrow -1");
-	addRule("\\cos(\\frac{\\pi}{2}) \\Rightarrow 0");
-	addRule("\\cos(\\frac{3*\\pi}{2}) \\Rightarrow 0");
-	//handle neg
-	addRule("\\cos(-TV_{1}) \\Rightarrow \\cos(TV_{1})");
-	// sine
-	// add remove 2 pi
-	addRule("\\sin(TV_{1}) \\Rightarrow \\sin(TV_{1}+(2*\\pi))");
-	addRule("\\sin(TV_{1}) \\Rightarrow \\sin(TV_{1}-(2*\\pi))");
-	//handle 0
-	addRule("\\sin(0) \\Rightarrow 0");
-	//handle pi
-	addRule("\\sin(\\pi) \\Rightarrow 0");
-	addRule("\\sin(\\frac{\\pi}{2}) \\Rightarrow 1");
-	addRule("\\sin(\\frac{3*\\pi}{2}) \\Rightarrow -1");
-	//handle neg
-	addRule("\\sin(-TV_{1}) \\Rightarrow -\\sin(TV_{1})");
-
-	//neg	
-	//handle multiplcation
-	addRule("-(TV_{1}*TV_{2}) \\Rightarrow (-TV_{1})*TV_{2}");
-	addRule("-(TV_{1}*TV_{2}) \\Rightarrow TV_{1}*(-TV_{2})");
-	//cancellation
-	addRule("--TV_{1} \\Rightarrow TV_{1}");
-	addRule("TV_{1} \\Rightarrow --TV_{1}");
-	//distribute
-	addRule("-(TV_{1}+TV_{2}) \\Rightarrow (-TV_{1})+(-TV_{2})");
+	instring = breakWords::removeBetween(filestring,"\\*","*\\");
+	instring = breakWords::removeBetween(instring,"//","\n");
+	instring = breakWords::stripwhite(instring, breakWords::w_only);
+	words = breakWords::breakwords(instring, "\\\\");
+	for (i = 0; i < words.size(); i++)
+	{
+		addRule(words[i]);
+//		cout << i << ": " << words[i] << endl;
+	}
 }
 
 void templateMatcher::end()
@@ -289,6 +336,12 @@ void templateMatcher::end()
 void templateMatcher::addRule(const std::string& input)
 {
 	pair<eqnNode*,eqnNode*> inpair = parserFull::readRule(input);
+	
+	if (inpair.first == 0)
+	{
+		cerr << "failed parse on rule " << rulelist.size() << ": ";
+		cerr << input << endl;
+	}
 
 	assert(inpair.first != 0);
 

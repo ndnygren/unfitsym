@@ -25,6 +25,8 @@
 class templateMatcher
 {
 	protected: 
+	static const char* TM_RULEFILE;
+
 	/**
 	 * @brief the list of rules to apply to each expression.
 	 */
@@ -62,6 +64,8 @@ class templateMatcher
 	 * @returns an expression formed from the given pattern by substituting in the definitions.
 	 */
 	static eqnNode* fillPattern( const std::vector<std::pair<int, eqnNode*> >& defs, eqnNode* outpat);
+
+	static void createDefaultFile();
 	public:
 
 	/**
