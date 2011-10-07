@@ -34,25 +34,25 @@ class templateMatcher
 
 	/**
 	 * @brief Sorts a list of template variable definitions.
-	 * @param The list to be sorted.
+	 * @param defs The list to be sorted.
 	 */
 	static void varDefSort(std::vector<std::pair<int, eqnNode*> >& defs);
 
 	/**
 	 * @brief Removes duplicates from a list of template variable definitions.
-	 * @param The list to be modified.
+	 * @param defs The list to be modified.
 	 */
 	static void varDefDup(std::vector<std::pair<int, eqnNode*> >& defs);
 
 	/**
 	 * @brief Checks a list of template variable definitions and ensures that if duplicates exist, they are all equal.
-	 * @param The list to be validated.
+	 * @param defs The list to be validated.
 	 */
 	static bool varDefValidate(const std::vector<std::pair<int, eqnNode*> >& defs);
 
 	/**
 	 * @brief Frees all memory in a list of template variable definitions.
-	 * @param The list to be freed.
+	 * @param defs The list to be freed.
 	 */
 	static void varDefFree(std::vector<std::pair<int, eqnNode*> >& defs);
 

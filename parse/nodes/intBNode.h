@@ -114,6 +114,124 @@ class intBNode : public intNode
 	{
 		return new intBNode(linput, rinput, getUpper(), getLower());
 	}
+
+	virtual void replace(int index, eqnNode* expr)
+	{
+		monoOpNode* temp;
+
+		if (getL()->type() == nodeTypes::tvar)
+		{
+			temp = (monoOpNode*)getL();
+			if (((numNode*)temp->getR())->get() == index)
+			{
+				delete getL();
+				left = expr->copy();
+			}
+		}
+		else
+		{
+			getL()->replace(index,expr);
+		}
+	
+		if (getR()->type() == nodeTypes::tvar)
+		{
+			temp = (monoOpNode*)getR();
+			if (((numNode*)temp->getR())->get() == index)
+			{
+				delete getR();
+				right = expr->copy();
+			}
+		}
+		else
+		{
+			getR()->replace(index,expr);
+		}
+
+		if (getUpper()->tNum() == index)
+		{
+				delete getUpper();
+				upper = expr->copy();
+		}
+		else
+		{
+			getUpper()->replace(index,expr);
+		}
+		if (getLower()->tNum() == index)
+		{
+				delete getLower();
+				lower = expr->copy();
+		}
+		else
+		{
+			getLower()->replace(index,expr);
+		}
+	}
+
+	virtual std::pair<bool,std::vector<std::pair<int, eqnNode*> > > compareTemplate(eqnNode* texpr) const
+	{
+		unsigned int i;
+
+		std::pair<bool, std::vector<std::pair<int, eqnNode*> > > lpair; 
+		std::pair<bool, std::vector<std::pair<int, eqnNode*> > > rpair; 
+		std::pair<bool, std::vector<std::pair<int, eqnNode*> > > upair; 
+		std::pair<bool, std::vector<std::pair<int, eqnNode*> > > lowpair; 
+		std::pair<bool, std::vector<std::pair<int, eqnNode*> > > retpair; 
+
+		if (eq(texpr))
+		{ 
+			retpair.first = true;
+			return retpair;
+		}
+		else if (texpr->type() == type())
+		{
+			lpair = getL()->compareTemplate(((binOpNode*)texpr)->getL());
+			rpair = getR()->compareTemplate(((binOpNode*)texpr)->getR());
+			upair = getUpper()->compareTemplate(((intBNode*)texpr)->getUpper());
+			lowpair = getLower()->compareTemplate(((intBNode*)texpr)->getLower());
+			if (!lpair.first || !rpair.first ||
+				!upair.first || !lowpair.first)
+			{
+				retpair.first = false;
+
+				for (i = 0; i < lpair.second.size(); i++)
+					{ delete lpair.second[i].second; }
+				for (i = 0; i < rpair.second.size(); i++)
+					{ delete rpair.second[i].second; }
+				for (i = 0; i < upair.second.size(); i++)
+					{ delete upair.second[i].second; }
+				for (i = 0; i < lowpair.second.size(); i++)
+					{ delete lowpair.second[i].second; }
+
+				return retpair;
+			}
+			else
+			{
+				retpair.first = true;
+
+				for (i = 0; i < lpair.second.size(); i++)
+					{ retpair.second.push_back(lpair.second[i]); }
+				for (i = 0; i < rpair.second.size(); i++)
+					{ retpair.second.push_back(rpair.second[i]); }
+				for (i = 0; i < upair.second.size(); i++)
+					{ retpair.second.push_back(upair.second[i]); }
+				for (i = 0; i < lowpair.second.size(); i++)
+					{ retpair.second.push_back(lowpair.second[i]); }
+				
+				return retpair;
+			}
+		}
+		else if (texpr->type() == nodeTypes::tvar)
+		{
+			retpair.first = true;
+			retpair.second.push_back(std::pair<int,eqnNode*>(texpr->tNum(), copy()));
+			return retpair;
+		}
+		else
+		{
+			retpair.first = false;
+			return retpair;
+		}
+	}
 };
 
 

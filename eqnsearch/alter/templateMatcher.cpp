@@ -280,7 +280,12 @@ void templateMatcher::createDefaultFile()
 		ofile << "TV_{1} \\Rightarrow --TV_{1}\\\\\n";
 		ofile << "//distribute\n";
 		ofile << "-(TV_{1}+TV_{2}) \\Rightarrow (-TV_{1})+(-TV_{2})\\\\\n";
-		
+
+		ofile << "//integration\n";
+		ofile << "//handle neg\n";
+		ofile << "\\int -TV_{1} {d TV_{2}} \\Rightarrow -\\int TV_{1}{d TV_{2}}\\\\\n";
+		ofile << "\\int^{TV_{3}}_{TV_{4}} -TV_{1} {d TV_{2}} \\Rightarrow -\\int^{TV_{3}}_{TV_{4}} TV_{1}{d TV_{2}}\\\\\n";
+	
 		ofile.flush();
 		ofile.close();
 	}

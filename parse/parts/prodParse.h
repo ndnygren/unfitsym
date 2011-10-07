@@ -24,8 +24,8 @@
  * @brief parses multiplication
  * @details the CFG rule Expr -> Expr "*" Expr
  * 		OR
- * the CFG rule Expr -> Expr "\cdot" Expr
- * Parses mulitiplication, output is always with the \cdot notation
+ * the CFG rule Expr -> Expr "\\cdot" Expr
+ * Parses mulitiplication, output is always with the \\cdot notation
  */
 class prodParse : public parsePart
 {
