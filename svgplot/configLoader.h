@@ -1,6 +1,7 @@
 
 #include <map>
 #include <vector>
+#include <fstream>
 
 #ifndef NN_CONFIGLOADER_H
 #define NN_CONFIGLOADER_H
@@ -25,7 +26,7 @@ class configLoader
 
 		if (mid == -1)
 		{
-			std::cerr << "Error: \"" << input << '"' << " not formatted properly." << std::endl;
+//			std::cerr << "Error: \"" << input << '"' << " not formatted properly." << std::endl;
 			return;
 		}
 
@@ -99,6 +100,28 @@ class configLoader
 		}
 
 		return -1;
+	}
+
+	void loadfile(const std::string& filename)
+	{
+		std::ifstream ifs;
+		char buffer[5001];
+
+		ifs.open(filename.c_str());
+
+		if (!ifs.is_open())
+		{
+			std::cerr << "Error: could not open file: " << filename <<  std::endl;
+			return;
+		}
+
+		while(!ifs.bad() && !ifs.eof())
+		{
+			ifs.getline(buffer, 5000);
+			readline(buffer);
+		}
+
+		ifs.close();
 	}
 
 	static int first(const std::string& input)
