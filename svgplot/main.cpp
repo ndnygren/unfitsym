@@ -1,8 +1,6 @@
 #include <iostream>
 #include <fstream>
-#include "configLoader.h"
-#include "eqnScaler.h"
-
+#include "svgFactory.h"
 
 using namespace std;
 
@@ -10,10 +8,13 @@ int main(int argc, char ** argv)
 {
 	configLoader cfg;
 	ofstream ofs;
+	svgFactory fact(cfg);
 
 	if (argc > 1)
 	{
 		cfg.loadfile(argv[1]);
+		fact.loadConfig(cfg);
+		cout << fact.toString() << endl;
 	}
 	else
 	{
@@ -24,13 +25,16 @@ int main(int argc, char ** argv)
 			return -1;
 		}
 
-		ofs << "x = 1" << endl;
-		ofs << "y = 2" << endl;
+		ofs << "px_width = 320" << endl;
+		ofs << "px_height = 180" << endl;
+		ofs << "eqn_x_min = -1" << endl;
+		ofs << "eqn_y_min = -1" << endl;
+		ofs << "eqn_x_max = 7" << endl;
+		ofs << "eqn_y_max = 5" << endl;
+		ofs << "border = 10" << endl;
 
 		ofs.close();
 	}
-
-	cout << cfg.toString() << endl;
 
 	return 0;
 }

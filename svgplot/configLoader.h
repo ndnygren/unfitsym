@@ -2,6 +2,7 @@
 #include <map>
 #include <vector>
 #include <fstream>
+#include <sstream>
 
 #ifndef NN_CONFIGLOADER_H
 #define NN_CONFIGLOADER_H
@@ -43,6 +44,18 @@ class configLoader
 		{
 			output += formatLine(*it) + "\n";
 		}
+
+		return output;
+	}
+
+	static int toInt(const std::string& input)
+	{
+		std::stringstream ss;
+		int output;
+
+		ss.str(input);
+
+		ss >> output;
 
 		return output;
 	}
