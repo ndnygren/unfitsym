@@ -6,11 +6,13 @@ using namespace std;
 
 int main(int argc, char ** argv)
 {
-	cout << "\"" << configLoader::stripwhite("  a ") << "\"" << endl;
-	cout << "\"" << configLoader::stripwhite(" df sia ") << "\"" << endl;
-	cout << "\"" << configLoader::stripwhite("a ") << "\"" << endl;
-	cout << "\"" << configLoader::stripwhite("  a") << "\"" << endl;
-	cout << "\"" << configLoader::stripwhite("   ") << "\"" << endl;
-	cout << configLoader::first("dsf=hfghf") << endl;
+	configLoader cfg;
+
+	cfg.readline("  One_data =	two ");
+	cfg.readline(" Two_data	=\n banana ");
+	cfg.readline(" Three_Data 	= gorilla\n");
+
+	cout << cfg.toString() << endl;
+
 	return 0;
 }
