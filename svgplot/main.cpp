@@ -1,6 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include "configLoader.h"
+#include "eqnScaler.h"
 
 
 using namespace std;

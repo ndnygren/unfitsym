@@ -9,6 +9,7 @@
 class configLoader
 {
 	std::map<std::string, std::string> data;
+	std::string blank;
 
 	static std::string formatLine(const std::pair<std::string,std::string>& input)
 	{
@@ -131,8 +132,13 @@ class configLoader
 
 	const std::string& operator[](const std::string& key) const
 	{
-		if (data.count(key) == 0) { return ""; }
+		if (data.count(key) == 0) { return blank; }
 		return data.find(key)->second;
+	}
+
+	configLoader()
+	{
+		blank = "";
 	}
 };
 
