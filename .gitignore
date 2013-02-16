@@ -1,0 +1,4 @@
+moc_*.cpp
+*.pro
+rulelist
+tempconfig
