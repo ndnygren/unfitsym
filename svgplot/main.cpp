@@ -26,11 +26,28 @@ char usage[] = "Usage:\n\tsvgplot <filename>\n\t\tCreates a svg file from the su
 
 using namespace std;
 
+string makeOutName(const string& input)
+{
+	if (input.length() < 4)
+	{
+		return input + ".svg";
+	}
+	else if (configLoader::lowercase(input).substr(input.length() - 4,4) == ".txt")
+	{
+		return input.substr(0,input.length() - 4) + ".svg";
+	}
+	else
+	{
+		return input + ".svg";
+	}
+}
+
 int main(int argc, char ** argv)
 {
 	configLoader cfg;
 	ofstream ofs;
 	svgFactory fact(cfg);
+	string outname;
 
 	if (argc == 2)
 	{
@@ -42,7 +59,19 @@ int main(int argc, char ** argv)
 		}
 
 		fact.loadConfig(cfg);
-		cout << fact.toString() << endl;
+
+		outname = makeOutName(argv[1]);
+
+		ofs.open(outname.c_str());
+		if (!ofs.is_open())
+		{
+			cerr << "Error: could not write to " << outname << endl;
+			return -1;
+		}
+
+		ofs << fact.toString() << endl;
+
+		ofs.close();
 	}
 	else if (argc == 1)
 	{
