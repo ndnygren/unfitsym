@@ -18,6 +18,12 @@
 #include <fstream>
 #include "svgFactory.h"
 
+char license[] = "svgplot  Copyright (C) 2013  Nick Nygren\nThis program comes with ABSOLUTELY NO WARRANTY.\nThis is free software, and you are welcome to redistribute it\nunder certain conditions.\n\n";
+
+char created[] = "A sample.txt file has been created.\n\n";
+
+char usage[] = "Usage:\n\tsvgplot <filename>\n\t\tCreates a svg file from the supplied config file\n\tsvgplot\n\t\tCreates a sample config file\n";
+
 using namespace std;
 
 int main(int argc, char ** argv)
@@ -26,20 +32,33 @@ int main(int argc, char ** argv)
 	ofstream ofs;
 	svgFactory fact(cfg);
 
-	if (argc > 1)
+	if (argc == 2)
 	{
 		cfg.loadfile(argv[1]);
+
+		if (cfg["eqn1"] == "")
+		{
+			return -1;
+		}
+
 		fact.loadConfig(cfg);
 		cout << fact.toString() << endl;
 	}
-	else
+	else if (argc == 1)
 	{
+		std::cerr << license;
 		ofs.open("sample.txt");
 		if (!ofs.is_open())
 		{
-			cerr << "Error: could not write to sample." << endl;
+			cerr << "Error: could not write to sample.txt." << endl;
 			return -1;
 		}
+		else
+		{
+			cerr << created;
+		}
+
+		cerr << usage;
 
 		ofs << "px_width = 1200" << endl;
 		ofs << "px_height = 900" << endl;
@@ -52,6 +71,11 @@ int main(int argc, char ** argv)
 		ofs << "eqn1 = \\frac{x^{2}}{2}" << endl;
 
 		ofs.close();
+	}
+	else
+	{
+		cerr << "Error: Too many arguments." << endl;
+		cerr << license << usage;
 	}
 
 	return 0;
