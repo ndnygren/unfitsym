@@ -24,45 +24,51 @@ class svgFactory
 
 	std::string v_axis() const
 	{
-		if (scale.eqn_x_min <= 0 && scale.eqn_y_max >= 0)
-		{
-			return line(scale.x(0), scale.px_height + 3*scale.border/2, scale.x(0), scale.border/2);
-		}
+		int xval;
+		std::string output;
+		int inc = scale.border/2;
+		int i;
+
+		if (scale.eqn_x_min <= 0 && scale.eqn_x_max >= 0)
+			{ xval = scale.x(0); }
 		else if (scale.eqn_x_min > 0)
-		{
-			return line(scale.border/2, scale.px_height + 3*scale.border/2, scale.border/2, scale.px_height + scale.border/2);
-		}
+			{ xval = inc; }
 		else
+			{ xval = scale.px_width + 3*inc; }
+
+		output = line(xval, scale.px_height + scale.border, xval, scale.border);
+		output += line(xval - inc/2, scale.border + inc/2, xval, scale.border);
+		output += line(xval + inc/2, scale.border + inc/2, xval, scale.border);
+		for (i = scale.eqn_y_min + 1; i < scale.eqn_y_max; i++)
 		{
-			return line(scale.px_width + scale.border/2, scale.px_height + 3*scale.border/2, scale.px_width + scale.border/2, scale.px_height + scale.border/2);
+			output += line(xval - inc/2, scale.y(i), xval, scale.y(i));
 		}
 
+		return output;
 	}
 
 	std::string h_axis() const
 	{
+		int yval;
+		std::string output;
+		int inc = scale.border/2;
+		int i;
+
 		if (scale.eqn_y_min <= 0 && scale.eqn_y_max >= 0)
-		{
-			return line(scale.border/2,
-				scale.y(0),
-				scale.px_width + 3*scale.border/2,
-				scale.y(0));
-		}
+			{ yval = scale.y(0); }
 		else if (scale.eqn_y_min > 0)
-		{
-			return line(scale.border/2,
-				scale.border/2,
-				scale.px_width + 3*scale.border/2,
-				scale.border/2);
-		}
+			{ yval = scale.px_height + 3*inc; }
 		else
+			{ yval = inc; }
+		output = line(scale.border, yval, scale.px_width + scale.border, yval);
+		output += line(scale.px_width + scale.border - inc/2, yval - inc/2, scale.px_width + scale.border, yval);
+		output += line(scale.px_width + scale.border - inc/2, yval + inc/2, scale.px_width + scale.border, yval);
+		for (i = scale.eqn_x_min + 1; i < scale.eqn_x_max; i++)
 		{
-			return line(scale.border/2,
-				scale.px_height + 3*scale.border/2,
-				scale.px_width + 3*scale.border/2,
-				scale.px_height + 3*scale.border/2);
+			output += line(scale.x(i), yval+inc/2, scale.x(i), yval);
 		}
 
+		return output;
 	}
 
 	public:
