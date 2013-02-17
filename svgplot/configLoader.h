@@ -23,11 +23,27 @@
 #ifndef NN_CONFIGLOADER_H
 #define NN_CONFIGLOADER_H
 
+
+/**
+ * @brief Loads a specifies config file from the disk
+ */
 class configLoader
 {
+	/**
+	 * @brief Main storage for the loaded data, maps variable names to given values
+	 */
 	std::map<std::string, std::string> data;
+
+	/**
+	 * @brief Pre-allocated blank string, to return blank as const reference
+	 */
 	std::string blank;
 
+	/**
+	 * @brief Converts a pair (for map iterator), to a formatted string, same format as can be read back by parser
+	 * @param input The string/string pair returned by the map iterator
+	 * @return The data from the pair, formatted in a string 
+	 */
 	static std::string formatLine(const std::pair<std::string,std::string>& input)
 	{
 		std::string output;
@@ -38,6 +54,10 @@ class configLoader
 	}
 
 	public:
+	/**
+	 * @brief Parser for a single line. Inserts the supplied definition into the map.
+	 * @param input The formatted line from the config file.
+	 */
 	void readline(const std::string& input)
 	{
 		int mid = first(input);
@@ -51,6 +71,10 @@ class configLoader
 		data[lowercase(stripwhite(input.substr(0,mid)))] = stripwhite(input.substr(mid + 1, (input.size() - mid) - 1));
 	}
 
+	/**
+	 * @brief Dumps the entire map to a string, which can be read back by another parser
+	 * @return The string config data
+	 */
 	std::string toString() const
 	{
 		std::map<std::string, std::string>::const_iterator it;
@@ -64,6 +88,11 @@ class configLoader
 		return output;
 	}
 
+	/**
+	 * @brief Converts string to double
+	 * @param input The string form number
+	 * @return The numeric value
+	 */
 	static double toDouble(const std::string& input)
 	{
 		std::stringstream ss;
@@ -76,6 +105,11 @@ class configLoader
 		return output;
 	}
 
+	/**
+	 * @brief Converts string to int
+	 * @param input The string form number
+	 * @return The numeric value
+	 */
 	static int toInt(const std::string& input)
 	{
 		std::stringstream ss;
@@ -88,6 +122,11 @@ class configLoader
 		return output;
 	}
 
+	/**
+	 * @brief Tests a character for "whitespace"
+	 * @param ch The character to test
+	 * @return True if and only if ch is whitespace
+	 */
 	static bool white(char ch)
 	{
 		if (ch == ' ' || ch == '\t' || ch == '\n' || ch == '\r')
@@ -96,6 +135,11 @@ class configLoader
 			{ return false; }
 	}
 
+	/**
+	 * @brief Strips leading and trailing whitespace from a string
+	 * @param input The string to strip
+	 * @return The string without leading/trailing whitespace
+	 */
 	static std::string stripwhite(const std::string input)
 	{
 		int i, first = -1, last = -1;
@@ -113,6 +157,11 @@ class configLoader
 		return input.substr(first, last - first + 1);
 	}
 
+	/**
+	 * @brief Converts a string to lowercase
+	 * @param input The string to convert
+	 * @return The lowercase string
+	 */
 	static std::string lowercase(const std::string input)
 	{
 		int i;
@@ -129,6 +178,12 @@ class configLoader
 		return output;
 	}
 
+	/**
+	 * @brief Locates the first instance of 'key' in 'input'
+	 * @param key The char to locate
+	 * @param input The search area
+	 * @return The location of 'key', or -1 if 'key' does not exist
+	 */
 	static int first(const std::string& input, char key)
 	{
 		int i;
@@ -144,6 +199,10 @@ class configLoader
 		return -1;
 	}
 
+	/**
+	 * @brief Loads a given file into memory and parses it, storing the result in the map
+	 * @param filename The filename
+	 */
 	void loadfile(const std::string& filename)
 	{
 		std::ifstream ifs;
@@ -166,11 +225,19 @@ class configLoader
 		ifs.close();
 	}
 
+	/**
+	 * @brief Overloaded function, same as above, with '=' as default key
+	 */
 	static int first(const std::string& input)
 	{
 		return first(input, '=');
 	}
 
+	/**
+	 * @brief Const element access
+	 * @param key The variable name to search for
+	 * @return The value of the variable if it exists, otherwise blank
+	 */
 	const std::string& operator[](const std::string& key) const
 	{
 		if (data.count(key) == 0) { return blank; }
