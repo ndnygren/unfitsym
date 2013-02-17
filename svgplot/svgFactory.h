@@ -22,11 +22,26 @@
 #include "../parse/parserFull.h"
 #include <cmath>
 
+
+/**
+ * @brief Based on a supplied config file, creates an svg image
+ */
 class svgFactory
 {
+	/** @brief Scaler and storage for parsed/converted config variables */
 	eqnScaler scale;
+
+	/** @brief The raw, parsed but unconverted config strings*/
 	configLoader cfg;
 
+	/**
+	 * @brief Generates a svg-formatted line string from (x1,y1) to (x2,y2)
+	 * @param x1 First x coordinate
+	 * @param y1 First y coordinate
+	 * @param x2 Second x coordinate
+	 * @param y2 Second y coordinate
+	 * @return The formatted string
+	 */
 	std::string line(int x1, int y1, int x2, int y2) const
 	{
 		std::stringstream ss;
@@ -39,6 +54,10 @@ class svgFactory
 		return ss.str();
 	}
 
+	/**
+	 * @brief Locates the proper location for the vertical axis and generates an svg string to draw it
+	 * @return The formatted string
+	 */
 	std::string v_axis() const
 	{
 		int xval;
@@ -64,6 +83,10 @@ class svgFactory
 		return output;
 	}
 
+	/**
+	 * @brief Locates the proper location for the horizontal axis and generates an svg string to draw it
+	 * @return The formatted string
+	 */
 	std::string h_axis() const
 	{
 		int yval;
@@ -89,6 +112,10 @@ class svgFactory
 	}
 
 	public:
+	/**
+	 * @brief Links the factory to a existing configLoader
+	 * @param input The configLoader
+	 */
 	void loadConfig(const configLoader& input)
 	{
 		scale.loadConfig(input);
@@ -100,6 +127,11 @@ class svgFactory
 		loadConfig(input);
 	}
 
+	/**
+	 * @brief Generates a svg path from a LaTeX formated function
+	 * @param input The LaTeX formatted equation
+	 * @return The svg path string
+	 */
 	std::string makeCurve(const std::string& input) const
 	{
 		std::stringstream ss;
@@ -118,8 +150,11 @@ class svgFactory
 
 		for (i = scale.eqn_x_min; i <= scale.eqn_x_max; i += scale.step)
 		{
+			// generating a 'number' node containing 'i' as its value
 			num = new numNode(i);
+			// initializing temp with the equation
 			temp = eqn->copy();
+			// substituting the value 'i' for every occurance of 'x' in the equation
 			temp->replace("x", num);
 
 			std::cerr << i << "\t->\t" << temp->nice_str() << "=" << temp->value() << std::endl;
@@ -138,6 +173,10 @@ class svgFactory
 		return ss.str(); 
 	}
 
+	/**
+	 * @brief Generates the entire svg file
+	 * @return The svg formatted string
+	 */
 	std::string toString() const
 	{
 		std::stringstream output;
