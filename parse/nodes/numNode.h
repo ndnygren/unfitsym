@@ -30,17 +30,17 @@ class numNode : public leafNode
 {
 	protected:
 	/**
-	 * @brief the integer value of this node
+	 * @brief the double value of this node
 	 */
-	int num; 
+	double num; 
 
 	/*
-	 * std::string toString(int input) const
+	 * std::string toString(double input) const
 	 * 
-	 * Uses a string stream to convert the integer argument to string. 
+	 * Uses a string stream to convert the double argument to string. 
 	 * 
 	 */
-	std::string toString(int input) const
+	std::string toString(double input) const
 	{
 		std::stringstream sstemp;
 		sstemp << input;
@@ -56,17 +56,17 @@ class numNode : public leafNode
 		return (get() == (((numNode*)input)->get()));
 	}
 
-	virtual eqnNode* copy() const { return new numNode(get()); }
+	virtual eqnNode* copy() const { return new numNode(num); }
 	virtual int type() const { return nodeTypes::num; }
 
 	/**
 	 * @brief allows access the to nodes value
 	 * @returns integer value of the node
 	 */
-	int get() const { return num; }
+	int get() const { return (int)num; }
 	virtual std::string str() const { return toString(num); }
-	virtual double value() const { return (double)get(); }
-	numNode(int input) { num = input; }
+	virtual double value() const { return num; }
+	numNode(double input) { num = input; }
 };
 
 

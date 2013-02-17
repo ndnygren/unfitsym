@@ -4,6 +4,8 @@
 #define NN_SVGFACTORY_H
 
 #include "eqnScaler.h"
+#include "../parse/parserFull.h"
+#include <cmath>
 
 class svgFactory
 {
@@ -27,7 +29,7 @@ class svgFactory
 		int xval;
 		std::string output;
 		int inc = scale.border/2;
-		int i;
+		double i;
 
 		if (scale.eqn_x_min <= 0 && scale.eqn_x_max >= 0)
 			{ xval = scale.x(0); }
@@ -39,7 +41,7 @@ class svgFactory
 		output = line(xval, scale.px_height + scale.border, xval, scale.border);
 		output += line(xval - inc/2, scale.border + inc/2, xval, scale.border);
 		output += line(xval + inc/2, scale.border + inc/2, xval, scale.border);
-		for (i = scale.eqn_y_min + 1; i < scale.eqn_y_max; i++)
+		for (i = ceil(scale.eqn_y_min); i < scale.eqn_y_max; i++)
 		{
 			output += line(xval - inc/2, scale.y(i), xval, scale.y(i));
 		}
@@ -52,7 +54,7 @@ class svgFactory
 		int yval;
 		std::string output;
 		int inc = scale.border/2;
-		int i;
+		double i;
 
 		if (scale.eqn_y_min <= 0 && scale.eqn_y_max >= 0)
 			{ yval = scale.y(0); }
@@ -63,7 +65,7 @@ class svgFactory
 		output = line(scale.border, yval, scale.px_width + scale.border, yval);
 		output += line(scale.px_width + scale.border - inc/2, yval - inc/2, scale.px_width + scale.border, yval);
 		output += line(scale.px_width + scale.border - inc/2, yval + inc/2, scale.px_width + scale.border, yval);
-		for (i = scale.eqn_x_min + 1; i < scale.eqn_x_max; i++)
+		for (i = ceil(scale.eqn_x_min); i < scale.eqn_x_max; i++)
 		{
 			output += line(scale.x(i), yval+inc/2, scale.x(i), yval);
 		}
@@ -83,6 +85,44 @@ class svgFactory
 		loadConfig(input);
 	}
 
+	std::string makeCurve(const std::string& input) const
+	{
+		std::stringstream ss;
+		double i;
+		eqnNode* eqn = parserFull::getExpr(input);
+		eqnNode* temp;
+		eqnNode* num;
+
+		if (eqn == 0) 
+		{
+			std::cerr << "Error parsing " << input << "." << std::endl;
+			return "";
+		}
+
+		ss << "<path d=\"";
+
+		for (i = scale.eqn_x_min; i <= scale.eqn_x_max; i += scale.step)
+		{
+			num = new numNode(i);
+			temp = eqn->copy();
+			temp->replace("x", num);
+
+			std::cerr << i << "\t->\t" << temp->nice_str() << "=" << temp->value() << std::endl;
+			if (i == scale.eqn_x_min) { ss << "M "; }
+			else { ss << "L "; }
+
+			ss << scale.x(i) << " " << scale.y(temp->value()) << " ";
+			delete num;
+			delete temp;
+		}
+
+		ss << "\" fill=\"none\" stroke=\"red\" stroke-width=\"3\"/>\n";
+
+		delete eqn;
+
+		return ss.str(); 
+	}
+
 	std::string toString() const
 	{
 		std::stringstream output;
@@ -96,11 +136,15 @@ class svgFactory
 		output << (2*scale.border + scale.px_height) << "\">\n";
 		output << v_axis();
 		output << h_axis();
+
 		output << "<rect x=\"" << scale.left() << "\" y=\"" << scale.bot();
 		output << "\" width=\"" << scale.right() - scale.left();
 		output << "\" height=\"" << scale.top() - scale.bot();
 		output << "\" style=\"stroke:rgb(0,0,0);stroke-width:1\"";
 		output << " fill=\"none\"/>\n";
+
+		output << makeCurve(cfg["eqn1"]);
+
 		output << "</svg>\n";
 
 		return output.str();

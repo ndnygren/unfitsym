@@ -25,13 +25,15 @@ int main(int argc, char ** argv)
 			return -1;
 		}
 
-		ofs << "px_width = 320" << endl;
-		ofs << "px_height = 180" << endl;
+		ofs << "px_width = 1200" << endl;
+		ofs << "px_height = 900" << endl;
 		ofs << "eqn_x_min = -1" << endl;
 		ofs << "eqn_y_min = -1" << endl;
 		ofs << "eqn_x_max = 7" << endl;
 		ofs << "eqn_y_max = 5" << endl;
-		ofs << "border = 10" << endl;
+		ofs << "border = 50" << endl;
+		ofs << "step = .1" << endl;
+		ofs << "eqn1 = \\frac{x^{2}}{2}" << endl;
 
 		ofs.close();
 	}

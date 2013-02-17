@@ -48,6 +48,18 @@ class configLoader
 		return output;
 	}
 
+	static double toDouble(const std::string& input)
+	{
+		std::stringstream ss;
+		double output;
+
+		ss.str(input);
+
+		ss >> output;
+
+		return output;
+	}
+
 	static int toInt(const std::string& input)
 	{
 		std::stringstream ss;
