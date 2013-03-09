@@ -145,6 +145,10 @@ class svgFactory
 			std::cerr << "Error parsing " << input << "." << std::endl;
 			return "";
 		}
+		else
+		{
+			std::cerr << "Status: drawing " << input << "." << std::endl;
+		}
 
 		ss << "<path d=\"";
 
@@ -157,7 +161,7 @@ class svgFactory
 			// substituting the value 'i' for every occurance of 'x' in the equation
 			temp->replace("x", num);
 
-			std::cerr << i << "\t->\t" << temp->nice_str() << "=" << temp->value() << std::endl;
+//			std::cerr << i << "\t->\t" << temp->nice_str() << "=" << temp->value() << std::endl;
 			if (i == scale.eqn_x_min) { ss << "M "; }
 			else { ss << "L "; }
 
@@ -179,7 +183,9 @@ class svgFactory
 	 */
 	std::string toString() const
 	{
+		int i;
 		std::stringstream output;
+		std::vector<std::string> eqns = cfg.startswith("eqn");
 
 		output << "<?xml version=\"1.1\"?>\n";
 		output << "<svg xmlns=\"http://www.w3.org/2000/svg\"";
@@ -197,7 +203,10 @@ class svgFactory
 		output << "\" style=\"stroke:rgb(0,0,0);stroke-width:1\"";
 		output << " fill=\"none\"/>\n";
 
-		output << makeCurve(cfg["eqn1"]);
+		for (i = 0; i < (int)eqns.size(); i++)
+		{
+			output << makeCurve(eqns[i]);
+		}
 
 		output << "</svg>\n";
 

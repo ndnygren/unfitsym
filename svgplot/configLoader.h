@@ -244,6 +244,32 @@ class configLoader
 		return data.find(key)->second;
 	}
 
+
+	/**
+	 * @brief Generates a list of all numbered entries in the config file beginning with a supplied prefix
+	 * @param input The prefix of the numbered entries
+	 * @return The list of stored values
+	 */
+	std::vector<std::string> startswith(const std::string& input) const
+	{
+		std::vector<std::string> output;
+		std::map<std::string,std::string>::const_iterator it;
+		unsigned int offs = input.length();
+
+		for (it = data.begin(); it != data.end(); it++)
+		{
+			if (it->first.length() > offs)
+			{
+				if (it->first.substr(0, offs)==input && it->first[offs] >= '0' && it->first[offs] <= '9')
+				{
+					output.push_back(it->second);
+				}
+			}
+		}
+
+		return output;
+	}
+
 	configLoader()
 	{
 		blank = "";
